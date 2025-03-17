@@ -17,6 +17,10 @@ declare module "sst" {
       "type": "sst.aws.Postgres"
       "username": string
     }
+    "AcmeFrontend": {
+      "type": "sst.aws.Nextjs"
+      "url": string
+    }
     "AcmeRouter": {
       "type": "sst.aws.Router"
       "url": string

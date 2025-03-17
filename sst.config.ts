@@ -47,12 +47,24 @@ export default $config({
     });
 
     /**
+     * Frontend
+     * This is our primary frontend (Next.js) that we'll use to consume our APIs.
+     * Any frontends must be declared before our CF distribution, since it needs
+     * to know the URL of the frontend.
+     */
+    const frontend = new sst.aws.Nextjs("AcmeFrontend", {
+      vpc,
+      path: "apps/vapor",
+    });
+
+    /**
      * Router
      * This is our primary distribution that we'll use to route traffic to our API Gateway.
      * We'll also use this to route traffic to our frontend.
      */
     const router = new sst.aws.Router("AcmeRouter", {
       routes: {
+        "/*": frontend.url,
         "/api/v1/auth/*": api.url,
         "/api/v1/trpc/*": api.url,
       },
@@ -62,6 +74,7 @@ export default $config({
      * API Routes
      * General definitions of all API routes go here.
      */
+    // Vanguard 🛡️
     api.route("ANY /api/v1/auth/{proxy+}", {
       link: [db],
       handler: "apps/vanguard/src/index.handler",
@@ -71,6 +84,7 @@ export default $config({
       },
     });
 
+    // Argus 🏹
     api.route("ANY /api/v1/trpc/{proxy+}", {
       link: [db],
       handler: "apps/argus/src/index.handler",
@@ -84,6 +98,7 @@ export default $config({
       router: router.url,
       api: api.url,
       db: db.id,
+      frontend: frontend.url,
     };
   },
 });
