@@ -1,0 +1,31 @@
+{
+  "name": "@acme/monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter '*' run build",
+    "dev": "sst dev",
+    "format": "pnpm --filter '*' run format",
+    "format:fix": "pnpm --filter '*' run format:fix",
+    "lint": "pnpm --filter '*' run lint",
+    "lint:fix": "pnpm --filter '*' run lint:fix",
+    "typecheck": "pnpm --filter '*' run typecheck",
+    "clean": "git clean -xdf node_modules && pnpm --filter '*' run clean",
+    "db:generate": "pnpm --filter @acme/db run generate",
+    "db:migrate": "pnpm --filter @acme/db run migrate",
+    "db:push": "pnpm --filter @acme/db run push",
+    "db:studio": "pnpm --filter @acme/db run studio",
+    "db:auth": "pnpm --filter @acme/auth run generate"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.147",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "sst": "^3.9.39"
+  },
+  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=22.14.0"
+  }
+}

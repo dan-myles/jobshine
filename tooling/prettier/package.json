@@ -1,0 +1,31 @@
+{
+  "name": "@acme/prettier-config",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "format": "prettier --check . --ignore-path ../../.prettierignore",
+    "format:fix": "prettier --write . --ignore-path ../../.prettierignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf dist node_modules"
+  },
+  "dependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
+    "prettier-plugin-classnames": "catalog:",
+    "prettier-plugin-merge": "catalog:"
+  },
+  "devDependencies": {
+    "@acme/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config"
+}

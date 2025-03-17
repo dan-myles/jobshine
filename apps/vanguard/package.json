@@ -1,0 +1,30 @@
+{
+  "name": "@acme/vanguard",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "format": "prettier --check . --ignore-path ../../.prettierignore",
+    "format:fix": "prettier --write . --ignore-path ../../.prettierignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+    "clean": "git clean -xdf dist node_modules"
+  },
+  "dependencies": {
+    "@acme/db": "workspace:*",
+    "@acme/auth": "workspace:*",
+    "@aws-sdk/client-sns": "^3.750.0",
+    "better-auth": "catalog:",
+    "hono": "^4.7.2"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "esbuild": "^0.21.4",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config"
+}

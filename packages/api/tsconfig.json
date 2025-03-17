@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@acme/tsconfig/base.json",
+  "include": ["src", "sst-env.d.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  }
+}
