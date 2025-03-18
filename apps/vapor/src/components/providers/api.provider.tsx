@@ -14,7 +14,7 @@ import { AppRouter } from "@acme/api"
 import type { QueryClient } from "@tanstack/react-query"
 import { APIProvider as APIReactProvider } from "@/lib/api/client"
 import { createQueryClient } from "@/lib/query-client"
-import { getBaseUrl } from "@/lib/utils"
+import { getBaseUrl } from "@acme/common"
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {

@@ -79,6 +79,9 @@ importers:
       '@acme/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@acme/common':
+        specifier: workspace:*
+        version: link:../../packages/common
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.0.0-rc.833(typescript@5.8.2)
@@ -113,6 +116,9 @@ importers:
       '@acme/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@acme/common':
+        specifier: workspace:*
+        version: link:../../packages/common
       '@acme/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -304,6 +310,9 @@ importers:
         specifier: 'catalog:'
         version: 3.24.2
     devDependencies:
+      '@acme/common':
+        specifier: workspace:*
+        version: link:../../packages/common
       '@acme/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
@@ -377,6 +386,9 @@ importers:
 
   packages/auth:
     dependencies:
+      '@acme/common':
+        specifier: workspace:*
+        version: link:../common
       '@acme/db':
         specifier: workspace:*
         version: link:../db
@@ -396,6 +408,27 @@ importers:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: 'catalog:'
         version: 4.4.1(prettier@3.5.3)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.22.0(jiti@2.4.2)
+      prettier:
+        specifier: 'catalog:'
+        version: 3.5.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.2
+
+  packages/common:
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: workspace:*
+        version: link:../../tooling/prettier
+      '@acme/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       eslint:
         specifier: 'catalog:'
         version: 9.22.0(jiti@2.4.2)

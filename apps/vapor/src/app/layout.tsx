@@ -28,15 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <AuthProvider>
-    <APIProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-        </body>
-      </html>
-    </APIProvider>
+      <APIProvider>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            {children}
+          </body>
+        </html>
+      </APIProvider>
     </AuthProvider>
   )
 }

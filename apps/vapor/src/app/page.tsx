@@ -2,10 +2,8 @@
 
 import { useAuth } from "@/hooks/use-auth"
 
-export default  function Home() {
+export default function Home() {
   const auth = useAuth()
-
-
 
   return (
     <div

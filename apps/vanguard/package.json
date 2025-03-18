@@ -13,6 +13,7 @@
   "dependencies": {
     "@acme/db": "workspace:*",
     "@acme/auth": "workspace:*",
+    "@acme/common": "workspace:*",
     "@aws-sdk/client-sns": "^3.750.0",
     "better-auth": "catalog:",
     "hono": "^4.7.2"
