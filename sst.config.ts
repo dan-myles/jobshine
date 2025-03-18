@@ -107,7 +107,16 @@ export default $config({
     });
 
     // Argus 🏹
-    api.route("ANY /api/v1/trpc/{proxy+}", {
+    api.route("GET /api/v1/trpc/{proxy+}", {
+      link: [db],
+      handler: "apps/argus/src/index.handler",
+      environment: {
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
+      },
+    });
+
+    api.route("POST /api/v1/trpc/{proxy+}", {
       link: [db],
       handler: "apps/argus/src/index.handler",
       environment: {

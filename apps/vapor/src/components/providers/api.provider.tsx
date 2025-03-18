@@ -12,9 +12,9 @@ import SuperJSON from "superjson"
 import { AppRouter } from "@acme/api"
 
 import type { QueryClient } from "@tanstack/react-query"
-import { APIProvider as APIReactProvider} from "@/lib/api"
-import { getBaseUrl } from "@/lib/utils"
+import { APIProvider as APIReactProvider } from "@/lib/api"
 import { createQueryClient } from "@/lib/query-client"
+import { getBaseUrl } from "@/lib/utils"
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {
@@ -39,7 +39,7 @@ export function APIProvider(props: { children: React.ReactNode }) {
         }),
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
-          url: getBaseUrl() + "/api/trpc",
+          url: getBaseUrl() + "/api/v1/trpc",
           headers: () => {
             const headers = new Headers()
             headers.set("x-trpc-source", "nextjs-react")

@@ -6,11 +6,8 @@ import { useAPI } from "@/lib/api"
 
 export default function Home() {
   const api = useAPI()
-  const { data } = useQuery(
-    api.post.all.queryOptions({
-      name: "Dan",
-    }),
-  )
+  const { data } = useQuery(api.post.all.queryOptions({
+    name: "Dan"}))
 
   return (
     <div
