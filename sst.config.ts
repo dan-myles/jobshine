@@ -11,6 +11,15 @@ export default $config({
   },
   async run() {
     /**
+     * Project URL 🌐
+     */
+    const APP: { url: string; provider: "vercel" | "cloudflare" | "aws" | "" } =
+      {
+        url: "",
+        provider: "",
+      };
+
+    /**
      * Secrets
      * These are stored in AWS Secrete Manager and need to be set
      * with `pnpx sst secret set <secret> <value>`
@@ -55,6 +64,9 @@ export default $config({
     const frontend = new sst.aws.Nextjs("AcmeFrontend", {
       vpc,
       path: "apps/vapor",
+      environment: {
+        NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : APP.url,
+      },
     });
 
     /**
@@ -63,6 +75,16 @@ export default $config({
      * We'll also use this to route traffic to our frontend.
      */
     const router = new sst.aws.Router("AcmeRouter", {
+      ...(APP.url === ""
+        ? {}
+        : {
+            domain: {
+              name: APP.url,
+              ...(APP.provider === "cloudflare"
+                ? { dns: sst.cloudflare.dns() }
+                : {}),
+            },
+          }),
       routes: {
         "/*": frontend.url,
         "/api/v1/auth/*": api.url,
@@ -80,7 +102,7 @@ export default $config({
       handler: "apps/vanguard/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: router.url,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
       },
     });
 
@@ -90,15 +112,21 @@ export default $config({
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: router.url,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
       },
     });
 
     return {
-      router: router.url,
+      ...(APP.url === ""
+        ? {
+            distribution: router.url,
+          }
+        : {
+            distribution: APP.url,
+          }),
       api: api.url,
-      db: db.id,
       frontend: frontend.url,
+      db: db.id,
     };
   },
 });
