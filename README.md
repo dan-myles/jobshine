@@ -10,10 +10,13 @@
 ```
 ├── apps
 │   ├── argus - Main TRPC API
-│   └── vanguard - Authentication API / Handles oAuth callbacks
+    ├── vanguard - Authentication API / Handles oAuth callbacks
+│   └── vapor - Next.js app
 ├── packages
 │   ├── api - TRPC type definitions
-│   └── auth - Better Auth configuration
+│   ├── auth - Better auth configuration
+│   ├── common -  Shared utilities
+│   └── db - Drizzle database schema & client
 ├── tooling
 │   ├── eslint - Shared ESLint configurations
 │   ├── prettier - Shared Prettier configurations
