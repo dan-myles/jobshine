@@ -53,6 +53,10 @@ export default $config({
      */
     const api = new sst.aws.ApiGatewayV2("AcmeAPI", {
       vpc,
+      cors: {
+        allowOrigins: ["http://localhost:3000", APP.url === "" ? "" : APP.url],
+        allowCredentials: true,
+      },
     });
 
     /**

@@ -1,17 +1,18 @@
+"use client"
 
-import { caller } from "@/lib/api/server"
+import { useAuth } from "@/hooks/use-auth"
 
-export default async function Home() {
-  const data = await caller.post.all({
-    name: "Dan",
-  })
+export default  function Home() {
+  const auth = useAuth()
+
+
 
   return (
     <div
       className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center
         gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20"
     >
-      {data?.response}
+      Hello! You are {auth.isSignedIn ? "signed in" : "signed out"}
     </div>
   )
 }
