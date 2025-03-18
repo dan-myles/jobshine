@@ -1,10 +1,18 @@
+import { z } from "zod"
+
 import type { TRPCRouterRecord } from "@trpc/server"
 import { publicProcedure } from "../../trpc"
 
 export const postRouter = {
-  all: publicProcedure.query(async () => {
-    return {
-      response: "Hi!",
-    }
-  }),
+  all: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      return {
+        response: `Hi ${input.name}, this is TRPC!`,
+      }
+    }),
 } satisfies TRPCRouterRecord

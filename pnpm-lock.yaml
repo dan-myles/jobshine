@@ -9,8 +9,17 @@ catalogs:
     '@ianvs/prettier-plugin-sort-imports':
       specifier: ^4.4.1
       version: 4.4.1
+    '@tanstack/react-query':
+      specifier: ^5.67.3
+      version: 5.69.0
+    '@trpc/client':
+      specifier: ^11.0.0-rc.828
+      version: 11.0.0-rc.833
     '@trpc/server':
-      specifier: ^11.0.0-rc.798
+      specifier: ^11.0.0-rc.828
+      version: 11.0.0-rc.833
+    '@trpc/tanstack-react-query':
+      specifier: ^11.0.0-rc.828
       version: 11.0.0-rc.833
     better-auth:
       specifier: ^1.1.19
@@ -222,6 +231,15 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.8
         version: 1.1.8(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.69.0(react@19.0.0)
+      '@trpc/client':
+        specifier: 'catalog:'
+        version: 11.0.0-rc.833(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/tanstack-react-query':
+        specifier: 'catalog:'
+        version: 11.0.0-rc.833(@tanstack/react-query@5.69.0(react@19.0.0))(@trpc/client@11.0.0-rc.833(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -307,6 +325,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.22.0(jiti@2.4.2)
+      prettier:
+        specifier: 'catalog:'
+        version: 3.5.3
       tailwindcss:
         specifier: ^4
         version: 4.0.14
@@ -2430,9 +2451,33 @@ packages:
   '@tailwindcss/postcss@4.0.14':
     resolution: {integrity: sha512-+uIR6KtKhla1XeIanF27KtrfYy+PX+R679v5LxbkmEZlhQe3g8rk+wKj7Xgt++rWGRuFLGMXY80Ek8JNn+kN/g==}
 
+  '@tanstack/query-core@5.69.0':
+    resolution: {integrity: sha512-Kn410jq6vs1P8Nm+ZsRj9H+U3C0kjuEkYLxbiCyn3MDEiYor1j2DGVULqAz62SLZtUZ/e9Xt6xMXiJ3NJ65WyQ==}
+
+  '@tanstack/react-query@5.69.0':
+    resolution: {integrity: sha512-Ift3IUNQqTcaFa1AiIQ7WCb/PPy8aexZdq9pZWLXhfLcLxH0+PZqJ2xFImxCpdDZrFRZhLJrh76geevS5xjRhA==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@trpc/client@11.0.0-rc.833':
+    resolution: {integrity: sha512-RxPgX4xgznT2r00IZhvCtQZwisLF/Go01sMqBIHqGPKh5wRcigPVoSlZH/e/+xr71WY19mLsgzDMfzRZQ5a7cg==}
+    peerDependencies:
+      '@trpc/server': 11.0.0-rc.833+16e52ebcf
+      typescript: '>=5.7.2'
+
   '@trpc/server@11.0.0-rc.833':
     resolution: {integrity: sha512-LQ5NJ3J5kCo+FpbUvS4YltnX5FOagS3ES6I2aCjqQjhloiYwr/vlaXAByc3a7ihJtLXZaIFbuAJ+AWvqZCEYlw==}
     peerDependencies:
+      typescript: '>=5.7.2'
+
+  '@trpc/tanstack-react-query@11.0.0-rc.833':
+    resolution: {integrity: sha512-niPLbey2uC545H3y91NipF9K21daZt6Qil9G2pVws1ZVoTMOTga3DexUI97w0FxtqWn1XnUGZXML/tdSMYc98w==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.67.1
+      '@trpc/client': 11.0.0-rc.833+16e52ebcf
+      '@trpc/server': 11.0.0-rc.833+16e52ebcf
+      react: '>=18.2.0'
+      react-dom: '>=18.2.0'
       typescript: '>=5.7.2'
 
   '@tsconfig/bun@1.0.7':
@@ -6851,8 +6896,29 @@ snapshots:
       postcss: 8.5.3
       tailwindcss: 4.0.14
 
+  '@tanstack/query-core@5.69.0': {}
+
+  '@tanstack/react-query@5.69.0(react@19.0.0)':
+    dependencies:
+      '@tanstack/query-core': 5.69.0
+      react: 19.0.0
+
+  '@trpc/client@11.0.0-rc.833(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(typescript@5.8.2)':
+    dependencies:
+      '@trpc/server': 11.0.0-rc.833(typescript@5.8.2)
+      typescript: 5.8.2
+
   '@trpc/server@11.0.0-rc.833(typescript@5.8.2)':
     dependencies:
+      typescript: 5.8.2
+
+  '@trpc/tanstack-react-query@11.0.0-rc.833(@tanstack/react-query@5.69.0(react@19.0.0))(@trpc/client@11.0.0-rc.833(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.2)':
+    dependencies:
+      '@tanstack/react-query': 5.69.0(react@19.0.0)
+      '@trpc/client': 11.0.0-rc.833(@trpc/server@11.0.0-rc.833(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/server': 11.0.0-rc.833(typescript@5.8.2)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
       typescript: 5.8.2
 
   '@tsconfig/bun@1.0.7': {}
