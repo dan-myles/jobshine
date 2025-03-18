@@ -1,6 +1,21 @@
 {
   "pages": {
-    "/_app": []
+    "/_app": [
+      "static/chunks/[root of the server]__3a40d6d2._.js",
+      "static/chunks/node_modules_react-dom_82bb97c6._.js",
+      "static/chunks/node_modules_beb00741._.js",
+      "static/chunks/[root of the server]__61d61be9._.js",
+      "static/chunks/apps_vapor_pages__app_5771e187._.js",
+      "static/chunks/apps_vapor_pages__app_91cadf30._.js"
+    ],
+    "/_error": [
+      "static/chunks/[root of the server]__73499ecc._.js",
+      "static/chunks/node_modules_react-dom_82bb97c6._.js",
+      "static/chunks/node_modules_beb00741._.js",
+      "static/chunks/[root of the server]__1d438cd5._.js",
+      "static/chunks/apps_vapor_pages__error_5771e187._.js",
+      "static/chunks/apps_vapor_pages__error_c7655c45._.js"
+    ]
   },
   "devFiles": [],
   "ampDevFiles": [],
