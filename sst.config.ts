@@ -56,6 +56,7 @@ export default $config({
       cors: {
         allowOrigins: ["http://localhost:3000", APP.url === "" ? "" : APP.url],
         allowCredentials: true,
+        allowHeaders: ["Content-Type", "Authorization"],
       },
     });
 

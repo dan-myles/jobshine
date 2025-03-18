@@ -11,6 +11,7 @@ app.use(
   cors({
     origin: ["http://localhost:3000", getBaseUrl()],
     credentials: true,
+    allowHeaders: ["Content-Type", "Authorization"],
   }),
 )
 app.on(["POST", "GET"], "/*", (c) => auth.handler(c.req.raw))
