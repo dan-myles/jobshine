@@ -63,6 +63,7 @@ export default $config({
      */
     const frontend = new sst.aws.Nextjs("AcmeFrontend", {
       vpc,
+      link: [db],
       path: "apps/vapor",
       environment: {
         NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : APP.url,

@@ -12,7 +12,7 @@ import SuperJSON from "superjson"
 import { AppRouter } from "@acme/api"
 
 import type { QueryClient } from "@tanstack/react-query"
-import { APIProvider as APIReactProvider } from "@/lib/api"
+import { APIProvider as APIReactProvider } from "@/lib/api/client"
 import { createQueryClient } from "@/lib/query-client"
 import { getBaseUrl } from "@/lib/utils"
 

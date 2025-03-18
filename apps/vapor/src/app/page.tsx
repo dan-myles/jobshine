@@ -1,13 +1,10 @@
-"use client"
 
-import { useQuery } from "@tanstack/react-query"
+import { caller } from "@/lib/api/server"
 
-import { useAPI } from "@/lib/api"
-
-export default function Home() {
-  const api = useAPI()
-  const { data } = useQuery(api.post.all.queryOptions({
-    name: "Dan"}))
+export default async function Home() {
+  const data = await caller.post.all({
+    name: "Dan",
+  })
 
   return (
     <div

@@ -27,11 +27,11 @@ import type { CreateAWSLambdaContextOptions } from "@trpc/server/adapters/aws-la
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async ({
-  event,
-}: CreateAWSLambdaContextOptions<
-  APIGatewayProxyEvent | APIGatewayProxyEventV2
->) => {
+type ContextOptions = {
+  event?: APIGatewayProxyEvent | APIGatewayProxyEventV2
+}
+
+export const createTRPCContext = async ({ event }: ContextOptions) => {
   return {
     db,
   }

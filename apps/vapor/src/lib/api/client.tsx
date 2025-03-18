@@ -1,3 +1,5 @@
+"use client";
+
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server"
 import { createTRPCContext } from "@trpc/tanstack-react-query"
 
