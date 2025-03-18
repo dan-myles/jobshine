@@ -1,9 +1,9 @@
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
 import { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 import { Resource } from "sst"
-import { getBaseUrl } from "@acme/common"
 
 import { appRouter, createTRPCContext } from "@acme/api"
+import { getBaseUrl } from "@acme/common"
 
 /**
  * This is the primary function that trpc uses to start a tRPC API
@@ -27,7 +27,6 @@ const lambda = awsLambdaRequestHandler({
     }
   },
 })
-
 
 function getAccessControlAllowOrigin(stage: string) {
   if (stage !== "production") {

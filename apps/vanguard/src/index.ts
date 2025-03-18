@@ -1,10 +1,9 @@
 import { Hono } from "hono"
 import { handle } from "hono/aws-lambda"
 import { cors } from "hono/cors"
-import { getBaseUrl } from "@acme/common"
 
 import { auth } from "@acme/auth"
-
+import { getBaseUrl } from "@acme/common"
 
 const app = new Hono()
 app.use(
