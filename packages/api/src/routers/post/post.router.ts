@@ -1,5 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server"
-import { publicProcedure } from "@/trpc"
+import { publicProcedure } from "../../trpc"
 
 export const postRouter = {
   all: publicProcedure.query(async () => {
