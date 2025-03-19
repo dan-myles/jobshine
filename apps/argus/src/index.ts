@@ -29,11 +29,7 @@ const lambda = awsLambdaRequestHandler({
 })
 
 function getAccessControlAllowOrigin(stage: string) {
-  if (stage !== "production") {
-    return "*"
-  } else {
     return getBaseUrl()
-  }
 }
 
 const handler: APIGatewayProxyEvent | APIGatewayProxyHandlerV2 = async (

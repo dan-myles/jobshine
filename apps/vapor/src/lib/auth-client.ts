@@ -3,6 +3,5 @@ import { createAuthClient } from "better-auth/react"
 import { getBaseUrl } from "@acme/common"
 
 export const auth = createAuthClient({
-  baseURL: `${getBaseUrl()}/api/v1/auth`,
+  baseURL: `${process.env.NODE_ENV === "production" ? getBaseUrl() : "http://localhost:3000"}/api/v1/auth`,
 })
-

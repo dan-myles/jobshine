@@ -13,11 +13,14 @@ export default $config({
     /**
      * Project URL 🌐
      */
-    const APP: { url: string; provider: "vercel" | "cloudflare" | "aws" | "" } =
-      {
-        url: "",
-        provider: "",
-      };
+    const APP: { url: string; provider: "cloudflare" | "aws" | "" } = {
+      url: "jobshine.cc",
+      provider: "cloudflare",
+    };
+
+    // Set the URL based on the stage
+    APP.url =
+      $app.stage === "production" ? APP.url : `${$app.stage}.${APP.url}`;
 
     /**
      * Secrets
@@ -54,7 +57,10 @@ export default $config({
     const api = new sst.aws.ApiGatewayV2("AcmeAPI", {
       vpc,
       cors: {
-        allowOrigins: ["http://localhost:3000", APP.url === "" ? "" : APP.url],
+        allowOrigins: [
+          "http://localhost:3000",
+          APP.url === "" ? "" : `https://${APP.url}`,
+        ],
         allowCredentials: true,
         allowHeaders: ["Content-Type", "Authorization"],
       },
@@ -71,7 +77,7 @@ export default $config({
       link: [db],
       path: "apps/vapor",
       environment: {
-        NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : APP.url,
+        NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : `https://${APP.url}`,
       },
     });
 
@@ -108,7 +114,7 @@ export default $config({
       handler: "apps/vanguard/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
       },
     });
 
@@ -118,7 +124,7 @@ export default $config({
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
       },
     });
 
@@ -127,7 +133,7 @@ export default $config({
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : APP.url,
+        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
       },
     });
 
@@ -137,7 +143,7 @@ export default $config({
             distribution: router.url,
           }
         : {
-            distribution: APP.url,
+            distribution: `https://${APP.url}`,
           }),
       api: api.url,
       frontend: frontend.url,

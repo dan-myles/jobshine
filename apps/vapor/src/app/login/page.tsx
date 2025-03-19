@@ -22,16 +22,13 @@ export default function Page() {
     const { error } = await auth.signIn.email({
       email,
       password,
+      callbackURL: "/dashboard",
     })
 
     if (error) {
       toast.error("There was an error signing in.", {
         description: error.message,
       })
-    }
-
-    if (!error) {
-      router.push("/dashboard")
     }
   }
 

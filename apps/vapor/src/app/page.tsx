@@ -41,24 +41,24 @@ export default function Home() {
             <Hero />
           </div>
           <div className="order-1 lg:order-2">
-            <FeatureCarousel
-              title="Powerful Features"
-              description="Build, deploy, and scale applications effortlessly"
-              image={{
-                step1dark1: "/images/step1dark1.png",
-                step1dark2: "/images/step1dark2.png",
-                step1light1: "/images/step1light1.png",
-                step1light2: "/images/step1light2.png",
-                step2dark1: "/images/step2dark1.png",
-                step2dark2: "/images/step2dark2.png",
-                step2light1: "/images/step2light1.png",
-                step2light2: "/images/step2light2.png",
-                step3dark: "/images/step3dark.png",
-                step3light: "/images/step3light.png",
-                step4light: "/images/step4light.png",
-                alt: "Platform screenshots",
-              }}
-            />
+            {/* <FeatureCarousel */}
+            {/*   title="Powerful Features" */}
+            {/*   description="Build, deploy, and scale applications effortlessly" */}
+            {/*   image={{ */}
+            {/*     step1dark1: "/images/step1dark1.png", */}
+            {/*     step1dark2: "/images/step1dark2.png", */}
+            {/*     step1light1: "/images/step1light1.png", */}
+            {/*     step1light2: "/images/step1light2.png", */}
+            {/*     step2dark1: "/images/step2dark1.png", */}
+            {/*     step2dark2: "/images/step2dark2.png", */}
+            {/*     step2light1: "/images/step2light1.png", */}
+            {/*     step2light2: "/images/step2light2.png", */}
+            {/*     step3dark: "/images/step3dark.png", */}
+            {/*     step3light: "/images/step3light.png", */}
+            {/*     step4light: "/images/step4light.png", */}
+            {/*     alt: "Platform screenshots", */}
+            {/*   }} */}
+            {/* /> */}
           </div>
         </div>
       </main>

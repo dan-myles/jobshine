@@ -16,4 +16,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  trustedOrigins: [
+    ...(process.env.NODE_ENV === "production"
+      ? [getBaseUrl()]
+      : [`http://localhost:${process.env.PORT ?? 3000}`]),
+  ],
+  advanced: {
+    useSecureCookies: process.env.NODE_ENV === "production" ? true : false,
+  }
 })

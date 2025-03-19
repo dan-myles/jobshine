@@ -4,6 +4,7 @@
 - pnpm V10.x
 - AWS CLI (with [credentials](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html))
 - SST Tunnel
+- SST Cloudflare Provider (`pnpx sst add cloudflare`)
 
 ## Structure
 
