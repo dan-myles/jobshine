@@ -5,29 +5,29 @@ import Link from "next/link"
 import { SignedIn } from "@/components/signed-in"
 import { SignedOut } from "@/components/signed-out"
 import { Button } from "@/components/ui/button"
+import { auth } from "@/lib/auth-client"
+import { Mark } from "./mark"
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 bg-transparent px-6 py-4 shadow-md backdrop-blur-xl">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="text-3xl font-bold">
-            Some App
-          </Link>
+    <nav className="sticky top-0 z-50 flex w-full bg-transparent shadow-md backdrop-blur-xl">
+      <div className="flex flex-grow items-center justify-between p-4 px-6">
+        <div className="flex items-center">
+          <Mark />
         </div>
 
-        <div className="text-md hidden items-center gap-6 font-medium md:flex">
+        <div className="text-md hidden w-full items-center justify-center gap-6 font-medium md:flex">
           <Link
-            href="/product"
+            href="/#product"
             className="hover:text-primary transition-colors"
           >
             Product
           </Link>
-          <Link href="/about" className="hover:text-primary transition-colors">
+          <Link href="/#about" className="hover:text-primary transition-colors">
             About
           </Link>
           <Link
-            href="/pricing"
+            href="/#pricing"
             className="hover:text-primary transition-colors"
           >
             Pricing
@@ -49,6 +49,9 @@ export function Navbar() {
 
         <SignedIn>
           <div className="text-md flex items-center gap-4">
+            <Button variant="ghost" onClick={() => auth.signOut()}>
+              Logout
+            </Button>
             <Link href="/dashboard">
               <Button variant="default" size="sm">
                 Dashboard
