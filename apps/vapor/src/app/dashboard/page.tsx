@@ -15,11 +15,6 @@ export default function Page() {
       <Link href="/">
         <Button>Home</Button>
       </Link>
-      {data?.session ? (
-        <div> YOU ARE SIGNED IN </div>
-      ) : (
-        <div> YOU ARE NOT SIGNED IN </div>
-      )}
     </div>
   )
 }

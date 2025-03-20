@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="text-3xl font-bold">
-            Jobshine
+            Some App
           </Link>
         </div>
 
@@ -50,17 +50,13 @@ export function Navbar() {
         <SignedIn>
           <div className="text-md flex items-center gap-4">
             <Link href="/dashboard">
-              <Button variant="ghost" size="sm">
+              <Button variant="default" size="sm">
                 Dashboard
               </Button>
             </Link>
-            <Button size="sm" variant="ghost">
-              Logout
-            </Button>
           </div>
         </SignedIn>
       </div>
     </nav>
   )
 }
-
