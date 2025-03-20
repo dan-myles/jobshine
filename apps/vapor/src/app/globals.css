@@ -136,6 +136,13 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@layer base {
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
 .animated-cards::before {
   @apply pointer-events-none absolute rounded-3xl opacity-0 transition-opacity duration-300 select-none hover:opacity-100;
   background: radial-gradient(
@@ -151,3 +158,4 @@
   content: "";
   inset: -1px;
 }
+

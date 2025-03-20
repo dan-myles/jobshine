@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { toast } from "sonner"
 
 import { SignedIn } from "@/components/signed-in"
 import { SignedOut } from "@/components/signed-out"
@@ -49,7 +50,13 @@ export function Navbar() {
 
         <SignedIn>
           <div className="text-md flex items-center gap-4">
-            <Button variant="ghost" onClick={() => auth.signOut()}>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                toast("Logging out...")
+                auth.signOut()
+              }}
+            >
               Logout
             </Button>
             <Link href="/dashboard">
