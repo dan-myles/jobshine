@@ -112,4 +112,4 @@ export const publicProcedure = t.procedure.use(timingMiddleware)
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(timingMiddleware)
+export const privateProcedure = t.procedure.use(timingMiddleware)

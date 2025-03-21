@@ -14,7 +14,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "clean": "git clean -xdf dist node_modules",
+    "clean": "git clean -xdf dist node_modules tsconfig.tsbuildinfo",
     "generate": "export BETTER_AUTH_GEN=true && pnpx @better-auth/cli generate --config ./src/index.ts --output ../db/src/schema/auth.schema.ts"
   },
   "dependencies": {

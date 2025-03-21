@@ -11,7 +11,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "clean": "git clean -xdf dist node_modules"
+    "clean": "git clean -xdf dist node_modules tsconfig.tsbuildinfo"
   },
   "packageManager": "pnpm@10.4.1",
   "dependencies": {

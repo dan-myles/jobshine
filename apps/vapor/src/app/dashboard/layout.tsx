@@ -1,5 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { SiteHeader } from "@/components/site-header"
+import { AppSidebar, NavHeader } from "@/components/sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -14,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
-        <SiteHeader />
+        <NavHeader />
         {children}
       </SidebarInset>
     </SidebarProvider>

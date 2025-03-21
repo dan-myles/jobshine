@@ -1,5 +1,5 @@
-import { postRouter } from "./post/post.router"
+import { resumeRouter } from "./resume/resume.router"
 
 export const routes = {
-  post: postRouter,
+  resume: resumeRouter,
 }

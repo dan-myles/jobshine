@@ -5,7 +5,6 @@ type MarkProps = {
   className?: string
 }
 
-
 export function Mark(props: MarkProps) {
   return (
     <div

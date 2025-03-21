@@ -25,7 +25,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "clean": "git clean -xdf .cache .turbo dist node_modules tsconfig.tsbuildinfo",
     "push": "sst tunnel & sleep 2 && sst shell drizzle-kit push",
     "generate": "sst tunnel & sleep 2 && sst shell drizzle-kit generate",
     "migrate": "sst tunnel & sleep 2 && sst shell drizzle-kit migrate",

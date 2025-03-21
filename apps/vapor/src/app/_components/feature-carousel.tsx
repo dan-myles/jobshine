@@ -160,10 +160,7 @@ type AnimatedStepImageProps = {
  * Custom hook for managing cyclic transitions with auto-play functionality.
  * Handles both automatic cycling and manual transitions between steps.
  */
-function useNumberCycler(
-  totalSteps: number = TOTAL_STEPS,
-  interval = 3000,
-) {
+function useNumberCycler(totalSteps: number = TOTAL_STEPS, interval = 3000) {
   const [currentNumber, setCurrentNumber] = useState(0)
   const [isManualInteraction, setIsManualInteraction] = useState(false)
   const timerRef = useRef<NodeJS.Timeout | null>(null)

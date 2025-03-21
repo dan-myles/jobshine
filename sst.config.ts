@@ -23,6 +23,14 @@ export default $config({
       $app.stage === "production" ? APP.url : `${$app.stage}.${APP.url}`;
 
     /**
+     * Common Env Vars
+     * These are common environment variables that we'll use across our apps.
+     */
+    const COMMON_ENV = {
+      NODE_ENV: $app.stage === "production" ? "production" : "development",
+    };
+
+    /**
      * Secrets
      * These are stored in AWS Secrete Manager and need to be set
      * with `pnpx sst secret set <secret> <value>`
@@ -78,6 +86,7 @@ export default $config({
       path: "apps/vapor",
       environment: {
         NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : `https://${APP.url}`,
+        ...COMMON_ENV,
       },
     });
 
@@ -115,6 +124,7 @@ export default $config({
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
+        ...COMMON_ENV,
       },
     });
 
@@ -125,6 +135,7 @@ export default $config({
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
+        ...COMMON_ENV,
       },
     });
 
@@ -134,6 +145,7 @@ export default $config({
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
+        ...COMMON_ENV,
       },
     });
 

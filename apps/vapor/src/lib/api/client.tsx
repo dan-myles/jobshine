@@ -1,9 +1,10 @@
 "use client"
 
-import type {inferRouterInputs, inferRouterOutputs} from "@trpc/server";
 import { createTRPCContext } from "@trpc/tanstack-react-query"
 
-import type {AppRouter} from "@acme/api";
+import type { AppRouter } from "@acme/api"
+
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 
 /**
  * Main client-side wrapper for the tRPC API.

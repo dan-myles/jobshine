@@ -1,5 +1,5 @@
-import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
 import type { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
+import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
 import { Resource } from "sst"
 
 import { appRouter, createTRPCContext } from "@acme/api"
@@ -29,7 +29,7 @@ const lambda = awsLambdaRequestHandler({
 })
 
 function getAccessControlAllowOrigin(stage: string) {
-    return getBaseUrl()
+  return getBaseUrl()
 }
 
 const handler: APIGatewayProxyEvent | APIGatewayProxyHandlerV2 = async (

@@ -3,11 +3,10 @@
 import Link from "next/link"
 import { toast } from "sonner"
 
-import { SignedIn } from "@/components/signed-in"
-import { SignedOut } from "@/components/signed-out"
+import { SignedIn, SignedOut } from "@/components/auth"
+import { Mark } from "@/components/mark"
 import { Button } from "@/components/ui/button"
 import { auth } from "@/lib/auth-client"
-import { Mark } from "@/components/mark"
 
 export function Navbar() {
   return (

@@ -1,9 +1,11 @@
 "use client"
 
-import { Hero } from "@/components/hero"
-import { Navbar } from "@/components/navbar"
+
+import { Hero } from "./_components/hero"
+import { Navbar } from "./_components/navbar"
 
 export default function Home() {
+
   return (
     <>
       <Navbar />

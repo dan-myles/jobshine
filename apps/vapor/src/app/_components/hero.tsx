@@ -3,8 +3,7 @@
 import Link from "next/link"
 import { motion } from "motion/react"
 
-import { SignedIn } from "@/components/signed-in"
-import { SignedOut } from "@/components/signed-out"
+import { SignedIn, SignedOut } from "@/components/auth"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -59,4 +58,3 @@ export function Hero({ className }: HeroProps) {
     </div>
   )
 }
-
