@@ -15,9 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { auth } from "@/lib/auth-client"
-import { cn } from "@/lib/utils"
 import {
   Form,
   FormControl,
@@ -27,6 +24,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { auth } from "@/lib/auth-client"
+import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -82,11 +82,11 @@ export function SignUpForm({
           <div className="grid gap-6">
             <div className="flex flex-col gap-4">
               <Button variant="outline" className="w-full">
-                <Icons.google className="h-6 w-6" />
+                <Icons.Google className="h-6 w-6" />
                 Sign up with Google
               </Button>
               <Button variant="outline" className="w-full">
-                <Icons.github className="h-6 w-6" />
+                <Icons.Github className="h-6 w-6" />
                 Sign up with Github
               </Button>
             </div>

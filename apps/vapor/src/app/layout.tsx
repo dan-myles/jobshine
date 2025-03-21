@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils"
 
 import "./globals.css"
 
+import { ThemeProvider } from "@/components/providers/theme.provider"
+
 const garamond = EB_Garamond({
   variable: "--font-garamond",
   subsets: ["latin"],
@@ -23,18 +25,25 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-      <APIProvider>
-        <html lang="en">
-          <body
-            className={cn(
-              garamond.className,
-              "border-border bg-background text-foreground antialiased",
-            )}
+    <html lang="en" suppressHydrationWarning={true}>
+      <body
+        className={cn(
+          garamond.className,
+          "border-border bg-background text-foreground antialiased",
+        )}
+      >
+        <APIProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+            disableTransitionOnChange={true}
           >
             {children}
-          </body>
-        </html>
-        <Toaster />
-      </APIProvider>
+          </ThemeProvider>
+          <Toaster />
+        </APIProvider>
+      </body>
+    </html>
   )
 }

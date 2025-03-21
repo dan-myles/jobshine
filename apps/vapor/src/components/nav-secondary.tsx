@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import type {Icon} from "@tabler/icons-react";
+import Link from "next/link"
 
+import { Icons } from "@/components/icons"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -12,29 +13,32 @@ import {
 } from "@/components/ui/sidebar"
 
 export function NavSecondary({
-  items,
+  className,
   ...props
-}: {
-  items: {
-    title: string
-    url: string
-    icon: Icon
-  }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+}: React.ComponentProps<"div">) {
   return (
-    <SidebarGroup {...props}>
+    <SidebarGroup {...props} className={className}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {/* Settings */}
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="#">
+                <Icons.Settings2 className="mt-0.5" />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          {/* Help */}
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="#">
+                <Icons.HelpCircle className="mt-0.5" />
+                <span>Help</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
