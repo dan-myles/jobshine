@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -17,7 +18,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { auth } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
-import { Icons } from "./icons"
 import {
   Form,
   FormControl,
@@ -26,7 +26,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form"
+} from "@/components/ui/form"
 
 const formSchema = z.object({
   email: z.string().email(),

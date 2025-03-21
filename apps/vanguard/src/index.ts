@@ -9,7 +9,7 @@ const app = new Hono()
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3000", getBaseUrl()!],
+    origin: ["http://localhost:3000", getBaseUrl()],
     credentials: true,
     allowHeaders: ["Content-Type", "Authorization"],
   }),

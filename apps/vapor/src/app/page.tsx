@@ -1,6 +1,5 @@
 "use client"
 
-import { FeatureCarousel } from "@/components/feature-carousel"
 import { Hero } from "@/components/hero"
 import { Navbar } from "@/components/navbar"
 

@@ -7,7 +7,7 @@ import { SignedIn } from "@/components/signed-in"
 import { SignedOut } from "@/components/signed-out"
 import { Button } from "@/components/ui/button"
 import { auth } from "@/lib/auth-client"
-import { Mark } from "./mark"
+import { Mark } from "@/components/mark"
 
 export function Navbar() {
   return (
@@ -54,7 +54,7 @@ export function Navbar() {
               variant="ghost"
               onClick={() => {
                 toast("Logging out...")
-                auth.signOut()
+                auth.signOut().catch(console.error)
               }}
             >
               Logout

@@ -1,5 +1,5 @@
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
-import { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
+import type { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 import { Resource } from "sst"
 
 import { appRouter, createTRPCContext } from "@acme/api"

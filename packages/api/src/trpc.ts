@@ -13,8 +13,6 @@ import { ZodError } from "zod"
 
 import { db } from "@acme/db/client"
 
-import type { CreateAWSLambdaContextOptions } from "@trpc/server/adapters/aws-lambda"
-
 /**
  * 1. CONTEXT
  *
@@ -31,7 +29,7 @@ type ContextOptions = {
   event?: APIGatewayProxyEvent | APIGatewayProxyEventV2
 }
 
-export const createTRPCContext = async ({ event }: ContextOptions) => {
+export const createTRPCContext = ({ event }: ContextOptions) => {
   return {
     db,
   }

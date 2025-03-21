@@ -9,7 +9,7 @@ import {
 } from "@trpc/client"
 import SuperJSON from "superjson"
 
-import { AppRouter } from "@acme/api"
+import type { AppRouter } from "@acme/api"
 import { getBaseUrl } from "@acme/common"
 
 import type { QueryClient } from "@tanstack/react-query"

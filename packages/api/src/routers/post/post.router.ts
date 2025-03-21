@@ -10,7 +10,7 @@ export const postRouter = {
         name: z.string(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(({ input }) => {
       return {
         response: `Hi ${input.name}, this is TRPC!`,
       }

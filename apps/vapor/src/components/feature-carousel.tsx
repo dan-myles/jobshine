@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import type { MotionStyle, MotionValue, Variants } from "motion/react"
@@ -98,13 +101,13 @@ type WrapperStyle = MotionStyle & {
   "--y": MotionValue<string>
 }
 
-interface CardProps {
+type CardProps = {
   title: string
   description: string
   bgClass?: string
 }
 
-interface ImageSet {
+type ImageSet = {
   step1dark1?: StaticImageData | string
   step1dark2?: StaticImageData | string
   step1light1: StaticImageData | string
@@ -119,7 +122,7 @@ interface ImageSet {
   alt: string
 }
 
-interface FeatureCarouselProps extends CardProps {
+type FeatureCarouselProps = {
   step1img1Class?: string
   step1img2Class?: string
   step2img1Class?: string
@@ -127,9 +130,9 @@ interface FeatureCarouselProps extends CardProps {
   step3imgClass?: string
   step4imgClass?: string
   image: ImageSet
-}
+} & CardProps
 
-interface StepImageProps {
+type StepImageProps = {
   src: StaticImageData | string
   alt: string
   className?: string
@@ -138,7 +141,7 @@ interface StepImageProps {
   height?: number
 }
 
-interface Step {
+type Step = {
   id: string
   name: string
   title: string
@@ -147,11 +150,11 @@ interface Step {
 
 type AnimationPreset = keyof typeof ANIMATION_PRESETS
 
-interface AnimatedStepImageProps extends StepImageProps {
+type AnimatedStepImageProps = {
   preset?: AnimationPreset
   delay?: number
   onAnimationComplete?: () => void
-}
+} & StepImageProps
 
 /**
  * Custom hook for managing cyclic transitions with auto-play functionality.
@@ -159,7 +162,7 @@ interface AnimatedStepImageProps extends StepImageProps {
  */
 function useNumberCycler(
   totalSteps: number = TOTAL_STEPS,
-  interval: number = 3000,
+  interval = 3000,
 ) {
   const [currentNumber, setCurrentNumber] = useState(0)
   const [isManualInteraction, setIsManualInteraction] = useState(false)
@@ -270,7 +273,7 @@ const stepVariants: Variants = {
 
 const StepImage = forwardRef<
   HTMLImageElement,
-  StepImageProps & { [key: string]: any }
+  StepImageProps & Record<string, any>
 >(
   (
     { src, alt, className, style, width = 1200, height = 630, ...props },
