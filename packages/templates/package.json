@@ -1,5 +1,5 @@
 {
-  "name": "@acme/api",
+  "name": "@acme/templates",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -20,13 +20,8 @@
     "clean": "git clean -xdf dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@acme/db": "workspace:*",
-    "@acme/auth": "workspace:*",
-    "@acme/common": "workspace:*",
     "@acme/validators": "workspace:*",
-    "@acme/templates": "workspace:*",
-    "@trpc/server": "catalog:",
-    "superjson": "2.2.2",
+    "@acme/common": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

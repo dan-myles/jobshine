@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -29,6 +29,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+// Assuming you have a Zustand store set up like this:
+import { useUpdateResume } from "@/stores/resume-store" // Replace with your actual path
 
 export function ResumeForm() {
   const [activeTab, setActiveTab] = useState("personal")
@@ -75,6 +77,35 @@ export function ResumeForm() {
 
   const { control, watch, setValue, handleSubmit } = form
 
+  // Access the Zustand store's update function
+  const updateResume = useUpdateResume()
+
+  // Debounce implementation using useRef and setTimeout
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const subscription = watch((values) => {
+      // Clear the previous timeout if it exists
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+
+      // Set a new timeout to call updateResume after a delay
+      debounceTimeoutRef.current = setTimeout(() => {
+        updateResume(values as Resume)
+        debounceTimeoutRef.current = null // Reset the ref after execution
+      }, 675) // 300ms debounce delay
+    })
+
+    // Clean up function: clear the timeout and unsubscribe
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current)
+      }
+      subscription.unsubscribe()
+    }
+  }, [watch, updateResume])
+
   // Helper functions for array fields
   const addArrayItem = (field: keyof Resume, defaultValue: any) => {
     const currentValues = watch(field) as any[]
@@ -104,6 +135,7 @@ export function ResumeForm() {
     const currentValues = watch(field) as any[]
     const updatedValues = [...currentValues]
     updatedValues[itemIndex].bullets = updatedValues[itemIndex].bullets.filter(
+      // @ts-ignore
       (_, i) => i !== bulletIndex,
     )
     setValue(field, updatedValues)
@@ -140,9 +172,9 @@ export function ResumeForm() {
     const currentIndex = tabs.indexOf(activeTab)
 
     if (direction === "next" && currentIndex < tabs.length - 1) {
-      setActiveTab(tabs[currentIndex + 1])
+      setActiveTab(tabs[currentIndex + 1] as string)
     } else if (direction === "prev" && currentIndex > 0) {
-      setActiveTab(tabs[currentIndex - 1])
+      setActiveTab(tabs[currentIndex - 1] as string)
     }
   }
 

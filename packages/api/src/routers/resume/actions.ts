@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server"
 import type { Resume, TemplateID } from "@acme/validators"
 
 import type { TRPCContext } from "../../trpc"
-import { ResumeTemplate_001 } from "../../templates/template-001"
+import { ResumeTemplate_001 } from "@acme/templates"
 
 export async function generate(
   resume: Resume,

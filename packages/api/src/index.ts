@@ -1,3 +1,4 @@
+
 import type { AppRouter } from "./root"
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server"
 import { appRouter } from "./root"
@@ -36,3 +37,4 @@ export {
   type RouterOutputs,
   type AppRouter,
 }
+
