@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 "use client"
 
 import { useEffect, useRef, useState } from "react"
@@ -29,13 +32,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { useResumeData, useUpdateResume } from "@/stores/resume-store"
+import { useUpdateResume } from "@/stores/resume-store"
 
-export function ResumeForm() {
+type ResumeFormProps = { resumeData: Resume }
+
+export function ResumeForm({ resumeData }: ResumeFormProps) {
   const [activeTab, setActiveTab] = useState("personal")
   const updateResume = useUpdateResume()
-  const resumeData = useResumeData()
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [newSkill, setNewSkill] = useState("")
 
   const form = useForm<Resume>({
     resolver: zodResolver(ResumeSchema),
@@ -178,9 +183,12 @@ export function ResumeForm() {
     )
   }
 
-  function addSkill() {
-    const currentSkills = watch("skills")
-    setValue("skills", [...currentSkills, ""])
+  function handleAddSkill() {
+    if (newSkill.trim() !== "") {
+      const currentSkills = watch("skills")
+      setValue("skills", [...currentSkills, newSkill])
+      setNewSkill("")
+    }
   }
 
   function removeSkill(index: number) {
@@ -203,7 +211,14 @@ export function ResumeForm() {
   }
 
   function handleFormSubmit(data: Resume) {
-    alert("Resume data submitted successfully!")
+    console.log(data)
+  }
+
+  function handleKeyDownSkillAdd(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleAddSkill()
+    }
   }
 
   return (
@@ -383,23 +398,18 @@ export function ResumeForm() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <FormField
-                        control={control}
-                        name={`skills.${watch("skills").length - 1}`}
-                        render={({ field }) => (
-                          <FormItem className="flex-1">
-                            <FormControl>
-                              <Input placeholder="Add a skill" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                      <Input
+                        type="text"
+                        placeholder="Add a skill"
+                        value={newSkill}
+                        onChange={(e) => setNewSkill(e.target.value)}
+                        onKeyDown={handleKeyDownSkillAdd}
                       />
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
-                        onClick={addSkill}
+                        onClick={handleAddSkill}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>

@@ -14,11 +14,13 @@ import { createQueryClient } from "@/lib/query-client"
 export const getQueryClient = cache(createQueryClient)
 
 export const api = createTRPCOptionsProxy({
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   ctx: await createTRPCContext({}),
   router: appRouter,
   queryClient: getQueryClient,
 })
 
+// eslint-disable-next-line @typescript-eslint/await-thenable
 export const caller = createCaller(await createTRPCContext({}))
 
 export function HydrateClient(props: { children: React.ReactNode }) {
@@ -31,7 +33,6 @@ export function HydrateClient(props: { children: React.ReactNode }) {
 }
 
 // TODO: Fix this horribly unsafe type hack fuckery
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptions: T,
