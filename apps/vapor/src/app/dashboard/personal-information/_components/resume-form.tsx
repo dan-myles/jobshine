@@ -29,75 +29,33 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-// Assuming you have a Zustand store set up like this:
-import { useUpdateResume } from "@/stores/resume-store" // Replace with your actual path
+import { useResumeData, useUpdateResume } from "@/stores/resume-store"
 
 export function ResumeForm() {
   const [activeTab, setActiveTab] = useState("personal")
+  const updateResume = useUpdateResume()
+  const resumeData = useResumeData()
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const form = useForm<Resume>({
     resolver: zodResolver(ResumeSchema),
-    defaultValues: {
-      fullName: "",
-      location: "",
-      email: "",
-      phone: "",
-      websites: [""],
-      summary: "",
-      skills: [""],
-      experience: [
-        {
-          company: "",
-          title: "",
-          from: "",
-          to: "",
-          location: "",
-          bullets: [""],
-        },
-      ],
-      education: [
-        {
-          school: "",
-          degree: "",
-          field: "",
-          from: "",
-          to: "",
-          gpa: "",
-        },
-      ],
-      projects: [
-        {
-          name: "",
-          bullets: [""],
-          link: "",
-        },
-      ],
-    },
+    defaultValues: resumeData,
   })
 
   const { control, watch, setValue, handleSubmit } = form
 
-  // Access the Zustand store's update function
-  const updateResume = useUpdateResume()
-
-  // Debounce implementation using useRef and setTimeout
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
   useEffect(() => {
     const subscription = watch((values) => {
-      // Clear the previous timeout if it exists
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current)
       }
 
-      // Set a new timeout to call updateResume after a delay
       debounceTimeoutRef.current = setTimeout(() => {
         updateResume(values as Resume)
-        debounceTimeoutRef.current = null // Reset the ref after execution
-      }, 675) // 300ms debounce delay
+        debounceTimeoutRef.current = null
+      }, 355)
     })
 
-    // Clean up function: clear the timeout and unsubscribe
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current)
@@ -106,47 +64,113 @@ export function ResumeForm() {
     }
   }, [watch, updateResume])
 
-  // Helper functions for array fields
-  const addArrayItem = (field: keyof Resume, defaultValue: any) => {
-    const currentValues = watch(field) as any[]
-    setValue(field, [...currentValues, defaultValue])
+  function addExperienceItem() {
+    const currentValues = watch("experience")
+    setValue("experience", [
+      ...currentValues,
+      {
+        company: "",
+        title: "",
+        from: "",
+        to: "",
+        location: "",
+        bullets: [""],
+      },
+    ])
   }
 
-  const removeArrayItem = (field: keyof Resume, index: number) => {
-    const currentValues = watch(field) as any[]
+  function removeExperienceItem(index: number) {
+    const currentValues = watch("experience")
     setValue(
-      field,
+      "experience",
       currentValues.filter((_, i) => i !== index),
     )
   }
 
-  const addBulletPoint = (field: keyof Resume, index: number) => {
-    const currentValues = watch(field) as any[]
-    const updatedValues = [...currentValues]
-    updatedValues[index].bullets = [...updatedValues[index].bullets, ""]
-    setValue(field, updatedValues)
+  function addEducationItem() {
+    const currentValues = watch("education")
+    setValue("education", [
+      ...currentValues,
+      {
+        school: "",
+        degree: "",
+        field: "",
+        from: "",
+        to: "",
+        gpa: "",
+      },
+    ])
   }
 
-  const removeBulletPoint = (
-    field: keyof Resume,
-    itemIndex: number,
-    bulletIndex: number,
-  ) => {
-    const currentValues = watch(field) as any[]
+  function removeEducationItem(index: number) {
+    const currentValues = watch("education")
+    setValue(
+      "education",
+      currentValues.filter((_, i) => i !== index),
+    )
+  }
+
+  function addProjectsItem() {
+    const currentValues = watch("projects")
+    setValue("projects", [
+      ...currentValues,
+      {
+        name: "",
+        bullets: [""],
+        link: "",
+      },
+    ])
+  }
+
+  function removeProjectsItem(index: number) {
+    const currentValues = watch("projects")
+    setValue(
+      "projects",
+      currentValues.filter((_, i) => i !== index),
+    )
+  }
+
+  function addExperienceBullet(expIndex: number) {
+    const currentValues = watch("experience")
     const updatedValues = [...currentValues]
-    updatedValues[itemIndex].bullets = updatedValues[itemIndex].bullets.filter(
-      // @ts-ignore
+    updatedValues[expIndex]!.bullets = [...updatedValues[expIndex]!.bullets, ""]
+    setValue("experience", updatedValues)
+  }
+
+  function removeExperienceBullet(expIndex: number, bulletIndex: number) {
+    const currentValues = watch("experience")
+    const updatedValues = [...currentValues]
+    updatedValues[expIndex]!.bullets = updatedValues[expIndex]!.bullets.filter(
       (_, i) => i !== bulletIndex,
     )
-    setValue(field, updatedValues)
+    setValue("experience", updatedValues)
   }
 
-  const addWebsite = () => {
+  function addProjectBullet(projIndex: number) {
+    const currentValues = watch("projects")
+    const updatedValues = [...currentValues]
+    updatedValues[projIndex]!.bullets = [
+      ...updatedValues[projIndex]!.bullets,
+      "",
+    ]
+    setValue("projects", updatedValues)
+  }
+
+  function removeProjectBullet(projIndex: number, bulletIndex: number) {
+    const currentValues = watch("projects")
+    const updatedValues = [...currentValues]
+    updatedValues[projIndex]!.bullets = updatedValues[
+      projIndex
+    ]!.bullets.filter((_, i) => i !== bulletIndex)
+    setValue("projects", updatedValues)
+  }
+
+  function addWebsite() {
     const currentWebsites = watch("websites")
     setValue("websites", [...currentWebsites, ""])
   }
 
-  const removeWebsite = (index: number) => {
+  function removeWebsite(index: number) {
     const currentWebsites = watch("websites")
     setValue(
       "websites",
@@ -154,12 +178,12 @@ export function ResumeForm() {
     )
   }
 
-  const addSkill = () => {
+  function addSkill() {
     const currentSkills = watch("skills")
     setValue("skills", [...currentSkills, ""])
   }
 
-  const removeSkill = (index: number) => {
+  function removeSkill(index: number) {
     const currentSkills = watch("skills")
     setValue(
       "skills",
@@ -167,7 +191,7 @@ export function ResumeForm() {
     )
   }
 
-  const navigateTab = (direction: "next" | "prev") => {
+  function navigateTab(direction: "next" | "prev") {
     const tabs = ["personal", "summary", "experience", "education", "projects"]
     const currentIndex = tabs.indexOf(activeTab)
 
@@ -178,7 +202,7 @@ export function ResumeForm() {
     }
   }
 
-  const handleFormSubmit = (data: Resume) => {
+  function handleFormSubmit(data: Resume) {
     alert("Resume data submitted successfully!")
   }
 
@@ -392,16 +416,7 @@ export function ResumeForm() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        addArrayItem("experience", {
-                          company: "",
-                          title: "",
-                          from: "",
-                          to: "",
-                          location: "",
-                          bullets: [""],
-                        })
-                      }
+                      onClick={addExperienceItem}
                     >
                       <Plus className="mr-2 h-4 w-4" /> Add Experience
                     </Button>
@@ -427,9 +442,7 @@ export function ResumeForm() {
                           variant="ghost"
                           size="icon"
                           className="text-destructive h-8 w-8"
-                          onClick={() =>
-                            removeArrayItem("experience", expIndex)
-                          }
+                          onClick={() => removeExperienceItem(expIndex)}
                           disabled={watch("experience").length <= 1}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -542,8 +555,7 @@ export function ResumeForm() {
                                   variant="destructive"
                                   size="icon"
                                   onClick={() =>
-                                    removeBulletPoint(
-                                      "experience",
+                                    removeExperienceBullet(
                                       expIndex,
                                       bulletIndex,
                                     )
@@ -564,9 +576,7 @@ export function ResumeForm() {
                             variant="outline"
                             size="sm"
                             className="mt-2"
-                            onClick={() =>
-                              addBulletPoint("experience", expIndex)
-                            }
+                            onClick={() => addExperienceBullet(expIndex)}
                           >
                             <Plus className="mr-2 h-4 w-4" /> Add Bullet Point
                           </Button>
@@ -585,16 +595,7 @@ export function ResumeForm() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        addArrayItem("education", {
-                          school: "",
-                          degree: "",
-                          field: "",
-                          from: "",
-                          to: "",
-                          gpa: "",
-                        })
-                      }
+                      onClick={addEducationItem}
                     >
                       <Plus className="mr-2 h-4 w-4" /> Add Education
                     </Button>
@@ -619,7 +620,7 @@ export function ResumeForm() {
                           variant="ghost"
                           size="icon"
                           className="text-destructive h-8 w-8"
-                          onClick={() => removeArrayItem("education", eduIndex)}
+                          onClick={() => removeEducationItem(eduIndex)}
                           disabled={watch("education").length <= 1}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -733,13 +734,7 @@ export function ResumeForm() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        addArrayItem("projects", {
-                          name: "",
-                          bullets: [""],
-                          link: "",
-                        })
-                      }
+                      onClick={addProjectsItem}
                     >
                       <Plus className="mr-2 h-4 w-4" /> Add Project
                     </Button>
@@ -762,7 +757,7 @@ export function ResumeForm() {
                           variant="ghost"
                           size="icon"
                           className="text-destructive h-8 w-8"
-                          onClick={() => removeArrayItem("projects", projIndex)}
+                          onClick={() => removeProjectsItem(projIndex)}
                           disabled={watch("projects").length <= 1}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -833,11 +828,7 @@ export function ResumeForm() {
                                   variant="destructive"
                                   size="icon"
                                   onClick={() =>
-                                    removeBulletPoint(
-                                      "projects",
-                                      projIndex,
-                                      bulletIndex,
-                                    )
+                                    removeProjectBullet(projIndex, bulletIndex)
                                   }
                                   disabled={
                                     watch(`projects.${projIndex}.bullets`)
@@ -855,9 +846,7 @@ export function ResumeForm() {
                             variant="outline"
                             size="sm"
                             className="mt-2"
-                            onClick={() =>
-                              addBulletPoint("projects", projIndex)
-                            }
+                            onClick={() => addProjectBullet(projIndex)}
                           >
                             <Plus className="mr-2 h-4 w-4" /> Add Bullet Point
                           </Button>
