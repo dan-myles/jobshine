@@ -70,7 +70,7 @@ export default $config({
           APP.url === "" ? "" : `https://${APP.url}`,
         ],
         allowCredentials: true,
-        allowHeaders: ["Content-Type", "Authorization"],
+        allowHeaders: ["Content-Type", "Authorization", "Cookie"],
       },
     });
 
@@ -86,6 +86,7 @@ export default $config({
       path: "apps/vapor",
       environment: {
         NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : `https://${APP.url}`,
+        NEXT_PUBLIC_API_URL: api.url,
         ...COMMON_ENV,
       },
     });

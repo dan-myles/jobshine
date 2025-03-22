@@ -11,6 +11,7 @@ import { initTRPC } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
 
+import { auth } from "@acme/auth"
 import { db } from "@acme/db/client"
 
 /**
@@ -29,9 +30,21 @@ type ContextOptions = {
   event?: APIGatewayProxyEvent | APIGatewayProxyEventV2
 }
 
-export const createTRPCContext = ({ event }: ContextOptions) => {
+export const createTRPCContext = async ({ event }: ContextOptions) => {
+  const headers = new Headers()
+  for (const [key, value] of Object.entries(event?.headers || {})) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    headers.set(key, value!)
+  }
+
+  console.log(headers)
+
+  const session = await auth.api.getSession({ headers })
+  console.log("SESSION >>>", session)
+
   return {
     db,
+    auth: session,
   }
 }
 
