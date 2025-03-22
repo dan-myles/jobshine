@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Label } from "../ui/label"
+import { Label } from "@/components/ui/label"
 
 export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
   return (

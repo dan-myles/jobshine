@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Icons } from "../icons"
+import { Icons } from "@/components/icons"
 
 export function NavHeader() {
   const pathname = usePathname()
