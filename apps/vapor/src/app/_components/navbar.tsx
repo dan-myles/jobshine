@@ -52,7 +52,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               onClick={() => {
-                toast("Logging out...")
+                toast.success("Logging out...")
                 auth.signOut().catch(console.error)
               }}
             >

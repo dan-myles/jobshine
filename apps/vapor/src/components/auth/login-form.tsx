@@ -48,7 +48,7 @@ export function LoginForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    toast("Signing in...")
+    toast.success("Signing in...")
 
     const { error } = await auth.signIn.email({
       email: values.email,

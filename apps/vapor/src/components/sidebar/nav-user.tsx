@@ -115,6 +115,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
+                toast.success("You have been logged out!")
                 auth.signOut().catch(console.error)
                 router.push("/")
               }}

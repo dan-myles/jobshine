@@ -1,10 +1,8 @@
 "use client"
 
+import Link from "next/link"
+
 import { Mark } from "@/components/mark"
-import { NavMain } from "./nav-main"
-import { NavSecondary } from "./nav-secondary"
-import { NavSubFooter } from "./nav-sub-footer"
-import { NavUser } from "./nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +12,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { NavMain } from "./nav-main"
+import { NavSecondary } from "./nav-secondary"
+import { NavSubFooter } from "./nav-sub-footer"
+import { NavUser } from "./nav-user"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -21,14 +23,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Header */}
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Mark className="text-2xl" />
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <Link href="/">
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                className="data-[slot=sidebar-menu-button]:!p-1.5"
+              >
+                  <Mark className="text-2xl" />
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
         </SidebarMenu>
       </SidebarHeader>
 
