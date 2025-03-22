@@ -1,3 +1,6 @@
+// NOTE: This store is used to store client side resume data.
+// It is only used to hot reload the resume preview.
+
 import { create } from "zustand"
 
 import type { Resume } from "@acme/validators"
@@ -50,6 +53,6 @@ const useResumeStore = create<ResumeState & ResumeActions>((set) => ({
   updateResume: (newResumeData: Resume) => set({ resumeData: newResumeData }),
 }))
 
-
 export const useResumeData = () => useResumeStore((state) => state.resumeData)
-export const useUpdateResume = () => useResumeStore((state) => state.updateResume)
+export const useUpdateResume = () =>
+  useResumeStore((state) => state.updateResume)
