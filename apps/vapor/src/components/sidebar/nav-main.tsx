@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Label } from "../ui/label"
 
 export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -37,6 +38,7 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
         <Separator className="my-2" />
 
         <SidebarMenu>
+          <Label className="text-muted-foreground mb-2">Platform</Label>
           {/* Dashboard Link */}
           <Link href="/dashboard">
             <SidebarMenuItem>

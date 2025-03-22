@@ -1,9 +1,5 @@
-"use client"
-
-import * as React from "react"
 import Link from "next/link"
 
-import { Icons } from "@/components/icons"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,31 +7,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Icons } from "@/components/icons"
+import { Label } from "@/components/ui/label"
 
-export function NavSecondary({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function NavSecondary() {
   return (
-    <SidebarGroup {...props} className={className}>
+    <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
-          {/* Settings */}
+          <Label className="text-muted-foreground mb-2">Calibrate</Label>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link href="#">
-                <Icons.Settings2 className="mt-0.5" />
-                <span>Settings</span>
+                <Icons.User className="mt-0.5" />
+                <Label>Personal Information</Label>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-          {/* Help */}
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link href="#">
-                <Icons.HelpCircle className="mt-0.5" />
-                <span>Help</span>
+                <Icons.Settings2 className="mt-0.5" />
+                <Label>Cover Letter Settings</Label>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="#">
+                <Icons.Settings className="mt-0.5" />
+                <Label>Resume Settings</Label>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
