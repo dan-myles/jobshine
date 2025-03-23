@@ -9,7 +9,7 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 import type { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from "aws-lambda"
-import { initTRPC } from "@trpc/server"
+import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
 
@@ -107,6 +107,21 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   return result
 })
 
+const authMiddleware = t.middleware(async ({ ctx, next }) => {
+  const auth = ctx.auth
+
+  if (!auth) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+
+  }
+
+  return next({
+    ctx: {
+      auth: auth,
+    },
+  })
+})
+
 /**
  * Public (unauthed) procedure
  *
@@ -124,4 +139,6 @@ export const publicProcedure = t.procedure.use(timingMiddleware)
  *
  * @see https://trpc.io/docs/procedures
  */
-export const privateProcedure = t.procedure.use(timingMiddleware)
+export const privateProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(authMiddleware)

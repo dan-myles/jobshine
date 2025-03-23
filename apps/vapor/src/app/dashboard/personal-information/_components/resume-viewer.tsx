@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 
 import { ResumeTemplate_001 } from "@acme/templates"
-import { Resume } from "@acme/validators"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { useResumeData } from "@/stores/resume-store"
+import { ResumeContext } from "./resume-builder"
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
@@ -19,11 +18,11 @@ const PDFViewer = dynamic(
   },
 )
 
-export function ResumeViewer({ initialData }: { initialData: Resume }) {
-  const resumeData = useResumeData()
+export function ResumeViewer() {
+  const { resumeData } = use(ResumeContext)
   const [key, setKey] = useState(0)
 
-  // Update key when resumeData changes to force PDFViewer remount
+  // TODO: Find a way to stop this from re-rendering when the state update is the exact same
   useEffect(() => {
     setKey((prev) => prev + 1)
   }, [resumeData])
@@ -34,11 +33,7 @@ export function ResumeViewer({ initialData }: { initialData: Resume }) {
         showToolbar={false}
         className="h-full max-h-[88vh] min-h-[88vh] w-full rounded-md bg-gray-600 p-0.5 shadow-lg"
       >
-        {resumeData.fullName === "" ? (
-          <ResumeTemplate_001 resume={initialData} />
-        ) : (
-          <ResumeTemplate_001 resume={resumeData} />
-        )}
+        {resumeData && <ResumeTemplate_001 resume={resumeData} />}
       </PDFViewer>
     )
   }

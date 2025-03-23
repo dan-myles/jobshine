@@ -15,7 +15,7 @@ import {
 } from "@acme/db/schema"
 
 export const ResumeRepository = {
-  async create(data: Resume, userId: string, db: DB) {
+  async create(userId: string, data: Resume, db: DB) {
     const inserted = await db
       .insert(resume)
       .values({
@@ -46,13 +46,13 @@ export const ResumeRepository = {
 
     await Promise.all([
       Promise.all(
-        data.websites.map(async (website, index) => {
+        data.websites.map(async (website) => {
           return db
             .insert(resumeWebsite)
             .values({
               resumeId: id,
-              index: index,
-              url: website,
+              index: website.index,
+              url: website.url,
             })
             .catch((err) => {
               console.error("Error inserting resumeWebsite:", err)
@@ -66,10 +66,10 @@ export const ResumeRepository = {
       ),
 
       Promise.all(
-        data.skills.map(async (skill, index) => {
+        data.skills.map(async (skill) => {
           return db
             .insert(resumeSkill)
-            .values({ resumeId: id, index: index, skill })
+            .values({ resumeId: id, index: skill.index, skill: skill.skill })
             .catch((err) => {
               console.error("Error inserting resumeSkill:", err)
               throw new TRPCError({
@@ -138,13 +138,13 @@ export const ResumeRepository = {
           }
 
           return Promise.all(
-            experience.bullets.map(async (bullet, index) => {
+            experience.bullets.map(async (bullet) => {
               return db
                 .insert(resumeExperienceBullet)
                 .values({
                   resumeExperienceId: experienceId,
-                  index: index,
-                  bullet,
+                  index: bullet.index,
+                  bullet: bullet.bullet,
                 })
                 .catch((err) => {
                   console.error("Error inserting resumeExperienceBullet:", err)
@@ -188,13 +188,13 @@ export const ResumeRepository = {
           }
 
           return Promise.all(
-            project.bullets.map(async (bullet, index) => {
+            project.bullets.map(async (bullet) => {
               return db
                 .insert(resumeProjectBullet)
                 .values({
                   resumeProjectId: projectId,
-                  index: index,
-                  bullet,
+                  index: bullet.index,
+                  bullet: bullet.bullet,
                 })
                 .catch((err) => {
                   console.error("Error inserting resumeProjectBullet:", err)
@@ -214,11 +214,11 @@ export const ResumeRepository = {
   },
 
   // TODO: Uncombine correlated queries and Promise.all them
-  async read(id: string, db: DB) {
+  async read(userId: string, db: DB) {
     const found = await db
       .select()
       .from(resume)
-      .where(eq(resume.id, id))
+      .where(eq(resume.userId, userId))
       .limit(1)
       .catch(console.error)
       .then((res) => res?.at(0))
@@ -384,11 +384,11 @@ export const ResumeRepository = {
     } as Resume
   },
 
-  async update(id: string, data: Resume, db: DB) {
+  async update(userId: string, data: Resume, db: DB) {
     const updated = await db
       .update(resume)
       .set(data)
-      .where(eq(resume.id, id))
+      .where(eq(resume.userId, userId))
       .returning()
       .catch((err) => {
         console.error("Error updating resume:", err)
@@ -402,10 +402,10 @@ export const ResumeRepository = {
     return updated.at(0) || null
   },
 
-  async delete(id: string, db: DB) {
+  async delete(userId: string, db: DB) {
     const deleted = await db
       .delete(resume)
-      .where(eq(resume.id, id))
+      .where(eq(resume.userId, userId))
       .returning()
       .catch((err) => {
         console.error("Error deleting resume:", err)
@@ -419,7 +419,7 @@ export const ResumeRepository = {
     return deleted
   },
 
-  async upsert(data: Resume, userId: string, db: DB) {
+  async upsert( userId: string, data: Resume,  db: DB) {
     const existing = await db
       .select()
       .from(resume)
@@ -436,7 +436,7 @@ export const ResumeRepository = {
       .then((res) => res.at(0))
 
     return existing
-      ? this.update(existing.id, data, db)
-      : this.create(data, userId, db)
+      ? this.update(userId, data, db)
+      : this.create(userId, data, db)
   },
 }

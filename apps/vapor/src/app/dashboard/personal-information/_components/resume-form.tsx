@@ -2,9 +2,9 @@
 
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { use, useEffect, useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -36,22 +36,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useAPI } from "@/lib/api/client"
 import { cn } from "@/lib/utils"
-import { useUpdateResume } from "@/stores/resume-store"
+import { ResumeContext } from "./resume-builder"
 
-type ResumeFormProps = { resumeData: Resume }
-
-export function ResumeForm({ resumeData }: ResumeFormProps) {
+export function ResumeForm() {
   const api = useAPI()
-  const updateResume = useUpdateResume()
+  const queryClient = useQueryClient()
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [newSkill, setNewSkill] = useState("")
   const [activeTab, setActiveTab] = useState("personal")
+  const { resumeData, setResumeData } = use(ResumeContext)
 
   const submitResume = useMutation(
     api.resume.update.mutationOptions({
       onSuccess: () => {
         toast.success("Resume saved successfully!")
-        reset()
+        invalidateResume()
       },
       onError: () => {
         toast.error("Failed to save resume.")
@@ -61,7 +60,65 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
 
   const form = useForm<Resume>({
     resolver: zodResolver(ResumeSchema),
-    defaultValues: resumeData,
+    defaultValues: {
+      fullName: resumeData?.fullName ?? "",
+      location: resumeData?.location ?? "",
+      email: resumeData?.email ?? "",
+      phone: resumeData?.phone ?? "",
+      summary: resumeData?.summary ?? "",
+      websites: resumeData?.websites ?? [
+        {
+          index: 0,
+          url: "",
+        },
+      ],
+      skills: resumeData?.skills ?? [
+        {
+          index: 0,
+          skill: "",
+        },
+      ],
+      experience: resumeData?.experience ?? [
+        {
+          index: 0,
+          company: "",
+          title: "",
+          from: "",
+          to: "",
+          location: "",
+          bullets: [
+            {
+              index: 0,
+              bullet: "",
+            },
+          ],
+        },
+      ],
+      education: resumeData?.education ?? [
+        {
+          index: 0,
+          school: "",
+          degree: "",
+          field: "",
+          from: "",
+          to: "",
+          gpa: "",
+        },
+      ],
+      projects: resumeData?.projects ?? [
+        {
+          index: 0,
+          name: "",
+          link: "",
+          bullets: [
+            {
+              index: 0,
+              bullet: "",
+            },
+          ],
+        },
+      ],
+    },
   })
 
   const {
@@ -69,7 +126,6 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     watch,
     setValue,
     handleSubmit,
-    reset,
     formState: { isDirty, errors },
   } = form
 
@@ -80,7 +136,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
       }
 
       debounceTimeoutRef.current = setTimeout(() => {
-        updateResume(values as Resume)
+        setResumeData(values as Resume)
         debounceTimeoutRef.current = null
       }, 355)
     })
@@ -91,7 +147,11 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
       }
       subscription.unsubscribe()
     }
-  }, [watch, updateResume])
+  }, [watch])
+
+  async function invalidateResume() {
+    await queryClient.invalidateQueries(api.resume.read.queryFilter())
+  }
 
   function addExperienceItem() {
     const currentValues = watch("experience")
@@ -146,7 +206,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     setValue("projects", [
       ...currentValues,
       {
-        index:  currentValues.length,
+        index: currentValues.length,
         name: "",
         bullets: [],
         link: "",
@@ -202,7 +262,10 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
 
   function addWebsite() {
     const currentWebsites = watch("websites")
-    setValue("websites", [...currentWebsites, { index: currentWebsites.length, url: "" }])
+    setValue("websites", [
+      ...currentWebsites,
+      { index: currentWebsites.length, url: "" },
+    ])
   }
 
   function removeWebsite(index: number) {
@@ -216,7 +279,10 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
   function handleAddSkill() {
     if (newSkill.trim() !== "") {
       const currentSkills = watch("skills")
-      setValue("skills", [...currentSkills, { index: currentSkills.length, skill: newSkill }])
+      setValue("skills", [
+        ...currentSkills,
+        { index: currentSkills.length, skill: newSkill },
+      ])
       setNewSkill("")
     }
   }
@@ -393,7 +459,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                       Add your portfolio, LinkedIn, or other relevant websites
                     </FormDescription>
 
-                    {watch("websites").map((website, index) => (
+                    {watch("websites").map((_, index) => (
                       <div key={index} className="mt-2 flex items-center gap-2">
                         <FormField
                           control={control}

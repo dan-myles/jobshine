@@ -29,13 +29,13 @@ export default function RootLayout({
       <body
         className={cn(
           garamond.className,
-          "border-border text-foreground antialiased bg-background",
+          "border-border text-foreground bg-background antialiased",
         )}
       >
         <APIProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem={true}
             disableTransitionOnChange={true}
           >
