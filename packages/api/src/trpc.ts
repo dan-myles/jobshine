@@ -33,13 +33,12 @@ type ContextOptions = {
 export const createTRPCContext = async ({ event }: ContextOptions) => {
   const headers = new Headers()
   for (const [key, value] of Object.entries(event?.headers || {})) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     headers.set(key, value!)
   }
 
-  console.log(headers)
-
   const session = await auth.api.getSession({ headers })
+
+  console.log(headers)
   console.log("SESSION >>>", session)
 
   return {

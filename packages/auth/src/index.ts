@@ -12,7 +12,7 @@ export const auth = betterAuth({
       ...schema,
     },
   }),
-  baseURL: `${getBaseUrl()}/api/v1/auth`,
+  baseURL: `${getBaseUrl()}/auth`,
   emailAndPassword: {
     enabled: true,
   },

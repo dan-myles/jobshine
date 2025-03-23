@@ -21,10 +21,6 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
-    "AcmeRouter": {
-      "type": "sst.aws.Router"
-      "url": string
-    }
     "AcmeVPC": {
       "bastion": string
       "type": "sst.aws.Vpc"

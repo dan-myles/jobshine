@@ -72,6 +72,44 @@ export default $config({
         allowCredentials: true,
         allowHeaders: ["Content-Type", "Authorization", "Cookie"],
       },
+      domain: {
+        name: APP.url,
+        dns: sst.cloudflare.dns(),
+        path: "api/v1",
+      },
+    });
+
+    /**
+     * API Routes
+     * General definitions of all API routes go here.
+     */
+    // Vanguard 🛡️
+    api.route("ANY /auth/{proxy+}", {
+      link: [db],
+      handler: "apps/vanguard/src/index.handler",
+      environment: {
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        ...COMMON_ENV,
+      },
+    });
+
+    // Argus 🏹
+    api.route("GET /trpc/{proxy+}", {
+      link: [db],
+      handler: "apps/argus/src/index.handler",
+      environment: {
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        ...COMMON_ENV,
+      },
+    });
+
+    api.route("POST /trpc/{proxy+}", {
+      link: [db],
+      handler: "apps/argus/src/index.handler",
+      environment: {
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        ...COMMON_ENV,
+      },
     });
 
     /**
@@ -89,71 +127,16 @@ export default $config({
         NEXT_PUBLIC_API_URL: api.url,
         ...COMMON_ENV,
       },
-    });
-
-    /**
-     * Router
-     * This is our primary distribution that we'll use to route traffic to our API Gateway.
-     * We'll also use this to route traffic to our frontend.
-     */
-    const router = new sst.aws.Router("AcmeRouter", {
-      ...(APP.url === ""
-        ? {}
-        : {
-            domain: {
-              name: APP.url,
-              ...(APP.provider === "cloudflare"
-                ? { dns: sst.cloudflare.dns() }
-                : {}),
-            },
-          }),
-      routes: {
-        "/*": frontend.url,
-        "/api/v1/auth/*": api.url,
-        "/api/v1/trpc/*": api.url,
-      },
-    });
-
-    /**
-     * API Routes
-     * General definitions of all API routes go here.
-     */
-    // Vanguard 🛡️
-    api.route("ANY /api/v1/auth/{proxy+}", {
-      link: [db],
-      handler: "apps/vanguard/src/index.handler",
-      environment: {
-        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
-        ...COMMON_ENV,
-      },
-    });
-
-    // Argus 🏹
-    api.route("GET /api/v1/trpc/{proxy+}", {
-      link: [db],
-      handler: "apps/argus/src/index.handler",
-      environment: {
-        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
-        ...COMMON_ENV,
-      },
-    });
-
-    api.route("POST /api/v1/trpc/{proxy+}", {
-      link: [db],
-      handler: "apps/argus/src/index.handler",
-      environment: {
-        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BETTER_AUTH_URL: APP.url === "" ? router.url : `https://${APP.url}`,
-        ...COMMON_ENV,
+      domain: {
+        name: APP.url,
+        dns: sst.cloudflare.dns(),
       },
     });
 
     return {
       ...(APP.url === ""
         ? {
-            distribution: router.url,
+            distribution: api.url,
           }
         : {
             distribution: `https://${APP.url}`,
