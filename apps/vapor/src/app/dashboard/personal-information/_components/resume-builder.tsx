@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query"
 
-import { Skeleton } from "@/components/ui/skeleton"
 import { useAPI } from "@/lib/api/client"
 import { useUpdateResume } from "@/stores/resume-store"
 import { ResumeForm } from "./resume-form"
@@ -13,10 +12,14 @@ export function ResumeBuilder() {
   const { data, isPending } = useQuery(api.resume.get.queryOptions())
   const updateResume = useUpdateResume()
 
+  if (data) {
+    updateResume(data)
+  }
+
   return (
     <div className="container mx-auto max-w-7xl">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {data && <ResumeForm resumeData={data} />}
+        {!isPending && data && <ResumeForm resumeData={data} />}
         {!isPending && <ResumeViewer />}
       </div>
     </div>

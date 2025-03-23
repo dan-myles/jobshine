@@ -3,15 +3,15 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { Icons } from "@/components/icons"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Icons } from "@/components/icons"
 
 export function NavHeader() {
   const pathname = usePathname()
-  const parts = pathname.split("/").filter(Boolean)
+  const parts = pathname?.split("/").filter(Boolean)
 
-  const paths = parts.filter((part) => {
+  const paths = parts?.filter((part) => {
     return (
       !part.includes("http") &&
       !part.includes("/") &&
@@ -21,7 +21,7 @@ export function NavHeader() {
     )
   })
 
-  const crumbs = paths.map((path, index) => {
+  const crumbs = paths?.map((path, index) => {
     const href = `/${paths.slice(0, index + 1).join("/")}`
     const name = path
       .replace(/-/g, " ")
@@ -32,8 +32,8 @@ export function NavHeader() {
 
   return (
     <header
-      className="flex h-[--header-height] shrink-0 items-center gap-2 border-b
-        transition-[width,height] ease-linear
+      className="h-[] flex shrink-0 items-center gap-2 border-b transition-[width,height]
+        ease-linear
         group-has-data-[collapsible=icon]/sidebar-wrapper:h-[--header-height]"
     >
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -44,11 +44,11 @@ export function NavHeader() {
         />
         <nav className="p-3">
           <ul className="flex flex-wrap gap-2">
-            {crumbs.map(({ name, href }, index) => (
+            {crumbs?.map(({ name, href }, index) => (
               <li key={href} className="flex items-center gap-1 pr-5">
                 <Link
                   href={href}
-                  className="hover:text-accent-foreground text-lg hover:underline"
+                  className="hover:text-accent-foreground text-md hover:underline"
                 >
                   {name}
                 </Link>
