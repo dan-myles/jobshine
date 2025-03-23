@@ -32,7 +32,6 @@ export function HydrateClient(props: { children: React.ReactNode }) {
   )
 }
 
-// TODO: Fix this horribly unsafe type hack fuckery
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptions: T,

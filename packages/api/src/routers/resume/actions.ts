@@ -5,6 +5,7 @@ import type { Resume, TemplateID } from "@acme/validators"
 import { ResumeTemplate_001 } from "@acme/templates"
 
 import type { TRPCContext } from "../../trpc"
+import { ResumeRepository } from "./resume.repository"
 
 const resume: Resume = {
   fullName: "John Smith",
@@ -91,12 +92,27 @@ const resume: Resume = {
   ],
 }
 
-export function update(resume: Resume, ctx: TRPCContext) {
-  console.log("updating resume")
-  return resume
+export async function update(resume: Resume, ctx: TRPCContext) {
+  if (!ctx.auth) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+
+  console.log("UPDATING TO DB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  return await ResumeRepository.upsert(resume, ctx.auth.user.id, ctx.db)
 }
 
-export function get(ctx: TRPCContext) {
+export async function get(ctx: TRPCContext) {
+  console.log("HELLO!")
+  if (!ctx.auth) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+
+  const data = await ResumeRepository.read("gem11tbmxjemhybbxeyu7r5y", ctx.db)
+  if (!data) {
+    throw new TRPCError({ code: "NOT_FOUND" })
+  }
+  console.log(data)
+
   return resume
 }
 

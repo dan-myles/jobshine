@@ -4,13 +4,30 @@ import { z } from "zod"
  * Schemas
  * Used for generating resumes.
  */
+const BulletSchema = z.object({
+  index: z.number(),
+  bullet: z.string(),
+})
+
+const SkillSchema = z.object({
+  index: z.number(),
+  skill: z.string(),
+})
+
+const WebsiteSchema = z.object({
+  index: z.number(),
+  url: z.string(),
+})
+
 const ProjectSchema = z.object({
+  index: z.number(),
   name: z.string(),
-  bullets: z.string().array(),
   link: z.string(),
+  bullets: BulletSchema.array(),
 })
 
 const EducationSchema = z.object({
+  index: z.number(),
   school: z.string(),
   degree: z.string(),
   field: z.string(),
@@ -20,12 +37,13 @@ const EducationSchema = z.object({
 })
 
 const ExperienceSchema = z.object({
+  index: z.number(),
   company: z.string(),
   title: z.string(),
   from: z.string(),
   to: z.string(),
   location: z.string(),
-  bullets: z.string().array(),
+  bullets: BulletSchema.array(),
 })
 
 const ResumeSchema = z.object({
@@ -33,9 +51,9 @@ const ResumeSchema = z.object({
   location: z.string(),
   email: z.string().email(),
   phone: z.string(),
-  websites: z.string().array(),
   summary: z.string(),
-  skills: z.string().array(),
+  websites: WebsiteSchema.array(),
+  skills: SkillSchema.array(),
   experience: ExperienceSchema.array(),
   education: EducationSchema.array(),
   projects: ProjectSchema.array(),
@@ -43,6 +61,9 @@ const ResumeSchema = z.object({
 
 const TemplateIDSchema = z.enum(["001"])
 
+type Skill = z.infer<typeof SkillSchema>
+type Website = z.infer<typeof WebsiteSchema>
+type Bullet = z.infer<typeof BulletSchema>
 type Project = z.infer<typeof ProjectSchema>
 type Education = z.infer<typeof EducationSchema>
 type Experience = z.infer<typeof ExperienceSchema>
@@ -55,6 +76,9 @@ export {
   ExperienceSchema,
   ResumeSchema,
   TemplateIDSchema,
+  type Skill,
+  type Website,
+  type Bullet,
   type Project,
   type Education,
   type Experience,

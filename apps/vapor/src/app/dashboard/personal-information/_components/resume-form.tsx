@@ -40,7 +40,6 @@ import { useUpdateResume } from "@/stores/resume-store"
 
 type ResumeFormProps = { resumeData: Resume }
 
-// TODO: Add a loading spinner to submit button and disable it while submitting
 export function ResumeForm({ resumeData }: ResumeFormProps) {
   const api = useAPI()
   const updateResume = useUpdateResume()
@@ -950,6 +949,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
               </TabsContent>
 
               <div className="flex justify-end pt-6">
+                {/* TODO: button only shows error message the 2nd time you click */}
                 <Button
                   type="submit"
                   className="bg-primary"

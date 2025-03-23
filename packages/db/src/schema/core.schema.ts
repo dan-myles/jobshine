@@ -75,7 +75,6 @@ export const resumeExperienceBullet = pgTable("resume_experience_bullet", {
   bullet: text("bullet").notNull(),
 })
 
-
 export const resumeProject = pgTable("resume_project", {
   id: text("id").primaryKey().$defaultFn(createId),
   resumeId: text("resume_id")

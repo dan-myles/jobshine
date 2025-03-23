@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server"
 import { eq } from "drizzle-orm"
 
 import type { DB } from "@acme/db/client"
-import type { Resume } from "@acme/validators"
+import type { Bullet, Resume } from "@acme/validators"
 import {
   resume,
   resumeEducation,
@@ -213,26 +213,175 @@ export const ResumeRepository = {
     return inserted.at(0)
   },
 
+  // TODO: Uncombine correlated queries and Promise.all them
   async read(id: string, db: DB) {
     const found = await db
       .select()
       .from(resume)
       .where(eq(resume.id, id))
-      .leftJoin(resumeWebsite, eq(resume.id, resumeWebsite.resumeId))
-      .leftJoin(resumeSkill, eq(resume.id, resumeSkill.resumeId))
-      .leftJoin(resumeEducation, eq(resume.id, resumeEducation.resumeId))
-      .leftJoin(resumeExperience, eq(resume.id, resumeExperience.resumeId))
       .limit(1)
-      .catch((err) => {
-        console.error("Error reading resume:", err)
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to read resume",
-          cause: err,
-        })
-      })
+      .catch(console.error)
+      .then((res) => res?.at(0))
 
-    return found.at(0) || null
+    if (!found) {
+      throw new TRPCError({ code: "NOT_FOUND" })
+    }
+
+    const websites = await db
+      .select()
+      .from(resumeWebsite)
+      .where(eq(resumeWebsite.resumeId, found.id))
+      .then((res) =>
+        res.map((row) => ({
+          id: row.id,
+          index: row.index,
+          url: row.url,
+        })),
+      )
+      .catch(console.error)
+      .then((res) => (!res ? [] : res))
+
+    const skills = await db
+      .select()
+      .from(resumeSkill)
+      .where(eq(resumeSkill.resumeId, found.id))
+      .then((res) =>
+        res.map((row) => ({
+          id: row.id,
+          index: row.index,
+          skill: row.skill,
+        })),
+      )
+      .catch(console.error)
+      .then((res) => (!res ? [] : res))
+
+    const education = await db
+      .select()
+      .from(resumeEducation)
+      .where(eq(resumeEducation.resumeId, found.id))
+      .then((res) =>
+        res.map((row) => ({
+          id: row.id,
+          index: row.index,
+          school: row.school,
+          degree: row.degree,
+          field: row.field,
+          from: row.from,
+          to: row.to,
+          gpa: row.gpa,
+        })),
+      )
+      .catch(console.error)
+      .then((res) => (!res ? [] : res))
+
+    const experience = await db
+      .select()
+      .from(resumeExperience)
+      .where(eq(resumeExperience.resumeId, found.id))
+      .then((res) =>
+        res.map((row) => ({
+          id: row.id,
+          index: row.index,
+          company: row.company,
+          title: row.title,
+          from: row.from,
+          to: row.to,
+          location: row.location,
+          bullets: [] as Bullet[],
+        })),
+      )
+      .catch(console.error)
+      .then((res) => (!res ? [] : res))
+
+    for (const experienceItem of experience) {
+      const experienceBullets = await db
+        .select()
+        .from(resumeExperienceBullet)
+        .where(eq(resumeExperienceBullet.resumeExperienceId, experienceItem.id))
+        .then((res) =>
+          res.map((row) => ({ index: row.index, bullet: row.bullet })),
+        )
+        .catch(console.error)
+        .then((res) => (!res ? [] : res))
+
+      experienceItem.bullets = experienceBullets
+    }
+
+    const projects = await db
+      .select()
+      .from(resumeProject)
+      .where(eq(resumeProject.resumeId, found.id))
+      .then((res) =>
+        res.map((row) => ({
+          id: row.id,
+          index: row.index,
+          name: row.name,
+          link: row.link,
+          bullets: [] as Bullet[],
+        })),
+      )
+      .catch(console.error)
+      .then((res) => (!res ? [] : res))
+
+    for (const project of projects) {
+      const projectBullets = await db
+        .select()
+        .from(resumeProjectBullet)
+        .where(eq(resumeProjectBullet.resumeProjectId, project.id))
+        .then((res) =>
+          res.map((row) => ({ index: row.index, bullet: row.bullet })),
+        )
+        .catch(console.error)
+        .then((res) => (!res ? [] : res))
+
+      project.bullets = projectBullets
+    }
+
+    return {
+      fullName: found.fullName,
+      location: found.location,
+      email: found.email,
+      phone: found.phone,
+      summary: found.summary,
+      websites: websites.map((website) => ({
+        index: website.index,
+        url: website.url,
+      })),
+      skills: skills.map((skill) => ({
+        index: skill.index,
+        skill: skill.skill,
+      })),
+      education: education.map((education) => ({
+        index: education.index,
+        school: education.school,
+        degree: education.degree,
+        field: education.field,
+        from: education.from,
+        to: education.to,
+        gpa: education.gpa,
+      })),
+      experience: experience.map((experience) => ({
+        index: experience.index,
+        company: experience.company,
+        title: experience.title,
+        from: experience.from,
+        to: experience.to,
+        location: experience.location,
+        bullets: experience.bullets.map((b) => ({
+          index: b.index,
+          bullet: b.bullet,
+        })),
+      })),
+      projects: projects.map((project) => ({
+        index: project.index,
+        name: project.name,
+        link: project.link,
+        bullets: project.bullets.map((b) => ({
+          index: b.index,
+          bullet: b.bullet,
+        })),
+      })),
+    } as Resume
   },
 
   async update(id: string, data: Resume, db: DB) {
