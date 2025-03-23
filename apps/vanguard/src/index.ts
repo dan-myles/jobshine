@@ -3,15 +3,15 @@ import { handle } from "hono/aws-lambda"
 import { cors } from "hono/cors"
 
 import { auth } from "@acme/auth"
-import { getBaseUrl } from "@acme/common"
 
 const app = new Hono()
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3000", getBaseUrl()],
+    origin: ["http://localhost:3000", `https://${process.env.BASE_URL}`],
+    allowMethods: ["*"],
+    allowHeaders: ["*"],
     credentials: true,
-    allowHeaders: ["Content-Type", "Authorization"],
   }),
 )
 app.on(["POST", "GET"], "/*", (c) => auth.handler(c.req.raw))

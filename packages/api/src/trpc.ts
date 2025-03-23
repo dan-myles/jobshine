@@ -33,13 +33,11 @@ type ContextOptions = {
 export const createTRPCContext = async ({ event }: ContextOptions) => {
   const headers = new Headers()
   for (const [key, value] of Object.entries(event?.headers || {})) {
+    if (key === "dev-cookie") headers.set("cookie", value!)
     headers.set(key, value!)
   }
 
   const session = await auth.api.getSession({ headers })
-
-  console.log(headers)
-  console.log("SESSION >>>", session)
 
   return {
     db,

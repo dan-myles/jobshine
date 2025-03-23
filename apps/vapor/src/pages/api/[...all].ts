@@ -6,6 +6,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(404)
   }
 
+  const cookies = req.headers.cookie ?? ""
+  console.log("cookies", cookies)
+
   void httpProxyMiddleware(req, res, {
     target: process.env.NEXT_PUBLIC_BASE_URL,
     pathRewrite: [
@@ -14,5 +17,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         replaceStr: "/api/",
       },
     ],
+    headers: {
+      "dev-cookie": cookies,
+    },
   })
 }

@@ -65,12 +65,10 @@ export default $config({
     const api = new sst.aws.ApiGatewayV2("AcmeAPI", {
       vpc,
       cors: {
-        allowOrigins: [
-          "http://localhost:3000",
-          APP.url === "" ? "" : `https://${APP.url}`,
-        ],
+        allowOrigins: ["http://localhost:3000", `https://${APP.url}`],
+        allowMethods: ["*"],
+        allowHeaders: ["*"],
         allowCredentials: true,
-        allowHeaders: ["Content-Type", "Authorization", "Cookie"],
       },
       domain: {
         name: APP.url,
@@ -89,6 +87,7 @@ export default $config({
       handler: "apps/vanguard/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        BASE_URL: APP.url,
         ...COMMON_ENV,
       },
     });
