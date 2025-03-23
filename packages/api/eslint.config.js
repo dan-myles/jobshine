@@ -4,6 +4,10 @@ import baseConfig from "@acme/eslint-config/base"
 export default [
   {
     ignores: ["dist/**"],
+    rules: {
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-member-access": "off",
+    },
   },
   ...baseConfig,
 ]

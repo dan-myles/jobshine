@@ -31,8 +31,7 @@ export function ResumeViewer() {
     return (
       <PDFViewer
         showToolbar={false}
-        className="sticky top-10 h-full max-h-[88vh] min-h-[88vh] w-full rounded-md bg-gray-600
-          p-0.5 shadow-lg"
+        className="h-full max-h-[88vh] min-h-[88vh] w-full rounded-md bg-gray-600 p-0.5 shadow-lg"
       >
         <ResumeTemplate_001 resume={resumeData} />
       </PDFViewer>
@@ -40,8 +39,15 @@ export function ResumeViewer() {
   }
 
   return (
-    <div key={key}>
+    <div
+      key={key}
+      className="sticky top-10 max-h-[88vh] min-h-[88vh] w-full"
+    >
       <PDFViewerComponent />
+      <div className="text-muted-foreground p-1 text-sm">
+        *This is the default template. Other templates are available when
+        generating a resume.
+      </div>
     </div>
   )
 }

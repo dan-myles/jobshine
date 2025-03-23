@@ -7,7 +7,7 @@ import { z } from "zod"
 const ProjectSchema = z.object({
   name: z.string(),
   bullets: z.string().array(),
-  link: z.string().url().optional(),
+  link: z.string(),
 })
 
 const EducationSchema = z.object({
@@ -16,7 +16,7 @@ const EducationSchema = z.object({
   field: z.string(),
   from: z.string(),
   to: z.string(),
-  gpa: z.string().optional(),
+  gpa: z.string(),
 })
 
 const ExperienceSchema = z.object({
@@ -33,7 +33,7 @@ const ResumeSchema = z.object({
   location: z.string(),
   email: z.string().email(),
   phone: z.string(),
-  websites: z.string().url().array(),
+  websites: z.string().array(),
   summary: z.string(),
   skills: z.string().array(),
   experience: ExperienceSchema.array(),

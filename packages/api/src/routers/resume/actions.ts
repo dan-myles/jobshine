@@ -86,11 +86,13 @@ const resume: Resume = {
         "Implemented dark/light mode and animations using Framer Motion",
         "Integrated a contact form with serverless functions",
       ],
+      link: "",
     },
   ],
 }
 
 export function update(resume: Resume, ctx: TRPCContext) {
+  console.log("updating resume")
   return resume
 }
 

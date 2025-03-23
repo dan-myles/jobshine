@@ -35,6 +35,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useAPI } from "@/lib/api/client"
+import { cn } from "@/lib/utils"
 import { useUpdateResume } from "@/stores/resume-store"
 
 type ResumeFormProps = { resumeData: Resume }
@@ -70,7 +71,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     setValue,
     handleSubmit,
     reset,
-    formState: { isDirty },
+    formState: { isDirty, errors },
   } = form
 
   useEffect(() => {
@@ -223,6 +224,35 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     )
   }
 
+  function handleOnClickError() {
+    if (
+      errors.projects ||
+      errors.education ||
+      errors.experience ||
+      errors.skills ||
+      errors.summary ||
+      errors.fullName ||
+      errors.location ||
+      errors.email ||
+      errors.phone ||
+      errors.websites
+    ) {
+      toast.error("There are errors in your resume!", {
+        description:
+          errors.projects?.message ||
+          errors.education?.message ||
+          errors.experience?.message ||
+          errors.skills?.message ||
+          errors.summary?.message ||
+          errors.fullName?.message ||
+          errors.location?.message ||
+          errors.email?.message ||
+          errors.phone?.message ||
+          errors.websites?.message,
+      })
+    }
+  }
+
   function handleFormSubmit(data: Resume) {
     submitResume.mutate({
       resume: data,
@@ -239,11 +269,48 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
       <TabsList className="mb-6 flex w-full flex-row">
-        <TabsTrigger value="personal">Personal</TabsTrigger>
-        <TabsTrigger value="summary">Summary</TabsTrigger>
-        <TabsTrigger value="experience">Experience</TabsTrigger>
-        <TabsTrigger value="education">Education</TabsTrigger>
-        <TabsTrigger value="projects">Projects</TabsTrigger>
+        <TabsTrigger
+          value="personal"
+          className={cn(
+            (errors.fullName ||
+              errors.location ||
+              errors.email ||
+              errors.phone ||
+              errors.websites) &&
+              "!text-destructive animate-bounce",
+          )}
+        >
+          Personal
+        </TabsTrigger>
+        <TabsTrigger
+          value="summary"
+          className={cn(
+            (errors.summary || errors.skills) &&
+              "!text-destructive animate-bounce",
+          )}
+        >
+          Summary
+        </TabsTrigger>
+        <TabsTrigger
+          value="experience"
+          className={cn(
+            errors.experience && "!text-destructive animate-bounce",
+          )}
+        >
+          Experience
+        </TabsTrigger>
+        <TabsTrigger
+          value="education"
+          className={cn(errors.education && "!text-destructive animate-bounce")}
+        >
+          Education
+        </TabsTrigger>
+        <TabsTrigger
+          value="projects"
+          className={cn(errors.projects && "!text-destructive animate-bounce")}
+        >
+          Projects
+        </TabsTrigger>
       </TabsList>
 
       <Card className="border shadow">
@@ -887,6 +954,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                   type="submit"
                   className="bg-primary"
                   disabled={!isDirty || submitResume.isPending}
+                  onClick={handleOnClickError}
                 >
                   {submitResume.isPending ? (
                     <>

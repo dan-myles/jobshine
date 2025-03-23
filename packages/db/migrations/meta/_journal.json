@@ -8,6 +8,27 @@
       "when": 1742240307397,
       "tag": "0000_public_sinister_six",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742747141962,
+      "tag": "0001_nifty_human_robot",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742749083057,
+      "tag": "0002_nifty_snowbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1742749144847,
+      "tag": "0003_chunky_polaris",
+      "breakpoints": true
     }
   ]
 }

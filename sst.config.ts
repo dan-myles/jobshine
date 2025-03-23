@@ -132,17 +132,19 @@ export default $config({
       },
     });
 
+    /** Dev Commands */
+    new sst.x.DevCommand("AcmeStudio", {
+      link: [db],
+      dev: {
+        autostart: true,
+        command: "pnpm -F @acme/db non-tunnel-studio",
+      }
+
+    })
+
     return {
-      ...(APP.url === ""
-        ? {
-            distribution: api.url,
-          }
-        : {
-            distribution: `https://${APP.url}`,
-          }),
-      api: api.url,
       frontend: frontend.url,
-      db: db.id,
+      backend: api.url,
     };
   },
 });
