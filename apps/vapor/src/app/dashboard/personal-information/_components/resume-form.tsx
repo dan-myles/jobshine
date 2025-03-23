@@ -1,16 +1,18 @@
-/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 "use client"
 
 import { useEffect, useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react"
+import { useMutation } from "@tanstack/react-query"
+import { Plus, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 import type { Resume } from "@acme/validators"
 import { ResumeSchema } from "@acme/validators"
 
+import { Icons } from "@/components/icons"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -32,22 +34,44 @@ import {
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import { useAPI } from "@/lib/api/client"
 import { useUpdateResume } from "@/stores/resume-store"
 
 type ResumeFormProps = { resumeData: Resume }
 
+// TODO: Add a loading spinner to submit button and disable it while submitting
 export function ResumeForm({ resumeData }: ResumeFormProps) {
-  const [activeTab, setActiveTab] = useState("personal")
+  const api = useAPI()
   const updateResume = useUpdateResume()
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [newSkill, setNewSkill] = useState("")
+  const [activeTab, setActiveTab] = useState("personal")
+
+  const submitResume = useMutation(
+    api.resume.update.mutationOptions({
+      onSuccess: () => {
+        toast.success("Resume saved successfully!")
+        reset()
+      },
+      onError: () => {
+        toast.error("Failed to save resume.")
+      },
+    }),
+  )
 
   const form = useForm<Resume>({
     resolver: zodResolver(ResumeSchema),
     defaultValues: resumeData,
   })
 
-  const { control, watch, setValue, handleSubmit } = form
+  const {
+    control,
+    watch,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = form
 
   useEffect(() => {
     const subscription = watch((values) => {
@@ -199,22 +223,13 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     )
   }
 
-  function navigateTab(direction: "next" | "prev") {
-    const tabs = ["personal", "summary", "experience", "education", "projects"]
-    const currentIndex = tabs.indexOf(activeTab)
-
-    if (direction === "next" && currentIndex < tabs.length - 1) {
-      setActiveTab(tabs[currentIndex + 1] as string)
-    } else if (direction === "prev" && currentIndex > 0) {
-      setActiveTab(tabs[currentIndex - 1] as string)
-    }
-  }
-
   function handleFormSubmit(data: Resume) {
-    console.log(data)
+    submitResume.mutate({
+      resume: data,
+    })
   }
 
-  function handleKeyDownSkillAdd(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       e.preventDefault()
       handleAddSkill()
@@ -223,7 +238,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="mb-6 grid w-full grid-cols-5">
+      <TabsList className="mb-6 flex w-full flex-row">
         <TabsTrigger value="personal">Personal</TabsTrigger>
         <TabsTrigger value="summary">Summary</TabsTrigger>
         <TabsTrigger value="experience">Experience</TabsTrigger>
@@ -403,7 +418,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                         placeholder="Add a skill"
                         value={newSkill}
                         onChange={(e) => setNewSkill(e.target.value)}
-                        onKeyDown={handleKeyDownSkillAdd}
+                        onKeyDown={handleKeyDown}
                       />
                       <Button
                         type="button"
@@ -867,25 +882,20 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                 </div>
               </TabsContent>
 
-              <div className="flex justify-between pt-6">
+              <div className="flex justify-end pt-6">
                 <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => navigateTab("prev")}
-                  disabled={activeTab === "personal"}
+                  type="submit"
+                  className="bg-primary"
+                  disabled={!isDirty || submitResume.isPending}
                 >
-                  <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+                  {submitResume.isPending ? (
+                    <>
+                      <Icons.Spinner className="h-4 w-4" />
+                    </>
+                  ) : (
+                    "Save Resume"
+                  )}
                 </Button>
-
-                {activeTab === "projects" ? (
-                  <Button type="submit" className="bg-primary">
-                    Save Resume
-                  </Button>
-                ) : (
-                  <Button type="button" onClick={() => navigateTab("next")}>
-                    Next <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
               </div>
             </form>
           </Form>
