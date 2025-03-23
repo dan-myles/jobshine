@@ -174,6 +174,18 @@ const styles = StyleSheet.create({
 })
 
 export function ResumeTemplate_001({ resume }: { resume: Resume }) {
+  const sortedWebsites = resume.websites.sort((a, b) => a.index - b.index)
+  const sortedSkills = resume.skills.sort((a, b) => a.index - b.index)
+  const sortedEducation = resume.education.sort((a, b) => a.index - b.index)
+  const sortedExperience = resume.experience.sort((a, b) => a.index - b.index)
+  const sortedProjects = resume.projects.sort((a, b) => a.index - b.index)
+  const sortedExpBullets = resume.experience
+    .flatMap((exp) => exp.bullets)
+    .sort((a, b) => a.index - b.index)
+  const sortedProjBullets = resume.projects
+    .flatMap((proj) => proj.bullets)
+    .sort((a, b) => a.index - b.index)
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -189,12 +201,12 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
             {resume.email}
             {"  "}•{"  "}
             {resume.phone}
-            {resume.websites.map((website, index) => (
-              <Link key={index} src={website} style={styles.websiteLink}>
+            {sortedWebsites.map((website, index) => (
+              <Link key={index} src={website.url} style={styles.websiteLink}>
                 <Text style={{ color: "black" }}>
                   {"  "}•{"  "}
                 </Text>
-                {website.replace("https://", "")}
+                {website.url}
               </Link>
             ))}
           </Text>
@@ -212,10 +224,10 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
           <Text style={styles.sectionHeader}>SKILLS</Text>
           <View style={styles.sectionDivider} />
           <Text>
-            {resume.skills.map((skill, index) => (
+            {sortedSkills.map((skill, index) => (
               <Text key={index}>
-                {skill}
-                {index < resume.skills.length - 1 ? ", " : ""}
+                {skill.skill}
+                {index < sortedSkills.length - 1 ? ", " : ""}
               </Text>
             ))}
           </Text>
@@ -226,7 +238,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
           <Text style={styles.sectionHeader}>EXPERIENCE</Text>
           <View style={styles.sectionDivider} />
 
-          {resume.experience.map((exp, index) => (
+          {sortedExperience.map((exp, index) => (
             <View
               key={index}
               style={{
@@ -244,8 +256,8 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                 <Text style={styles.experienceLocation}>{exp.location}</Text>
               </View>
               <View style={styles.experienceBulletContainer}>
-                {exp.bullets.map((bullet, index) => (
-                  <Text key={index}>• {bullet}</Text>
+                {sortedExpBullets.map((bullet, index) => (
+                  <Text key={index}>• {bullet.bullet}</Text>
                 ))}
               </View>
             </View>
@@ -257,7 +269,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
           <Text style={styles.sectionHeader}>PROJECTS</Text>
           <View style={styles.sectionDivider} />
 
-          {resume.projects.map((project, index) => (
+          {sortedProjects.map((project, index) => (
             <View
               key={index}
               style={{
@@ -270,14 +282,14 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                   <>
                     <Text style={styles.projectDot}>{"  "}•</Text>
                     <Link src={project.link} style={styles.projectLink}>
-                      {project.link.replace("https://", "")}
+                      {project.link}
                     </Link>
                   </>
                 )}
               </View>
               <View>
-                {project.bullets.map((bullet, index) => (
-                  <Text key={index}>• {bullet}</Text>
+                {sortedProjBullets.map((bullet, index) => (
+                  <Text key={index}>• {bullet.bullet}</Text>
                 ))}
               </View>
             </View>
@@ -289,7 +301,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
           <Text style={styles.sectionHeader}>EDUCATION</Text>
           <View style={styles.sectionDivider} />
 
-          {resume.education.map((edu, index) => (
+          {sortedEducation.map((edu, index) => (
             <View
               key={index}
               style={{

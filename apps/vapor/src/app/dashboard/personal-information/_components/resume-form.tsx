@@ -98,12 +98,13 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     setValue("experience", [
       ...currentValues,
       {
+        index: currentValues.length,
         company: "",
         title: "",
         from: "",
         to: "",
         location: "",
-        bullets: [""],
+        bullets: [],
       },
     ])
   }
@@ -121,6 +122,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     setValue("education", [
       ...currentValues,
       {
+        index: currentValues.length,
         school: "",
         degree: "",
         field: "",
@@ -144,8 +146,9 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     setValue("projects", [
       ...currentValues,
       {
+        index:  currentValues.length,
         name: "",
-        bullets: [""],
+        bullets: [],
         link: "",
       },
     ])
@@ -162,7 +165,10 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
   function addExperienceBullet(expIndex: number) {
     const currentValues = watch("experience")
     const updatedValues = [...currentValues]
-    updatedValues[expIndex]!.bullets = [...updatedValues[expIndex]!.bullets, ""]
+    updatedValues[expIndex]!.bullets = [
+      ...updatedValues[expIndex]!.bullets,
+      { index: currentValues.length, bullet: "" },
+    ]
     setValue("experience", updatedValues)
   }
 
@@ -180,7 +186,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
     const updatedValues = [...currentValues]
     updatedValues[projIndex]!.bullets = [
       ...updatedValues[projIndex]!.bullets,
-      "",
+      { index: currentValues.length, bullet: "" },
     ]
     setValue("projects", updatedValues)
   }
@@ -196,7 +202,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
 
   function addWebsite() {
     const currentWebsites = watch("websites")
-    setValue("websites", [...currentWebsites, ""])
+    setValue("websites", [...currentWebsites, { index: currentWebsites.length, url: "" }])
   }
 
   function removeWebsite(index: number) {
@@ -210,7 +216,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
   function handleAddSkill() {
     if (newSkill.trim() !== "") {
       const currentSkills = watch("skills")
-      setValue("skills", [...currentSkills, newSkill])
+      setValue("skills", [...currentSkills, { index: currentSkills.length, skill: newSkill }])
       setNewSkill("")
     }
   }
@@ -387,11 +393,11 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                       Add your portfolio, LinkedIn, or other relevant websites
                     </FormDescription>
 
-                    {watch("websites").map((_, index) => (
+                    {watch("websites").map((website, index) => (
                       <div key={index} className="mt-2 flex items-center gap-2">
                         <FormField
                           control={control}
-                          name={`websites.${index}`}
+                          name={`websites.${index}.url`}
                           render={({ field }) => (
                             <FormItem className="flex-1">
                               <FormControl>
@@ -465,7 +471,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                               variant="secondary"
                               className="px-2 py-1 text-sm"
                             >
-                              {skill}
+                              {skill.skill}
                               <button
                                 type="button"
                                 className="text-muted-foreground hover:text-foreground ml-1"
@@ -628,7 +634,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                               >
                                 <FormField
                                   control={control}
-                                  name={`experience.${expIndex}.bullets.${bulletIndex}`}
+                                  name={`experience.${expIndex}.bullets.${bulletIndex}.bullet`}
                                   render={({ field }) => (
                                     <FormItem className="flex-1">
                                       <FormControl>
@@ -901,7 +907,7 @@ export function ResumeForm({ resumeData }: ResumeFormProps) {
                               >
                                 <FormField
                                   control={control}
-                                  name={`projects.${projIndex}.bullets.${bulletIndex}`}
+                                  name={`projects.${projIndex}.bullets.${bulletIndex}.bullet`}
                                   render={({ field }) => (
                                     <FormItem className="flex-1">
                                       <FormControl>

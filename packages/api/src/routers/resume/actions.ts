@@ -12,57 +12,81 @@ const resume: Resume = {
   location: "Whoville, Kansas",
   email: "john@gmail.com",
   phone: "(111) 222 - 3344",
-  websites: ["https://github.com/john", "https://linkedin.com/in/john"],
+  websites: [
+    { index: 0, url: "https://github.com/john" },
+    { index: 1, url: "https://linkedin.com/in/john" }
+  ],
   summary:
     "Dedicated software engineer with 3+ years of experience developing web applications using modern JavaScript frameworks. Passionate about creating efficient, scalable, and user-friendly solutions. Strong problem-solving skills and experience working in agile environments.",
   skills: [
-    "TypeScript",
-    "React",
-    "Node.js",
-    "Express",
-    "Next.js",
-    "Firebase",
-    "D3.js",
-    "Git",
-    "Docker",
-    "AWS",
-    "CI/CD",
-    "MongoDB",
-    "PostgreSQL",
-    "MySQL",
-    "SQLite",
-    "Redis",
-    "Elasticsearch",
-    "Kafka",
+    { index: 0, skill: "TypeScript" },
+    { index: 1, skill: "React" },
+    { index: 2, skill: "Node.js" },
+    { index: 3, skill: "Express" },
+    { index: 4, skill: "Next.js" },
+    { index: 5, skill: "Firebase" },
+    { index: 6, skill: "D3.js" },
+    { index: 7, skill: "Git" },
+    { index: 8, skill: "Docker" },
+    { index: 9, skill: "AWS" },
+    { index: 10, skill: "CI/CD" },
+    { index: 11, skill: "MongoDB" },
+    { index: 12, skill: "PostgreSQL" },
+    { index: 13, skill: "MySQL" },
+    { index: 14, skill: "SQLite" },
+    { index: 15, skill: "Redis" },
+    { index: 16, skill: "Elasticsearch" },
+    { index: 17, skill: "Kafka" }
   ],
   experience: [
     {
+      index: 0,
       company: "Tech Company Inc.",
       title: "Software Engineer",
       from: "Jan 2021",
       to: "Present",
       location: "San Francisco, CA",
       bullets: [
-        "Implemented responsive UI components with React and TypeScript. Implemented responsive UI components with React and TypeScript. Implemented responsive UI components with React and TypeScript.",
-        "Collaborated with cross-functional teams to deliver features on time",
-        "Optimized database queries resulting in 40% faster load times",
+        {
+          index: 0,
+          bullet: "Implemented responsive UI components with React and TypeScript. Implemented responsive UI components with React and TypeScript. Implemented responsive UI components with React and TypeScript."
+        },
+        {
+          index: 1,
+          bullet: "Collaborated with cross-functional teams to deliver features on time"
+        },
+        {
+          index: 2,
+          bullet: "Optimized database queries resulting in 40% faster load times"
+        }
       ],
     },
     {
+      index: 1,
       company: "Startup Co.",
       title: "Software Engineering Intern",
       from: "May 2020",
       to: "Aug 2020",
       location: "Boston, MA",
       bullets: [
-        "Built a data visualization dashboard using React and D3.js",
-        "Participated in daily stand-ups and sprint planning",
-        "Implemented user authentication system using Firebase",
+        {
+          index: 0,
+          bullet: "Built a data visualization dashboard using React and D3.js"
+        },
+        {
+          index: 1,
+          bullet: "Participated in daily stand-ups and sprint planning"
+        },
+        {
+          index: 2,
+          bullet: "Implemented user authentication system using Firebase"
+        }
       ],
     },
   ],
   education: [
     {
+      index: 0,
       school: "University of California, Berkeley",
       degree: "Bachelor of Science",
       field: "Computer Science",
@@ -73,24 +97,42 @@ const resume: Resume = {
   ],
   projects: [
     {
+      index: 0,
       name: "E-commerce Platform",
       bullets: [
-        "Implemented product catalog, shopping cart, and payment processing",
-        "Utilized Redux for state management and responsive design principles",
+        {
+          index: 0,
+          bullet: "Implemented product catalog, shopping cart, and payment processing"
+        },
+        {
+          index: 1,
+          bullet: "Utilized Redux for state management and responsive design principles"
+        }
       ],
       link: "https://github.com/john/ecommerce",
     },
     {
+      index: 1,
       name: "Personal Portfolio Website",
       bullets: [
-        "Designed and developed a responsive portfolio website",
-        "Implemented dark/light mode and animations using Framer Motion",
-        "Integrated a contact form with serverless functions",
+        {
+          index: 0,
+          bullet: "Designed and developed a responsive portfolio website"
+        },
+        {
+          index: 1,
+          bullet: "Implemented dark/light mode and animations using Framer Motion"
+        },
+        {
+          index: 2,
+          bullet: "Integrated a contact form with serverless functions"
+        }
       ],
       link: "",
     },
   ],
-}
+};
+
 
 export async function update(resume: Resume, ctx: TRPCContext) {
   if (!ctx.auth) {

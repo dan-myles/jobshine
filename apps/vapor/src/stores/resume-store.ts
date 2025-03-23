@@ -19,21 +19,23 @@ const useResumeStore = create<ResumeState & ResumeActions>((set) => ({
     location: "",
     email: "",
     phone: "",
-    websites: [""],
+    websites: [],
     summary: "",
-    skills: [""],
+    skills: [],
     experience: [
       {
+        index: 0,
         company: "",
         title: "",
         from: "",
         to: "",
         location: "",
-        bullets: [""],
+        bullets: [],
       },
     ],
     education: [
       {
+        index: 0,
         school: "",
         degree: "",
         field: "",
@@ -44,8 +46,9 @@ const useResumeStore = create<ResumeState & ResumeActions>((set) => ({
     ],
     projects: [
       {
+        index: 0,
         name: "",
-        bullets: [""],
+        bullets: [],
         link: "",
       },
     ],
