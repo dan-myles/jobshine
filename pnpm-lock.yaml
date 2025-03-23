@@ -498,6 +498,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@acme/validators':
+        specifier: workspace:*
+        version: link:../validators
       '@paralleldrive/cuid2':
         specifier: ^2.2.2
         version: 2.2.2

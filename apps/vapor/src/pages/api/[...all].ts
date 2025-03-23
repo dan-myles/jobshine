@@ -7,7 +7,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const cookies = req.headers.cookie ?? ""
-  console.log("cookies", cookies)
 
   void httpProxyMiddleware(req, res, {
     target: process.env.NEXT_PUBLIC_BASE_URL,

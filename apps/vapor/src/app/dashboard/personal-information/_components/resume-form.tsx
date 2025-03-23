@@ -49,8 +49,8 @@ export function ResumeForm() {
   const submitResume = useMutation(
     api.resume.update.mutationOptions({
       onSuccess: () => {
-        toast.success("Resume saved successfully!")
         invalidateResume()
+        toast.success("Resume saved successfully!")
       },
       onError: () => {
         toast.error("Failed to save resume.")

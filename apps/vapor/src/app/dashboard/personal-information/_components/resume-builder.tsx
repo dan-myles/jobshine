@@ -19,15 +19,15 @@ export const ResumeContext = createContext<ResumeContext>({} as ResumeContext)
 
 export function ResumeBuilder() {
   const api = useAPI()
-  const { data, isPending } = useQuery(api.resume.read.queryOptions())
+  const { data, isPending } = useQuery(api.resume.readLatest.queryOptions())
   const [resumeData, setResumeData] = useState<Resume | undefined>(undefined)
   const [isLoading, setisLoading] = useState(true)
 
-  // TODO: Find a way to stop this from re-rendering when the state update is the exact same
-  // Also refer to resume-viewer.tsx line 25
   useEffect(() => {
-    setResumeData(data as Resume)
-    setisLoading(isPending)
+    if (data?.resume) {
+      setResumeData(data.resume)
+      setisLoading(isPending)
+    }
   }, [data, isPending])
 
   return (

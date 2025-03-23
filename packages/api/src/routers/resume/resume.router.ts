@@ -23,9 +23,11 @@ export const resumeRouter = {
       )
     }),
   read: privateProcedure.query(async ({ ctx }) => {
-    const res = await ResumeRepository.read(ctx.auth.user.id, ctx.db)
-    console.log(res.fullName)
-    return res
+    return await ResumeRepository.read(ctx.auth.user.id, ctx.db)
+  }),
+  readLatest: privateProcedure.query(async ({ ctx }) => {
+    console.log("READING LATEST RESUME >>>")
+    return await ResumeRepository.readLatest(ctx.auth.user.id, ctx.db)
   }),
   update: privateProcedure
     .input(
@@ -34,8 +36,7 @@ export const resumeRouter = {
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      console.log("UPDATING RESUME WITH NAME >>>", input.resume.fullName)
-      return await ResumeRepository.upsert(
+      return await ResumeRepository.update(
         ctx.auth.user.id,
         input.resume,
         ctx.db,
@@ -44,6 +45,19 @@ export const resumeRouter = {
   delete: privateProcedure.mutation(async ({ ctx }) => {
     return await ResumeRepository.delete(ctx.auth.user.id, ctx.db)
   }),
+  upsert: privateProcedure
+    .input(
+      z.object({
+        resume: ResumeSchema,
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return await ResumeRepository.upsert(
+        ctx.auth.user.id,
+        input.resume,
+        ctx.db,
+      )
+    }),
   generate: privateProcedure
     .input(
       z.object({
