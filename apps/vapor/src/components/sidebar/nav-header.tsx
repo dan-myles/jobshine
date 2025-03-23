@@ -32,7 +32,7 @@ export function NavHeader() {
 
   return (
     <header
-      className="h-[] flex shrink-0 items-center gap-2 border-b transition-[width,height]
+      className="h-[] flex shrink-0 items-center gap-2 border-b p-2 transition-[width,height]
         ease-linear
         group-has-data-[collapsible=icon]/sidebar-wrapper:h-[--header-height]"
     >

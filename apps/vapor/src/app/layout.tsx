@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={cn(
           garamond.className,
-          "border-border bg-background text-foreground antialiased",
+          "border-border text-foreground antialiased bg-background",
         )}
       >
         <APIProvider>
