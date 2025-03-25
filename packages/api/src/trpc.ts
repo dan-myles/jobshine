@@ -93,11 +93,11 @@ export const createTRPCRouter = t.router
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now()
 
-  // if (t._config.isDev) {
-  //   // Artificial delay in dev 100-500ms
-  //   const waitMs = Math.floor(Math.random() * 400) + 100
-  //   await new Promise((resolve) => setTimeout(resolve, waitMs))
-  // }
+  if (t._config.isDev) {
+    // Artificial delay in dev 100-500ms
+    const waitMs = Math.floor(Math.random() * 400) + 100
+    await new Promise((resolve) => setTimeout(resolve, waitMs))
+  }
 
   const result = await next()
 
@@ -112,7 +112,6 @@ const authMiddleware = t.middleware(async ({ ctx, next }) => {
 
   if (!auth) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
-
   }
 
   return next({

@@ -59,7 +59,7 @@ const ResumeSchema = z.object({
   projects: ProjectSchema.array(),
 })
 
-const TemplateIDSchema = z.enum(["001"])
+const ResumeTemplateIDSchema = z.enum(["001", "002"])
 
 type Skill = z.infer<typeof SkillSchema>
 type Website = z.infer<typeof WebsiteSchema>
@@ -68,14 +68,14 @@ type Project = z.infer<typeof ProjectSchema>
 type Education = z.infer<typeof EducationSchema>
 type Experience = z.infer<typeof ExperienceSchema>
 type Resume = z.infer<typeof ResumeSchema>
-type TemplateID = z.infer<typeof TemplateIDSchema>
+type ResumeTemplateID = z.infer<typeof ResumeTemplateIDSchema>
 
 export {
   ProjectSchema,
   EducationSchema,
   ExperienceSchema,
   ResumeSchema,
-  TemplateIDSchema,
+  ResumeTemplateIDSchema,
   type Skill,
   type Website,
   type Bullet,
@@ -83,5 +83,5 @@ export {
   type Education,
   type Experience,
   type Resume,
-  type TemplateID,
+  type ResumeTemplateID,
 }

@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>Cover Letters</div>
+  return <main>Cover Letters</main>
 }

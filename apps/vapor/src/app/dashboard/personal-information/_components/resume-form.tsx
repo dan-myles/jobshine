@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
+// TODO:
+// - fix not more than 3 bullets showing up
+// - fix using delete buttons dont mark form dirty
+
 "use client"
 
 import { use, useEffect, useRef, useState } from "react"
@@ -49,8 +53,8 @@ export function ResumeForm() {
   const submitResume = useMutation(
     api.resume.update.mutationOptions({
       onSuccess: () => {
-        invalidateResume()
         toast.success("Resume saved successfully!")
+        invalidateResume().catch(console.error)
       },
       onError: () => {
         toast.error("Failed to save resume.")
@@ -147,6 +151,7 @@ export function ResumeForm() {
       }
       subscription.unsubscribe()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch])
 
   async function invalidateResume() {
