@@ -6,3 +6,4 @@ export function getBaseUrl() {
 
   return `http://localhost:${process.env.PORT ?? 3000}`
 }
+

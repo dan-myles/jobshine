@@ -2,7 +2,11 @@ import ReactPDF from "@react-pdf/renderer"
 import { z } from "zod"
 
 import { ResumeTemplate_001 } from "@acme/templates"
-import { ResumeSchema, ResumeTemplateIDSchema, ResumeTemplateID } from "@acme/validators"
+import {
+  ResumeSchema,
+  ResumeTemplateID,
+  ResumeTemplateIDSchema,
+} from "@acme/validators"
 
 import type { TRPCRouterRecord } from "@trpc/server"
 import { privateProcedure } from "../../trpc"
@@ -70,13 +74,4 @@ export const resumeRouter = {
         input.templateID,
       )
     }),
-  templates: privateProcedure.query(() => {
-    return ResumeTemplateIDSchema.options.map((templateID) => {
-      return {
-        id: templateID,
-        image: `/resume-templates/${templateID}.png`,
-      }
-    })
-
-  }),
 } satisfies TRPCRouterRecord

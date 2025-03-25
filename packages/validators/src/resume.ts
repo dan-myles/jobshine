@@ -59,7 +59,7 @@ const ResumeSchema = z.object({
   projects: ProjectSchema.array(),
 })
 
-const ResumeTemplateIDSchema = z.enum(["001", "002"])
+const ResumeTemplateIDSchema = z.enum(["001"])
 
 type Skill = z.infer<typeof SkillSchema>
 type Website = z.infer<typeof WebsiteSchema>
