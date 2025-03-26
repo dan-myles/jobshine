@@ -1,7 +1,8 @@
-import { ResumeTemplateIDSchema } from "@acme/validators"
 import { z } from "zod"
 
-export const generateSchema = z.object({
+import { ResumeTemplateIDSchema } from "@acme/validators"
+
+export const resumeGenerateSchema = z.object({
   jobDescription: z.string().min(1, "Please enter a job description."),
   documentType: z.enum(["resume", "cover-letter"]).default("resume"),
   resumeTemplate: ResumeTemplateIDSchema.optional(),

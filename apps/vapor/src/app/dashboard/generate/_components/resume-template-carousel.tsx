@@ -1,11 +1,13 @@
 "use client"
 
 import type { z } from "zod"
+import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
+import type { resumeGenerateSchema } from "@acme/validators"
 import { ResumeTemplateIDSchema } from "@acme/validators"
 
-import type { generateSchema } from "./form.schema"
+import type { CarouselApi } from "@/components/ui/carousel"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -17,7 +19,8 @@ import {
 import { PreviewImage } from "./generate-preview-image"
 
 export function ResumeTemplateCarousel() {
-  const { setValue } = useFormContext<z.infer<typeof generateSchema>>()
+  const { setValue } = useFormContext<z.infer<typeof resumeGenerateSchema>>()
+  const [api, setApi] = useState<CarouselApi>()
 
   const templates = ResumeTemplateIDSchema.options.map((templateID) => {
     return {
@@ -26,18 +29,36 @@ export function ResumeTemplateCarousel() {
     }
   })
 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    // TODO: Fix going out of bounds of the carousel enum values
+    const selected = `00${api.selectedScrollSnap() + 1}`
+    const input = ResumeTemplateIDSchema.parse(selected)
+    setValue("resumeTemplate", input)
+
+    api.on("select", () => {
+      const selected = `00${api.selectedScrollSnap() + 1}`
+      const input = ResumeTemplateIDSchema.parse(selected)
+      setValue("resumeTemplate", input)
+    })
+  }, [api])
+
   return (
-    <Carousel className="h-full w-full">
+    <Carousel className="h-full w-full" setApi={setApi}>
       <CarouselContent>
         {templates.map((template) => (
           <CarouselItem key={template.id} className="pl-1 md:pl-1">
             <div className="flex h-full flex-col justify-center p-4">
-              <div className="mx-auto max-w-[12vw] rounded-md border shadow-md">
+              <div className="mx-auto max-w-[14vw] rounded-md border shadow-md">
                 <PreviewImage src={template.image} />
               </div>
             </div>
           </CarouselItem>
         ))}
+
         <CarouselItem className="pl-1 md:pl-1">
           <div className="p-1">
             <Card

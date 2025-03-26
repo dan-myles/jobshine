@@ -16,22 +16,22 @@ Font.register({
   family: "Garamond",
   fonts: [
     {
-      src: `http://localhost:3000/fonts/EBGaramond-Regular.ttf`,
+      src: `${getBaseUrl()}/fonts/EBGaramond-Regular.ttf`,
       fontStyle: "normal",
       fontWeight: "normal",
     },
     {
-      src: `http://localhost:3000/fonts/EBGaramond-Italic.ttf`,
+      src: `${getBaseUrl()}/fonts/EBGaramond-Italic.ttf`,
       fontStyle: "italic",
       fontWeight: "normal",
     },
     {
-      src: `http://localhost:3000/fonts/EBGaramond-Bold.ttf`,
+      src: `${getBaseUrl()}/fonts/EBGaramond-Bold.ttf`,
       fontStyle: "normal",
       fontWeight: "bold",
     },
     {
-      src: `http://localhost:3000/fonts/EBGaramond-BoldItalic.ttf`,
+      src: `${getBaseUrl()}/fonts/EBGaramond-BoldItalic.ttf`,
       fontWeight: "bold",
       fontStyle: "italic",
     },
@@ -179,12 +179,6 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
   const sortedEducation = resume.education.sort((a, b) => a.index - b.index)
   const sortedExperience = resume.experience.sort((a, b) => a.index - b.index)
   const sortedProjects = resume.projects.sort((a, b) => a.index - b.index)
-  const sortedExpBullets = resume.experience
-    .flatMap((exp) => exp.bullets)
-    .sort((a, b) => a.index - b.index)
-  const sortedProjBullets = resume.projects
-    .flatMap((proj) => proj.bullets)
-    .sort((a, b) => a.index - b.index)
 
   return (
     <Document>
@@ -256,9 +250,11 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                 <Text style={styles.experienceLocation}>{exp.location}</Text>
               </View>
               <View style={styles.experienceBulletContainer}>
-                {sortedExpBullets.map((bullet, index) => (
-                  <Text key={index}>• {bullet.bullet}</Text>
-                ))}
+                {exp.bullets
+                  .sort((a, b) => a.index - b.index)
+                  .map((bullet, index) => (
+                    <Text key={index}>• {bullet.bullet}</Text>
+                  ))}
               </View>
             </View>
           ))}
@@ -288,9 +284,11 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                 )}
               </View>
               <View>
-                {sortedProjBullets.map((bullet, index) => (
-                  <Text key={index}>• {bullet.bullet}</Text>
-                ))}
+                {project.bullets
+                  .sort((a, b) => a.index - b.index)
+                  .map((bullet, index) => (
+                    <Text key={index}>• {bullet.bullet}</Text>
+                  ))}
               </View>
             </View>
           ))}

@@ -1,10 +1,10 @@
 "use client"
 
+import type { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 
-import { ResumeTemplateIDSchema } from "@acme/validators"
+import { resumeGenerateSchema } from "@acme/validators"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,12 +17,11 @@ import {
 } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { generateSchema } from "./form.schema"
 import { ResumeTemplateCarousel } from "./resume-template-carousel"
 
 export function GenerateForm() {
-  const form = useForm<z.infer<typeof generateSchema>>({
-    resolver: zodResolver(generateSchema),
+  const form = useForm<z.infer<typeof resumeGenerateSchema>>({
+    resolver: zodResolver(resumeGenerateSchema),
     defaultValues: {
       jobDescription: "",
       documentType: "resume",
@@ -30,7 +29,7 @@ export function GenerateForm() {
     },
   })
 
-  function handleSubmit(data: z.infer<typeof generateSchema>) {
+  function handleSubmit(data: z.infer<typeof resumeGenerateSchema>) {
     console.log(data)
   }
 

@@ -11,6 +11,7 @@ import {
 
 type PreviewImageProps = {
   src: string
+  className?: string
 }
 
 export function PreviewImage({ src }: PreviewImageProps) {
