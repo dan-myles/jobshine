@@ -58,6 +58,8 @@ export default $config({
       proxy: true,
     });
 
+    const resumeBucket = new sst.aws.Bucket("AcmeResumeBucket");
+
     /**
      * API Gateway
      * This is our primary API Gateway that we'll use to route traffic to our Lambdas/services.
@@ -94,7 +96,7 @@ export default $config({
 
     // Argus 🏹
     api.route("GET /trpc/{proxy+}", {
-      link: [db],
+      link: [db, resumeBucket],
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
@@ -103,7 +105,7 @@ export default $config({
     });
 
     api.route("POST /trpc/{proxy+}", {
-      link: [db],
+      link: [db, resumeBucket],
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
@@ -138,9 +140,8 @@ export default $config({
       dev: {
         autostart: true,
         command: "pnpm -F @acme/db non-tunnel-studio",
-      }
-
-    })
+      },
+    });
 
     return {
       frontend: frontend.url,

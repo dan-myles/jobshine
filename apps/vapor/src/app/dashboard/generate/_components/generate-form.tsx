@@ -2,7 +2,9 @@
 
 import type { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 import { resumeGenerateSchema } from "@acme/validators"
 
@@ -17,9 +19,28 @@ import {
 } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import { useAPI } from "@/lib/api/client"
+import { auth } from "@/lib/auth-client"
+import { CoverLetterTemplateCarousel } from "./cover-letter-template-carousel"
 import { ResumeTemplateCarousel } from "./resume-template-carousel"
 
 export function GenerateForm() {
+  const { data: session } = auth.useSession()
+  const api = useAPI()
+  const generate = useMutation(
+    api.resume.generate.mutationOptions({
+      onSuccess: (data) => {
+        toast.success("PDF generated successfully")
+        downloadFile(data.url, `${session?.user.name}.pdf`).catch(console.error)
+      },
+      onError: (error) => {
+        toast.error("Error generating PDF", {
+          description: error.message,
+        })
+      },
+    }),
+  )
+
   const form = useForm<z.infer<typeof resumeGenerateSchema>>({
     resolver: zodResolver(resumeGenerateSchema),
     defaultValues: {
@@ -30,7 +51,41 @@ export function GenerateForm() {
   })
 
   function handleSubmit(data: z.infer<typeof resumeGenerateSchema>) {
-    console.log(data)
+    generate.mutate({
+      jobDescription: data.jobDescription,
+      documentType: data.documentType,
+      resumeTemplate: data.resumeTemplate,
+    })
+  }
+
+  async function downloadFile(url: string, filename: string) {
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`Failed to download: ${response.statusText}`)
+      }
+
+      const blob = await response.blob()
+      const blobUrl = window.URL.createObjectURL(blob)
+
+      const link = document.createElement("a")
+      link.href = blobUrl
+      link.download = filename
+      link.style.display = "none"
+
+      document.body.appendChild(link)
+      link.click()
+
+      setTimeout(() => {
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(blobUrl)
+      }, 100)
+    } catch (error) {
+      console.error("Error downloading file:", error)
+      toast.error("Error downloading file", {
+        description: error instanceof Error ? error.message : "Unknown error",
+      })
+    }
   }
 
   return (
@@ -80,7 +135,7 @@ export function GenerateForm() {
                   >
                     <TabsList className="mb-6 flex w-full flex-row">
                       <TabsTrigger value="resume">Resume</TabsTrigger>
-                      <TabsTrigger value="cover-letter">
+                      <TabsTrigger value="cover-letter" className="">
                         Cover Letter
                       </TabsTrigger>
                     </TabsList>
@@ -88,7 +143,7 @@ export function GenerateForm() {
                       <ResumeTemplateCarousel />
                     </TabsContent>
                     <TabsContent value="cover-letter">
-                      Change your password here.
+                      <CoverLetterTemplateCarousel />
                     </TabsContent>
                   </Tabs>
                 </FormControl>

@@ -14,7 +14,7 @@ type PreviewImageProps = {
   className?: string
 }
 
-export function PreviewImage({ src }: PreviewImageProps) {
+export function PreviewImage(props: PreviewImageProps) {
   return (
     <MorphingDialog
       transition={{
@@ -25,7 +25,7 @@ export function PreviewImage({ src }: PreviewImageProps) {
     >
       <MorphingDialogTrigger>
         <Image
-          src={src}
+          src={props.src}
           className="z-50 h-full w-full flex-grow cursor-zoom-in rounded-xl object-cover"
           alt="Preview Image"
           width={200}
@@ -35,7 +35,7 @@ export function PreviewImage({ src }: PreviewImageProps) {
       <MorphingDialogContainer className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <MorphingDialogContent>
           <Image
-            src={src}
+            src={props.src}
             alt="Preview Image"
             fill
             style={{ objectFit: "contain" }}

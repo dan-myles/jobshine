@@ -3,13 +3,14 @@ import { z } from "zod"
 
 import { ResumeTemplate_001 } from "@acme/templates"
 import {
+  resumeGenerateSchema,
   ResumeSchema,
-  ResumeTemplateID,
   ResumeTemplateIDSchema,
 } from "@acme/validators"
 
 import type { TRPCRouterRecord } from "@trpc/server"
 import { privateProcedure } from "../../trpc"
+import { generate } from "./resume.actions"
 import { ResumeRepository } from "./resume.repository"
 
 export const resumeRouter = {
@@ -62,16 +63,8 @@ export const resumeRouter = {
     return await ResumeRepository.delete(ctx.auth.user.id, ctx.db)
   }),
   generate: privateProcedure
-    .input(
-      z.object({
-        resume: ResumeSchema,
-        templateID: ResumeTemplateIDSchema,
-      }),
-    )
-    .mutation(async ({ input }) => {
-      return await ReactPDF.renderToFile(
-        ResumeTemplate_001({ resume: input.resume }),
-        input.templateID,
-      )
+    .input(resumeGenerateSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await generate(ctx.auth.user.id, input.resumeTemplate!, ctx.db)
     }),
 } satisfies TRPCRouterRecord

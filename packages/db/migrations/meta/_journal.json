@@ -36,6 +36,41 @@
       "when": 1742773308627,
       "tag": "0004_whole_corsair",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743368923807,
+      "tag": "0005_natural_lord_tyger",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1743369305673,
+      "tag": "0006_fair_lockjaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1743369522692,
+      "tag": "0007_serious_namor",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1743369622999,
+      "tag": "0008_petite_crusher_hogan",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1743369667566,
+      "tag": "0009_curly_rockslide",
+      "breakpoints": true
     }
   ]
 }

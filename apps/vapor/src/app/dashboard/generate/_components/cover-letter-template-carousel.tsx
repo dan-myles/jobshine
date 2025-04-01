@@ -1,3 +1,66 @@
+"use client"
+
+import type { z } from "zod"
+import { useEffect, useState } from "react"
+import { useFormContext } from "react-hook-form"
+
+import type { resumeGenerateSchema } from "@acme/validators"
+import { ResumeTemplateIDSchema } from "@acme/validators"
+
+import type { CarouselApi } from "@/components/ui/carousel"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { PreviewImage } from "./generate-preview-image"
+
 export function CoverLetterTemplateCarousel() {
-  return <div>Cover Letter Template Carousel</div>
+  const { setValue } = useFormContext<z.infer<typeof resumeGenerateSchema>>()
+  const [api, setApi] = useState<CarouselApi>()
+
+  const templates = ResumeTemplateIDSchema.options.map((templateID) => {
+    return {
+      id: templateID,
+      image: `/resume-templates/${templateID}.png`,
+    }
+  })
+
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    const selected = `00${api.selectedScrollSnap() + 1}`
+    const input = ResumeTemplateIDSchema.parse(selected)
+    setValue("resumeTemplate", input)
+
+    api.on("select", () => {
+      const selected = `00${api.selectedScrollSnap() + 1}`
+      const input = ResumeTemplateIDSchema.parse(selected)
+      setValue("resumeTemplate", input)
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [api])
+
+  return (
+    <Carousel className="h-full w-full" setApi={setApi}>
+      <CarouselContent>
+        {templates.map((template) => (
+          <CarouselItem key={template.id} className="pl-1 md:pl-1">
+            <div className="flex h-full flex-col justify-center p-4">
+              <div className="mx-auto max-w-[14vw] rounded-md border shadow-md">
+                <PreviewImage src={template.image} />
+              </div>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="left-2" />
+      <CarouselNext className="right-2" />
+    </Carousel>
+  )
 }

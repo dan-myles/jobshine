@@ -11,10 +11,10 @@
     "lint:fix": "pnpm --filter '*' run lint:fix",
     "typecheck": "pnpm --filter '*' run typecheck",
     "clean": "git clean -xdf node_modules && pnpm --filter '*' run clean",
-    "db:generate": "pnpm --filter @acme/db run generate",
-    "db:migrate": "pnpm --filter @acme/db run migrate",
-    "db:push": "pnpm --filter @acme/db run push",
-    "db:studio": "pnpm --filter @acme/db run studio",
+    "db:generate": "pnpm --filter @acme/db run non-tunnel-generate",
+    "db:migrate": "pnpm --filter @acme/db run non-tunnel-migrate",
+    "db:push": "pnpm --filter @acme/db run non-tunnel-push",
+    "db:studio": "pnpm --filter @acme/db run non-tunnel-studio",
     "db:auth": "pnpm --filter @acme/auth run generate"
   },
   "devDependencies": {

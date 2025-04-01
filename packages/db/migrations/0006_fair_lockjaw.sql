@@ -1,0 +1,1 @@
+ALTER TABLE "file" ALTER COLUMN "lastDownloadedAt" SET DEFAULT now();

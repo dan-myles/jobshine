@@ -30,6 +30,9 @@
     "generate": "sst tunnel & sleep 2 && sst shell drizzle-kit generate",
     "migrate": "sst tunnel & sleep 2 && sst shell drizzle-kit migrate",
     "studio": "sst tunnel & sleep 2 && sst shell drizzle-kit studio",
+    "non-tunnel-push": "sst shell drizzle-kit push",
+    "non-tunnel-generate": "sst shell drizzle-kit generate",
+    "non-tunnel-migrate": "sst shell drizzle-kit migrate",
     "non-tunnel-studio": "sst shell drizzle-kit studio"
   },
   "dependencies": {

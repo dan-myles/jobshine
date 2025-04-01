@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 // TODO:
 // - fix not more than 3 bullets showing up
@@ -230,7 +229,9 @@ export function ResumeForm() {
   function addExperienceBullet(expIndex: number) {
     const currentValues = watch("experience")
     const updatedValues = [...currentValues]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     updatedValues[expIndex]!.bullets = [
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...updatedValues[expIndex]!.bullets,
       { index: currentValues.length, bullet: "" },
     ]
@@ -240,6 +241,7 @@ export function ResumeForm() {
   function removeExperienceBullet(expIndex: number, bulletIndex: number) {
     const currentValues = watch("experience")
     const updatedValues = [...currentValues]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     updatedValues[expIndex]!.bullets = updatedValues[expIndex]!.bullets.filter(
       (_, i) => i !== bulletIndex,
     )
@@ -249,7 +251,9 @@ export function ResumeForm() {
   function addProjectBullet(projIndex: number) {
     const currentValues = watch("projects")
     const updatedValues = [...currentValues]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     updatedValues[projIndex]!.bullets = [
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...updatedValues[projIndex]!.bullets,
       { index: currentValues.length, bullet: "" },
     ]
@@ -259,6 +263,7 @@ export function ResumeForm() {
   function removeProjectBullet(projIndex: number, bulletIndex: number) {
     const currentValues = watch("projects")
     const updatedValues = [...currentValues]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     updatedValues[projIndex]!.bullets = updatedValues[
       projIndex
     ]!.bullets.filter((_, i) => i !== bulletIndex)

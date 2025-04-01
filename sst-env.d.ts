@@ -21,6 +21,10 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
+    "AcmeResumeBucket": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
     "AcmeVPC": {
       "bastion": string
       "type": "sst.aws.Vpc"

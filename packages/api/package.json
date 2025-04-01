@@ -20,11 +20,13 @@
     "clean": "git clean -xdf dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@acme/db": "workspace:*",
     "@acme/auth": "workspace:*",
     "@acme/common": "workspace:*",
-    "@acme/validators": "workspace:*",
+    "@acme/db": "workspace:*",
     "@acme/templates": "workspace:*",
+    "@acme/validators": "workspace:*",
+    "@aws-sdk/client-s3": "^3.777.0",
+    "@aws-sdk/s3-request-presigner": "^3.779.0",
     "@trpc/server": "catalog:",
     "superjson": "2.2.2",
     "zod": "catalog:"
