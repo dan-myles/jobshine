@@ -8,6 +8,18 @@ import { toast } from "sonner"
 
 import { resumeGenerateSchema } from "@acme/validators"
 
+import { Icons } from "@/components/icons"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -152,9 +164,41 @@ export function GenerateForm() {
           />
         </section>
 
-        <Button type="submit" className="bg-primary">
+        <Button
+          type="submit"
+          className="bg-primary"
+          disabled={generate.isPending}
+        >
+          {generate.isPending && (
+            <Icons.Spinner className="h-4 w-4 animate-spin" />
+          )}
           Generate
         </Button>
+
+        <AlertDialog open={generate.isPending}>
+          <AlertDialogContent className="sm:max-w-md">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-center text-xl font-semibold">
+                Creating Your Perfect Document
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-center">
+                We're tailoring your {form.getValues("documentType")} to match
+                the job description. This typically takes 15-30 seconds.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <div className="flex flex-col items-center justify-center space-y-6 py-6">
+              <div className="relative">
+                <div className="bg-primary/20 absolute -inset-1 animate-pulse rounded-full blur-xl"></div>
+                <Icons.Spinner className="text-primary h-16 w-16 animate-spin" />
+              </div>
+
+              <p className="text-muted-foreground text-sm">
+                Optimizing content for ATS compatibility...
+              </p>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
       </form>
     </Form>
   )
