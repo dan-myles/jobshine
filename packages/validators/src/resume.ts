@@ -49,7 +49,7 @@ const ExperienceSchema = z.object({
 const ResumeSchema = z.object({
   fullName: z.string(),
   location: z.string(),
-  email: z.string().email(),
+  email: z.string(),
   phone: z.string(),
   summary: z.string(),
   websites: WebsiteSchema.array(),

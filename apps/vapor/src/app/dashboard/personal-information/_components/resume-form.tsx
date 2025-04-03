@@ -1,4 +1,3 @@
-
 // TODO:
 // - fix not more than 3 bullets showing up
 // - fix using delete buttons dont mark form dirty
@@ -50,7 +49,7 @@ export function ResumeForm() {
   const { resumeData, setResumeData } = use(ResumeContext)
 
   const submitResume = useMutation(
-    api.resume.update.mutationOptions({
+    api.resume.upsert.mutationOptions({
       onSuccess: () => {
         toast.success("Resume saved successfully!")
         invalidateResume().catch(console.error)
@@ -253,7 +252,7 @@ export function ResumeForm() {
     const updatedValues = [...currentValues]
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     updatedValues[projIndex]!.bullets = [
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...updatedValues[projIndex]!.bullets,
       { index: currentValues.length, bullet: "" },
     ]

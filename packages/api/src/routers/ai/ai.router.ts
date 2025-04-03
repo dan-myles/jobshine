@@ -4,7 +4,7 @@ import type { TRPCRouterRecord } from "@trpc/server"
 import { privateProcedure } from "../../trpc"
 import { generate } from "./ai.actions"
 
-export const resumeRouter = {
+export const aiRouter = {
   generate: privateProcedure
     .input(generateSchema)
     .mutation(async ({ input, ctx }) => {
@@ -13,7 +13,7 @@ export const resumeRouter = {
         input.documentType,
         input.resumeTemplate,
         input.coverLetterTemplate,
-      input.jobDescription,
+        input.jobDescription,
         ctx.db,
       )
     }),

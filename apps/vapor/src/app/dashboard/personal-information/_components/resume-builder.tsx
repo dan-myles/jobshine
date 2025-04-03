@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query"
 import type { Resume } from "@acme/validators"
 
 import { Icons } from "@/components/icons"
-import { Skeleton } from "@/components/ui/skeleton"
 import { useAPI } from "@/lib/api/client"
 import { ResumeForm } from "./resume-form"
 import { ResumeViewer } from "./resume-viewer"
