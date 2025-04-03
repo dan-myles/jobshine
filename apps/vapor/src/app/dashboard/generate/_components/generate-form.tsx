@@ -36,7 +36,7 @@ export function GenerateForm() {
   const { data: session } = auth.useSession()
   const api = useAPI()
   const generate = useMutation(
-    api.resume.generate.mutationOptions({
+    api.ai.generate.mutationOptions({
       onSuccess: (data) => {
         toast.success("PDF generated successfully")
         downloadFile(data.url, `${session?.user.name}.pdf`).catch(console.error)
@@ -63,6 +63,7 @@ export function GenerateForm() {
       jobDescription: data.jobDescription,
       documentType: data.documentType,
       resumeTemplate: data.resumeTemplate,
+      coverLetterTemplate: data.coverLetterTemplate,
     })
   }
 

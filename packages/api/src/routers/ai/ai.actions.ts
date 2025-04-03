@@ -53,13 +53,14 @@ export async function generate(
         db,
       )
     case "cover-letter":
-      return await coverLetter(
-        userId,
-        parse.data,
-        coverLetterTemplateId,
-        jobDescription,
-        db,
-      )
+      return { url: "" }
+    // return await coverLetter(
+    //   userId,
+    //   parse.data,
+    //   coverLetterTemplateId,
+    //   jobDescription,
+    //   db,
+    // )
     default:
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -68,24 +69,24 @@ export async function generate(
   }
 }
 
-async function coverLetter(
-  userId: string,
-  resume: Resume,
-  coverLetterTemplateId: CoverLetterId,
-  jobDescription: string,
-  db: DB,
-) {
-  switch (coverLetterTemplateId) {
-    case "001":
-      console.log("Cover letter generation is not yet implemented.")
-      return
-    default:
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Invalid cover letter template ID.",
-      })
-  }
-}
+// async function coverLetter(
+//   userId: string,
+//   resume: Resume,
+//   coverLetterTemplateId: CoverLetterId,
+//   jobDescription: string,
+//   db: DB,
+// ) {
+//   switch (coverLetterTemplateId) {
+//     case "001":
+//       console.log("Cover letter generation is not yet implemented.")
+//       return
+//     default:
+//       throw new TRPCError({
+//         code: "BAD_REQUEST",
+//         message: "Invalid cover letter template ID.",
+//       })
+//   }
+// }
 
 async function resume(
   userId: string,
@@ -94,19 +95,23 @@ async function resume(
   jobDescription: string,
   db: DB,
 ) {
+  let doc: React.JSX.Element | undefined = undefined
+
   switch (resumeTemplateId) {
     case "001":
-      const doc = ResumeTemplate_001({ resume })
-      await ReactPDF.renderToFile(doc, "resume.pdf")
-      const file = fs.readFileSync("resume.pdf")
-      await s3(userId, file, "resume", db)
-      return
+      doc = ResumeTemplate_001({ resume })
+      break
     default:
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Invalid resume template ID.",
       })
   }
+
+  await ReactPDF.renderToFile(doc, "resume.pdf")
+  const file = fs.readFileSync("resume.pdf")
+  const url = await s3(userId, file, "resume", db)
+  return { url }
 }
 
 async function s3(
@@ -157,9 +162,7 @@ async function s3(
       `Saved ${documentType} for user=${userId} @ https://${Resource.AcmeResumeBucket.name}.s3.amazonaws.com/${key}`,
     )
 
-    return {
-      url: downloadUrl,
-    }
+    return downloadUrl
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error uploading file to S3:", error.message)

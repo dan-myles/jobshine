@@ -4,29 +4,29 @@ import { z } from "zod"
  * Schemas
  * Used for generating resumes.
  */
-const BulletSchema = z.object({
+export const BulletSchema = z.object({
   index: z.number(),
   bullet: z.string(),
 })
 
-const SkillSchema = z.object({
+export const SkillSchema = z.object({
   index: z.number(),
   skill: z.string(),
 })
 
-const WebsiteSchema = z.object({
+export const WebsiteSchema = z.object({
   index: z.number(),
   url: z.string(),
 })
 
-const ProjectSchema = z.object({
+export const ProjectSchema = z.object({
   index: z.number(),
   name: z.string(),
   link: z.string(),
   bullets: BulletSchema.array(),
 })
 
-const EducationSchema = z.object({
+export const EducationSchema = z.object({
   index: z.number(),
   school: z.string(),
   degree: z.string(),
@@ -36,7 +36,7 @@ const EducationSchema = z.object({
   gpa: z.string(),
 })
 
-const ExperienceSchema = z.object({
+export const ExperienceSchema = z.object({
   index: z.number(),
   company: z.string(),
   title: z.string(),
@@ -46,7 +46,7 @@ const ExperienceSchema = z.object({
   bullets: BulletSchema.array(),
 })
 
-const ResumeSchema = z.object({
+export const ResumeSchema = z.object({
   fullName: z.string(),
   location: z.string(),
   email: z.string(),
@@ -59,29 +59,13 @@ const ResumeSchema = z.object({
   projects: ProjectSchema.array(),
 })
 
-const ResumeTemplateIDSchema = z.enum(["001"])
+export const ResumeTemplateIdSchema = z.enum(["001"])
 
-type Skill = z.infer<typeof SkillSchema>
-type Website = z.infer<typeof WebsiteSchema>
-type Bullet = z.infer<typeof BulletSchema>
-type Project = z.infer<typeof ProjectSchema>
-type Education = z.infer<typeof EducationSchema>
-type Experience = z.infer<typeof ExperienceSchema>
-type Resume = z.infer<typeof ResumeSchema>
-type ResumeTemplateId = z.infer<typeof ResumeTemplateIDSchema>
-
-export {
-  ProjectSchema,
-  EducationSchema,
-  ExperienceSchema,
-  ResumeSchema,
-  ResumeTemplateIDSchema,
-  type Skill,
-  type Website,
-  type Bullet,
-  type Project,
-  type Education,
-  type Experience,
-  type Resume,
-  type ResumeTemplateId,
-}
+export type Skill = z.infer<typeof SkillSchema>
+export type Website = z.infer<typeof WebsiteSchema>
+export type Bullet = z.infer<typeof BulletSchema>
+export type Project = z.infer<typeof ProjectSchema>
+export type Education = z.infer<typeof EducationSchema>
+export type Experience = z.infer<typeof ExperienceSchema>
+export type Resume = z.infer<typeof ResumeSchema>
+export type ResumeTemplateId = z.infer<typeof ResumeTemplateIdSchema>

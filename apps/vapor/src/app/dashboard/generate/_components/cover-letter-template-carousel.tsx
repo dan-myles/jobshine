@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
 import type { generateSchema } from "@acme/validators"
-import { ResumeTemplateIDSchema } from "@acme/validators"
+import { CoverLetterTemplateIdSchema } from "@acme/validators"
 
 import type { CarouselApi } from "@/components/ui/carousel"
 import {
@@ -21,7 +21,7 @@ export function CoverLetterTemplateCarousel() {
   const { setValue } = useFormContext<z.infer<typeof generateSchema>>()
   const [api, setApi] = useState<CarouselApi>()
 
-  const templates = ResumeTemplateIDSchema.options.map((templateID) => {
+  const templates = CoverLetterTemplateIdSchema.options.map((templateID) => {
     return {
       id: templateID,
       image: `/cover-letter-templates/${templateID}.png`,
@@ -34,12 +34,12 @@ export function CoverLetterTemplateCarousel() {
     }
 
     const selected = `00${api.selectedScrollSnap() + 1}`
-    const input = ResumeTemplateIDSchema.parse(selected)
+    const input = CoverLetterTemplateIdSchema.parse(selected)
     setValue("resumeTemplate", input)
 
     api.on("select", () => {
       const selected = `00${api.selectedScrollSnap() + 1}`
-      const input = ResumeTemplateIDSchema.parse(selected)
+      const input = CoverLetterTemplateIdSchema.parse(selected)
       setValue("resumeTemplate", input)
     })
 
