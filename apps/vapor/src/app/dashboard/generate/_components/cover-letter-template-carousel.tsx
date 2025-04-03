@@ -35,12 +35,12 @@ export function CoverLetterTemplateCarousel() {
 
     const selected = `00${api.selectedScrollSnap() + 1}`
     const input = CoverLetterTemplateIdSchema.parse(selected)
-    setValue("resumeTemplate", input)
+    setValue("coverLetterTemplate", input)
 
     api.on("select", () => {
       const selected = `00${api.selectedScrollSnap() + 1}`
       const input = CoverLetterTemplateIdSchema.parse(selected)
-      setValue("resumeTemplate", input)
+      setValue("coverLetterTemplate", input)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

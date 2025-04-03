@@ -12,8 +12,13 @@ import { Resource } from "sst"
 
 import type { DB } from "@acme/db/client"
 import type { DocumentType } from "@acme/db/schema"
-import type { CoverLetterId, Resume, ResumeTemplateId } from "@acme/validators"
-import { ResumeTemplate_001 } from "@acme/templates"
+import type {
+  CoverLetter,
+  CoverLetterId,
+  Resume,
+  ResumeTemplateId,
+} from "@acme/validators"
+import { CoverLetterTemplate_001, ResumeTemplate_001 } from "@acme/templates"
 import { ResumeSchema } from "@acme/validators"
 
 import { FileRepository } from "../file/file.repostiory"
@@ -53,14 +58,13 @@ export async function generate(
         db,
       )
     case "cover-letter":
-      return { url: "" }
-    // return await coverLetter(
-    //   userId,
-    //   parse.data,
-    //   coverLetterTemplateId,
-    //   jobDescription,
-    //   db,
-    // )
+      return await coverLetter(
+        userId,
+        parse.data,
+        coverLetterTemplateId,
+        jobDescription,
+        db,
+      )
     default:
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -69,24 +73,40 @@ export async function generate(
   }
 }
 
-// async function coverLetter(
-//   userId: string,
-//   resume: Resume,
-//   coverLetterTemplateId: CoverLetterId,
-//   jobDescription: string,
-//   db: DB,
-// ) {
-//   switch (coverLetterTemplateId) {
-//     case "001":
-//       console.log("Cover letter generation is not yet implemented.")
-//       return
-//     default:
-//       throw new TRPCError({
-//         code: "BAD_REQUEST",
-//         message: "Invalid cover letter template ID.",
-//       })
-//   }
-// }
+async function coverLetter(
+  userId: string,
+  resume: Resume,
+  coverLetterTemplateId: CoverLetterId,
+  jobDescription: string,
+  db: DB,
+) {
+  const cl: CoverLetter = {
+    senderName: resume.fullName,
+    senderAddress: resume.location,
+    senderPhone: resume.phone,
+    senderEmail: resume.email,
+    senderWebsite: resume.websites[0]?.url ?? "",
+    body: "not yet implemented!",
+  }
+
+  let doc: React.JSX.Element | undefined = undefined
+
+  switch (coverLetterTemplateId) {
+    case "001":
+      doc = CoverLetterTemplate_001({ coverLetter: cl })
+      break
+    default:
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid resume template ID.",
+      })
+  }
+
+  await ReactPDF.renderToFile(doc, "doc.pdf")
+  const file = fs.readFileSync("doc.pdf")
+  const url = await s3(userId, file, "cover-letter", db)
+  return { url }
+}
 
 async function resume(
   userId: string,
@@ -108,8 +128,8 @@ async function resume(
       })
   }
 
-  await ReactPDF.renderToFile(doc, "resume.pdf")
-  const file = fs.readFileSync("resume.pdf")
+  await ReactPDF.renderToFile(doc, "doc.pdf")
+  const file = fs.readFileSync("doc.pdf")
   const url = await s3(userId, file, "resume", db)
   return { url }
 }
@@ -142,7 +162,7 @@ async function s3(
     const downloadUrl = await getSignedUrl(s3Client, downloadCommand, {
       expiresIn: 3600,
     })
-    fs.unlinkSync(fileName)
+    fs.unlinkSync("doc.pdf")
 
     await FileRepository.create(
       userId,

@@ -1,3 +1,4 @@
+import React from "react"
 import {
   Document,
   Font,
@@ -8,8 +9,8 @@ import {
   View,
 } from "@react-pdf/renderer"
 
+import type { CoverLetter } from "@acme/validators"
 import { getBaseUrl } from "@acme/common"
-import { CoverLetter } from "@acme/validators"
 
 Font.register({
   family: "Garamond",

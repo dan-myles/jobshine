@@ -28,6 +28,7 @@ export function PreviewImage(props: PreviewImageProps) {
           src={props.src}
           className="z-50 h-full w-full flex-grow cursor-zoom-in rounded-xl object-cover"
           alt="Preview Image"
+          priority
           width={200}
           height={200}
         />
@@ -39,6 +40,7 @@ export function PreviewImage(props: PreviewImageProps) {
             alt="Preview Image"
             fill
             style={{ objectFit: "contain" }}
+            priority
             className="mx-auto my-auto max-h-[92vh] w-full max-w-[34.60vw] rounded-md bg-transparent
               object-contain shadow-2xl"
           />

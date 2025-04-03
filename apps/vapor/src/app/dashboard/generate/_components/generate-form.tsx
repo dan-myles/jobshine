@@ -38,7 +38,7 @@ export function GenerateForm() {
   const generate = useMutation(
     api.ai.generate.mutationOptions({
       onSuccess: (data) => {
-        toast.success("PDF generated successfully")
+        toast.success("Document generated successfully!")
         downloadFile(data.url, `${session?.user.name}.pdf`).catch(console.error)
       },
       onError: (error) => {
@@ -55,6 +55,7 @@ export function GenerateForm() {
       jobDescription: "",
       documentType: "resume",
       resumeTemplate: "001",
+      coverLetterTemplate: "001",
     },
   })
 
@@ -179,8 +180,12 @@ export function GenerateForm() {
                 Creating Your Perfect Document
               </AlertDialogTitle>
               <AlertDialogDescription className="text-center">
-                We're tailoring your {form.getValues("documentType")} to match
-                the job description. This typically takes 15-30 seconds.
+                We're tailoring your
+                {form.getValues("documentType") === "resume"
+                  ? " resume "
+                  : " cover letter "}
+                to match the job description. This typically takes 15-30
+                seconds.
               </AlertDialogDescription>
             </AlertDialogHeader>
 
