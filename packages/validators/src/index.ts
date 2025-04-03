@@ -1,3 +1,3 @@
+export * from "./api.resume"
 export * from "./resume"
-export * from "./resume.api"
 export * from "./cover-letter"

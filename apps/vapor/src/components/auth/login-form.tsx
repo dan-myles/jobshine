@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -39,6 +41,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter()
+  const [isPending, setPending] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,19 +52,22 @@ export function LoginForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    toast.success("Signing in...")
-
+    setPending(true)
     const { error } = await auth.signIn.email({
       email: values.email,
       password: values.password,
-      callbackURL: "/dashboard",
     })
 
     if (error) {
       toast.error("There was an error logging in!", {
         description: error.message,
       })
+
+      return
     }
+
+    router.push("/dashboard")
+    setPending(false)
   }
 
   return (
@@ -143,6 +150,7 @@ export function LoginForm({
                   )}
                 />
                 <Button className="w-full" type="submit">
+                  {isPending && <Icons.Spinner className="h-4 w-4" />}
                   Login
                 </Button>
               </form>

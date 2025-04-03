@@ -1,0 +1,173 @@
+import fs from "node:fs"
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
+import { createId } from "@paralleldrive/cuid2"
+import ReactPDF from "@react-pdf/renderer"
+import { TRPCError } from "@trpc/server"
+import { Resource } from "sst"
+
+import type { DB } from "@acme/db/client"
+import type { DocumentType } from "@acme/db/schema"
+import type { CoverLetterId, Resume, ResumeTemplateId } from "@acme/validators"
+import { ResumeTemplate_001 } from "@acme/templates"
+import { ResumeSchema } from "@acme/validators"
+
+import { FileRepository } from "../file/file.repostiory"
+import { ResumeRepository } from "../resume/resume.repository"
+
+export async function generate(
+  userId: string,
+  documentType: DocumentType,
+  resumeTemplateId: ResumeTemplateId,
+  coverLetterTemplateId: CoverLetterId,
+  jobDescription: string,
+  db: DB,
+) {
+  const data = await ResumeRepository.readLatest(userId, db)
+  if (!data?.resume) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "No resume data found for user.",
+    })
+  }
+
+  const parse = ResumeSchema.safeParse(data.resume)
+  if (!parse.success) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "There was an error parsing user resume data.",
+    })
+  }
+
+  switch (documentType) {
+    case "resume":
+      return await resume(
+        userId,
+        parse.data,
+        resumeTemplateId,
+        jobDescription,
+        db,
+      )
+    case "cover-letter":
+      return await coverLetter(
+        userId,
+        parse.data,
+        coverLetterTemplateId,
+        jobDescription,
+        db,
+      )
+    default:
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid document type.",
+      })
+  }
+}
+
+async function coverLetter(
+  userId: string,
+  resume: Resume,
+  coverLetterTemplateId: CoverLetterId,
+  jobDescription: string,
+  db: DB,
+) {
+  switch (coverLetterTemplateId) {
+    case "001":
+      console.log("Cover letter generation is not yet implemented.")
+      return
+    default:
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid cover letter template ID.",
+      })
+  }
+}
+
+async function resume(
+  userId: string,
+  resume: Resume,
+  resumeTemplateId: ResumeTemplateId,
+  jobDescription: string,
+  db: DB,
+) {
+  switch (resumeTemplateId) {
+    case "001":
+      const doc = ResumeTemplate_001({ resume })
+      await ReactPDF.renderToFile(doc, "resume.pdf")
+      const file = fs.readFileSync("resume.pdf")
+      await s3(userId, file, "resume", db)
+      return
+    default:
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid resume template ID.",
+      })
+  }
+}
+
+async function s3(
+  userId: string,
+  file: Buffer<ArrayBufferLike>,
+  documentType: DocumentType,
+  db: DB,
+) {
+  const fileId = createId()
+  const fileName = `${fileId}.pdf`
+
+  try {
+    const s3Client = new S3Client({})
+    const key = `${documentType}s/${userId}/${fileName}`
+
+    const command = new PutObjectCommand({
+      Bucket: Resource.AcmeResumeBucket.name,
+      Key: key,
+      Body: file,
+      ContentType: "application/pdf",
+    })
+
+    await s3Client.send(command)
+    const downloadCommand = new GetObjectCommand({
+      Bucket: Resource.AcmeResumeBucket.name,
+      Key: key,
+    })
+    const downloadUrl = await getSignedUrl(s3Client, downloadCommand, {
+      expiresIn: 3600,
+    })
+    fs.unlinkSync(fileName)
+
+    await FileRepository.create(
+      userId,
+      fileId,
+      fileName,
+      Resource.AcmeResumeBucket.name,
+      key,
+      `https://${Resource.AcmeResumeBucket.name}.s3.amazonaws.com/${key}`,
+      documentType,
+      "application/pdf",
+      file.length,
+      "SYSTEM",
+      db,
+    )
+
+    console.log(
+      `Saved ${documentType} for user=${userId} @ https://${Resource.AcmeResumeBucket.name}.s3.amazonaws.com/${key}`,
+    )
+
+    return {
+      url: downloadUrl,
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error uploading file to S3:", error.message)
+    }
+
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Failed to upload resume to S3",
+    })
+  }
+}

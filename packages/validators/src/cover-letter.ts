@@ -1,7 +1,22 @@
 import { z } from "zod"
 
+const CoverLetterSchema = z.object({
+  senderName: z.string(),
+  senderAddress: z.string(),
+  senderPhone: z.string(),
+  senderEmail: z.string().email(),
+  senderWebsite: z.string(),
+  body: z.string(),
+})
+
 const CoverLetterIDSchema = z.enum(["001"])
 
-type CoverLetterID = z.infer<typeof CoverLetterIDSchema>
+type CoverLetter = z.infer<typeof CoverLetterSchema>
+type CoverLetterId = z.infer<typeof CoverLetterIDSchema>
 
-export { CoverLetterIDSchema, type CoverLetterID }
+export {
+  CoverLetterSchema,
+  CoverLetterIDSchema,
+  type CoverLetter,
+  type CoverLetterId,
+}

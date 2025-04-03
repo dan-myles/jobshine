@@ -1,6 +1,7 @@
 import { createId } from "@paralleldrive/cuid2"
 import { sql } from "drizzle-orm"
 import { integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import { singlestoreEnum } from "drizzle-orm/singlestore-core"
 
 import type { Resume as ResumeType } from "@acme/validators"
 
@@ -11,7 +12,7 @@ export const resume = pgTable("resume", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  resume: jsonb("resume").$type<ResumeType>(),
+  resume: jsonb("resume").$type<ResumeType>().notNull(),
 
   // Timestamps
   created_at: timestamp({ withTimezone: true, mode: "string" })
@@ -22,6 +23,8 @@ export const resume = pgTable("resume", {
     .notNull()
     .$onUpdate(() => sql`(now() AT TIME ZONE 'utc'::text)`),
 })
+
+export type DocumentType = "resume" | "cover-letter"
 
 export const file = pgTable("file", {
   id: text("id").primaryKey().$defaultFn(createId),
@@ -36,8 +39,9 @@ export const file = pgTable("file", {
   s3Url: text("s3_url").notNull(),
 
   // File Metadata
+  documentType: text("document_type").$type<DocumentType>().notNull(),
   contentType: text("content_type").notNull(),
-  sizeBytes: integer("size_bytes"),
+  sizeBytes: integer("size_bytes").notNull(),
   createdBy: text("created_by").notNull(),
   downloadCount: integer("download_count").default(0),
 

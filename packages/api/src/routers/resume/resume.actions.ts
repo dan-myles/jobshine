@@ -11,7 +11,7 @@ import { TRPCError } from "@trpc/server"
 import { Resource } from "sst"
 
 import type { DB } from "@acme/db/client"
-import type { Resume, ResumeTemplateID } from "@acme/validators"
+import type { Resume, ResumeTemplateId } from "@acme/validators"
 import { ResumeTemplate_001 } from "@acme/templates"
 import { ResumeSchema } from "@acme/validators"
 
@@ -20,7 +20,7 @@ import { ResumeRepository } from "./resume.repository"
 
 export async function generate(
   userId: string,
-  templateId: ResumeTemplateID,
+  templateId: ResumeTemplateId,
   db: DB,
 ) {
   const data = await ResumeRepository.readLatest(userId, db)

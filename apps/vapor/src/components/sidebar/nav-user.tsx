@@ -26,8 +26,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { auth } from "@/lib/auth-client"
 import { Skeleton } from "@/components/ui/skeleton"
+import { auth } from "@/lib/auth-client"
 
 export function NavUser() {
   const router = useRouter()
@@ -117,7 +117,11 @@ export function NavUser() {
               onClick={() => {
                 toast.success("You have been logged out!")
                 auth.signOut().catch(console.error)
-                router.push("/")
+                router.prefetch("/")
+
+                setTimeout(() => {
+                  router.push("/")
+                }, 1000)
               }}
             >
               <IconLogout />

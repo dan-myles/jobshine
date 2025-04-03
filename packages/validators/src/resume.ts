@@ -68,7 +68,7 @@ type Project = z.infer<typeof ProjectSchema>
 type Education = z.infer<typeof EducationSchema>
 type Experience = z.infer<typeof ExperienceSchema>
 type Resume = z.infer<typeof ResumeSchema>
-type ResumeTemplateID = z.infer<typeof ResumeTemplateIDSchema>
+type ResumeTemplateId = z.infer<typeof ResumeTemplateIDSchema>
 
 export {
   ProjectSchema,
@@ -83,5 +83,5 @@ export {
   type Education,
   type Experience,
   type Resume,
-  type ResumeTemplateID,
+  type ResumeTemplateId,
 }

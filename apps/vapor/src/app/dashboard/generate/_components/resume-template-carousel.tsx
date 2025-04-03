@@ -4,7 +4,7 @@ import type { z } from "zod"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-import type { resumeGenerateSchema } from "@acme/validators"
+import type { generateSchema } from "@acme/validators"
 import { ResumeTemplateIDSchema } from "@acme/validators"
 
 import type { CarouselApi } from "@/components/ui/carousel"
@@ -18,7 +18,7 @@ import {
 import { PreviewImage } from "./generate-preview-image"
 
 export function ResumeTemplateCarousel() {
-  const { setValue } = useFormContext<z.infer<typeof resumeGenerateSchema>>()
+  const { setValue } = useFormContext<z.infer<typeof generateSchema>>()
   const [api, setApi] = useState<CarouselApi>()
 
   const templates = ResumeTemplateIDSchema.options.map((templateID) => {

@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import { resumeGenerateSchema } from "@acme/validators"
+import { generateSchema } from "@acme/validators"
 
 import { Icons } from "@/components/icons"
 import {
@@ -49,8 +49,8 @@ export function GenerateForm() {
     }),
   )
 
-  const form = useForm<z.infer<typeof resumeGenerateSchema>>({
-    resolver: zodResolver(resumeGenerateSchema),
+  const form = useForm<z.infer<typeof generateSchema>>({
+    resolver: zodResolver(generateSchema),
     defaultValues: {
       jobDescription: "",
       documentType: "resume",
@@ -58,7 +58,7 @@ export function GenerateForm() {
     },
   })
 
-  function handleSubmit(data: z.infer<typeof resumeGenerateSchema>) {
+  function handleSubmit(data: z.infer<typeof generateSchema>) {
     generate.mutate({
       jobDescription: data.jobDescription,
       documentType: data.documentType,

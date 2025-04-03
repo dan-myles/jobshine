@@ -1,11 +1,8 @@
-import ReactPDF from "@react-pdf/renderer"
 import { z } from "zod"
 
-import { ResumeTemplate_001 } from "@acme/templates"
 import {
-  resumeGenerateSchema,
+  generateSchema,
   ResumeSchema,
-  ResumeTemplateIDSchema,
 } from "@acme/validators"
 
 import type { TRPCRouterRecord } from "@trpc/server"
@@ -63,7 +60,7 @@ export const resumeRouter = {
     return await ResumeRepository.delete(ctx.auth.user.id, ctx.db)
   }),
   generate: privateProcedure
-    .input(resumeGenerateSchema)
+    .input(generateSchema)
     .mutation(async ({ input, ctx }) => {
       return await generate(ctx.auth.user.id, input.resumeTemplate!, ctx.db)
     }),

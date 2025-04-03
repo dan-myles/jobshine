@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query"
 
 import type { Resume } from "@acme/validators"
 
+import { Icons } from "@/components/icons"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useAPI } from "@/lib/api/client"
 import { ResumeForm } from "./resume-form"
 import { ResumeViewer } from "./resume-viewer"
@@ -29,6 +31,17 @@ export function ResumeBuilder() {
       setisLoading(isPending)
     }
   }, [data, isPending])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="relative">
+          <div className="bg-primary/20 absolute -inset-1 animate-pulse rounded-full blur-xl"></div>
+          <Icons.Spinner className="text-primary h-16 w-16 animate-spin" />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto max-w-7xl">

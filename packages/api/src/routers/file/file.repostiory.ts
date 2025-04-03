@@ -1,4 +1,5 @@
 import type { DB } from "@acme/db/client"
+import type { DocumentType } from "@acme/db/schema"
 import { and, desc, eq } from "@acme/db"
 import { file } from "@acme/db/schema"
 
@@ -10,6 +11,7 @@ export const FileRepository = {
     bucketName: string,
     s3Key: string,
     s3Url: string,
+    documentType: DocumentType,
     contentType: string,
     sizeBytes: number,
     createdBy: string,
@@ -22,6 +24,7 @@ export const FileRepository = {
       bucketName: bucketName,
       s3Key: s3Key,
       s3Url: s3Url,
+      documentType: documentType,
       contentType: contentType,
       sizeBytes: sizeBytes,
       createdBy: createdBy,
