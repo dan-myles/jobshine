@@ -15,7 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { PreviewImage } from "./generate-preview-image"
+import { GeneratePreviewImage } from "./generate-preview-image"
 
 export function CoverLetterTemplateCarousel() {
   const { setValue } = useFormContext<z.infer<typeof generateSchema>>()
@@ -53,7 +53,7 @@ export function CoverLetterTemplateCarousel() {
           <CarouselItem key={template.id} className="pl-1 md:pl-1">
             <div className="flex h-full flex-col justify-center p-4">
               <div className="mx-auto max-w-[14vw] rounded-md border shadow-md">
-                <PreviewImage src={template.image} />
+                <GeneratePreviewImage src={template.image} />
               </div>
             </div>
           </CarouselItem>

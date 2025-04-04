@@ -14,7 +14,7 @@ type PreviewImageProps = {
   className?: string
 }
 
-export function PreviewImage(props: PreviewImageProps) {
+export function GeneratePreviewImage(props: PreviewImageProps) {
   return (
     <MorphingDialog
       transition={{
@@ -42,11 +42,11 @@ export function PreviewImage(props: PreviewImageProps) {
             style={{ objectFit: "contain" }}
             priority
             className="mx-auto my-auto max-h-[92vh] w-full max-w-[34.60vw] rounded-md bg-transparent
-              object-contain shadow-2xl"
+              object-contain"
           />
         </MorphingDialogContent>
         <MorphingDialogClose
-          className="fixed top-6 right-6 h-fit w-fit rounded-full bg-white p-1"
+          className="fixed top-6 right-6 h-fit w-fit rounded-full bg-transparent p-1"
           variants={{
             initial: { opacity: 0 },
             animate: {

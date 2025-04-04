@@ -23,19 +23,26 @@ export default $config({
       $app.stage === "production" ? APP.url : `${$app.stage}.${APP.url}`;
 
     /**
+     * Secrets
+     * These are stored in AWS Secrete Manager and need to be set
+     * with `pnpx sst secret set <secret> <value>`
+     */
+    const BETTER_AUTH_SECRET = new sst.Secret("BETTER_AUTH_SECRET");
+    const AWS_BEDROCK_ACCESS_KEY_ID = new sst.Secret(
+      "AWS_BEDROCK_ACCESS_KEY_ID",
+    );
+    const AWS_BEDROCK_SECRET_ACCESS_KEY = new sst.Secret(
+      "AWS_BEDROCK_SECRET_ACCESS_KEY",
+    );
+    const DEEPSEEK_API_KEY = new sst.Secret("DEEPSEEK_API_KEY");
+
+    /**
      * Common Env Vars
      * These are common environment variables that we'll use across our apps.
      */
     const COMMON_ENV = {
       NODE_ENV: $app.stage === "production" ? "production" : "development",
     };
-
-    /**
-     * Secrets
-     * These are stored in AWS Secrete Manager and need to be set
-     * with `pnpx sst secret set <secret> <value>`
-     */
-    const BETTER_AUTH_SECRET = new sst.Secret("BETTER_AUTH_SECRET");
 
     /**
      * VPC
@@ -100,6 +107,9 @@ export default $config({
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
+        AWS_BEDROCK_SECRET_ACCESS_KEY: AWS_BEDROCK_SECRET_ACCESS_KEY.value,
+        DEEPSEEK_API_KEY: DEEPSEEK_API_KEY.value,
         ...COMMON_ENV,
       },
     });
@@ -109,6 +119,9 @@ export default $config({
       handler: "apps/argus/src/index.handler",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
+        AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
+        AWS_BEDROCK_SECRET_ACCESS_KEY: AWS_BEDROCK_SECRET_ACCESS_KEY.value,
+        DEEPSEEK_API_KEY: DEEPSEEK_API_KEY.value,
         ...COMMON_ENV,
       },
     });

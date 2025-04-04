@@ -117,7 +117,7 @@ export function GenerateForm() {
                 <FormControl>
                   <Textarea
                     placeholder="Enter the job description that you would like to generate for..."
-                    className="min-h-[150px]"
+                    className="max-h-[200px] min-h-[150px] resize-none"
                     {...field}
                   />
                 </FormControl>

@@ -1,9 +1,6 @@
 "use client"
 
-import ReactPDF, { PDFViewer } from "@react-pdf/renderer"
-
 import type { CoverLetter } from "@acme/validators"
-import { CoverLetterTemplate_001 } from "@acme/templates"
 
 export const testCoverLetterData: CoverLetter = {
   senderName: "John Smith", // Changed name
@@ -11,17 +8,16 @@ export const testCoverLetterData: CoverLetter = {
   senderPhone: "555-987-6543", // Changed phone for variety
   senderEmail: "john.smith@email.com", // Changed email
   senderWebsite: "https://johnsmith.example.com", // Changed website
-  date: "January 1, 2025", // Changed date
   body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.", // Changed body to Lorem Ipsum with a newline
 }
 
 export default function Page() {
+
+
+
   return (
     <div>
       <p> resume viewer</p>
-      <PDFViewer className="h-screen w-full">
-        <CoverLetterTemplate_001 coverLetter={testCoverLetterData} />
-      </PDFViewer>
     </div>
   )
 }

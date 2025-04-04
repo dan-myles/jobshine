@@ -23,6 +23,7 @@ import { ResumeSchema } from "@acme/validators"
 
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"
+import { resumeAI } from "./deepseek-r1"
 
 export async function generate(
   userId: string,
@@ -115,6 +116,8 @@ async function resume(
   jobDescription: string,
   db: DB,
 ) {
+  const res = await resumeAI(resume, jobDescription)
+
   let doc: React.JSX.Element | undefined = undefined
 
   switch (resumeTemplateId) {

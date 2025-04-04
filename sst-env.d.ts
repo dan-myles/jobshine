@@ -5,6 +5,14 @@
 
 declare module "sst" {
   export interface Resource {
+    "AWS_BEDROCK_ACCESS_KEY_ID": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "AWS_BEDROCK_SECRET_ACCESS_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "AcmeAPI": {
       "type": "sst.aws.ApiGatewayV2"
       "url": string
@@ -30,6 +38,10 @@ declare module "sst" {
       "type": "sst.aws.Vpc"
     }
     "BETTER_AUTH_SECRET": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "DEEPSEEK_API_KEY": {
       "type": "sst.sst.Secret"
       "value": string
     }
