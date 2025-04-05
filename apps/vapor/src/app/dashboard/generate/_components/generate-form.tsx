@@ -42,10 +42,18 @@ export function GenerateForm() {
         downloadFile(data.url, `${session?.user.name}.pdf`).catch(console.error)
       },
       onError: (error) => {
-        console.log(error)
-        toast.error("Error generating PDF", {
-          description: error.message,
+        let errorMessage =
+          error instanceof Error ? error.message : "Unknown error"
+        if (errorMessage === "Stream closed") {
+          errorMessage =
+            "The document generation process timed out. Please try again."
+        }
+
+        toast.error("Error generating PDF!", {
+          description: errorMessage,
         })
+
+        console.error(error)
       },
     }),
   )
@@ -93,7 +101,7 @@ export function GenerateForm() {
       }, 100)
     } catch (error) {
       console.error("Error downloading file:", error)
-      toast.error("Error downloading file", {
+      toast.error("Error downloading file!", {
         description: error instanceof Error ? error.message : "Unknown error",
       })
     }
@@ -118,7 +126,7 @@ export function GenerateForm() {
                 <FormControl>
                   <Textarea
                     placeholder="Enter the job description that you would like to generate for..."
-                    className="max-h-[200px] min-h-[200px] resize-none"
+                    className="max-h-[150px] min-h-[150px] resize-none"
                     {...field}
                   />
                 </FormControl>

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   location: {
     fontSize: 11,

@@ -13,10 +13,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "AcmeAPI": {
-      "type": "sst.aws.ApiGatewayV2"
-      "url": string
-    }
     "AcmeDB": {
       "database": string
       "host": string
@@ -42,6 +38,24 @@ declare module "sst" {
       "value": string
     }
     "DEEPSEEK_API_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "JobShineAPI": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "JobShineAuth": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "JobShineRouter": {
+      "type": "sst.aws.Router"
+      "url": string
+    }
+    "OPENAI_API_KEY": {
       "type": "sst.sst.Secret"
       "value": string
     }

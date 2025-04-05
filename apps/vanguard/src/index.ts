@@ -8,7 +8,10 @@ const app = new Hono()
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3000", `https://${process.env.BASE_URL}`],
+    origin: [
+      "http://localhost:3000",
+      `https://${process.env.BETTER_AUTH_BASE_URL}`,
+    ],
     allowMethods: ["*"],
     allowHeaders: ["*"],
     credentials: true,

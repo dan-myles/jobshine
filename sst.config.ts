@@ -35,6 +35,7 @@ export default $config({
       "AWS_BEDROCK_SECRET_ACCESS_KEY",
     );
     const DEEPSEEK_API_KEY = new sst.Secret("DEEPSEEK_API_KEY");
+    const OPENAI_API_KEY = new sst.Secret("OPENAI_API_KEY");
 
     /**
      * Common Env Vars
@@ -46,8 +47,6 @@ export default $config({
 
     /**
      * VPC
-     * Most cloud resources we create are going to be hosted in our VPC.
-     * This makes it easy to tunnel to the VPC and access our resources.
      */
     const vpc = new sst.aws.Vpc("AcmeVPC", {
       bastion: true,
@@ -56,78 +55,62 @@ export default $config({
 
     /**
      * Database
-     * This is just a simple relational Postgres database that we'll use for our
-     * application. It needs to be hosted in a VPC so that it can be accessed from
-     * our APIs. Also, so we can tunnel to it from our local machine.
      */
     const db = new sst.aws.Postgres("AcmeDB", {
       vpc,
       proxy: true,
     });
 
+    /**
+     * Resume Bucket
+     * This is a bucket that we'll use to store resumes.
+     */
     const resumeBucket = new sst.aws.Bucket("AcmeResumeBucket");
 
     /**
-     * API Gateway
-     * This is our primary API Gateway that we'll use to route traffic to our Lambdas/services.
+     * Router
+     * This is our router that we'll use to route our requests to our services.
      */
-    const api = new sst.aws.ApiGatewayV2("AcmeAPI", {
-      vpc,
-      cors: {
-        allowOrigins: ["http://localhost:3000", `https://${APP.url}`],
-        allowMethods: ["*"],
-        allowHeaders: ["*"],
-        allowCredentials: true,
-      },
+    const router = new sst.aws.Router("JobShineRouter", {
       domain: {
         name: APP.url,
         dns: sst.cloudflare.dns(),
-        path: "api/v1",
       },
     });
 
     /**
-     * API Routes
-     * General definitions of all API routes go here.
+     * Functions
+     * These are our backend functions that are used
+     * to handle our API requests.
      */
-    // Vanguard 🛡️
-    api.route("ANY /auth/{proxy+}", {
+    // 🛡️Auth
+    const auth = new sst.aws.Function("JobShineAuth", {
       link: [db],
+      url: true,
       handler: "apps/vanguard/src/index.handler",
       environment: {
+        BETTER_AUTH_BASE_URL: APP.url,
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        BASE_URL: APP.url,
         ...COMMON_ENV,
       },
     });
 
-    // Argus 🏹
-    api.route("GET /trpc/{proxy+}", {
+    // 💻 API
+    const api = new sst.aws.Function("JobShineAPI", {
       link: [db, resumeBucket],
+      url: true,
       handler: "apps/argus/src/index.handler",
-      timeout: "1 minute",
+      timeout: "120 seconds",
       environment: {
+        BETTER_AUTH_BASE_URL: APP.url,
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
         AWS_BEDROCK_SECRET_ACCESS_KEY: AWS_BEDROCK_SECRET_ACCESS_KEY.value,
         DEEPSEEK_API_KEY: DEEPSEEK_API_KEY.value,
+        OPENAI_API_KEY: OPENAI_API_KEY.value,
         ...COMMON_ENV,
       },
     });
-
-    api.route("POST /trpc/{proxy+}", {
-      link: [db, resumeBucket],
-      handler: "apps/argus/src/index.handler",
-      timeout: "1 minute",
-      environment: {
-        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
-        AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
-        AWS_BEDROCK_SECRET_ACCESS_KEY: AWS_BEDROCK_SECRET_ACCESS_KEY.value,
-        DEEPSEEK_API_KEY: DEEPSEEK_API_KEY.value,
-        ...COMMON_ENV,
-      },
-    });
-
 
     /**
      * Frontend
@@ -140,15 +123,22 @@ export default $config({
       link: [db],
       path: "apps/vapor",
       environment: {
-        NEXT_PUBLIC_BASE_URL: APP.url === "" ? api.url : `https://${APP.url}`,
-        NEXT_PUBLIC_API_URL: api.url,
+        NEXT_PUBLIC_BASE_URL: APP.url,
         ...COMMON_ENV,
       },
-      domain: {
-        name: APP.url,
-        dns: sst.cloudflare.dns(),
-      },
     });
+
+    /**
+     * Routes
+     * These are the routes that we'll use to route our requests to our services.
+     *
+     * readTimeout: "60 seconds" because AI requests can take a while...
+     * Can request an increase for this: /servicequotas/home/services/cloudfront/quotas/L-AECE9FA7
+     */
+    router.route("/api/v1/trpc", api.url, {
+      readTimeout: "60 seconds",
+    });
+    router.route("/api/v1/auth", auth.url);
 
     /** Dev Commands */
     new sst.x.DevCommand("AcmeStudio", {
@@ -161,7 +151,7 @@ export default $config({
 
     return {
       frontend: frontend.url,
-      backend: api.url,
+      backend: router.url,
     };
   },
 });

@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const cookies = req.headers.cookie ?? ""
 
   void httpProxyMiddleware(req, res, {
-    target: process.env.NEXT_PUBLIC_BASE_URL,
+    target: `https://${process.env.NEXT_PUBLIC_BASE_URL}`,
     pathRewrite: [
       {
         patternStr: "^/api/",

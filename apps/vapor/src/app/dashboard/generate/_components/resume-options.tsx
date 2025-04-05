@@ -19,9 +19,11 @@ export function ResumeOptions() {
           </div>
 
           <div className="flex flex-col items-start justify-center gap-1">
-            <p className="text-xl font-semibold">GPT-4.5 Turbo</p>
-            <p className="text-muted-foreground text-sm">
-              OpenAI's flagship model.
+            <p className="w-full text-center text-xl font-semibold">
+              GPT-4o Mini
+            </p>
+            <p className="text-muted-foreground w-full text-center text-sm">
+              OpenAI's advanced reasoning model.
             </p>
           </div>
 
@@ -52,11 +54,6 @@ export function ResumeOptions() {
             <div className="mb-1 flex items-center justify-between">
               <span>Token Estimation</span>
               <span className="font-mono">142 tokens</span>
-            </div>
-            <div className="flex items-center justify-between text-xs">
-              <span>Cost Per Million</span>
-              <span className="font-mono">Input: $0.15 USD</span>
-              <span className="font-mono">Output: $0.60 USD</span>
             </div>
             <div className="mt-2 flex items-center justify-between border-t border-dashed pt-2">
               <span className="text-xs italic">

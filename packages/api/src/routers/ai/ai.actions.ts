@@ -23,7 +23,8 @@ import { ResumeSchema } from "@acme/validators"
 
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"
-import { deepseekr1__generateResume } from "./deepseek-r1"
+import { deepseekR1__generateResume } from "./model.deepseek-r1"
+import { openai4oMini__generateResume } from "./model.openai-4o-mini"
 
 export async function generate(
   userId: string,
@@ -116,7 +117,7 @@ async function resume(
   jobDescription: string,
   db: DB,
 ) {
-  const { resume: generated } = await deepseekr1__generateResume(
+  const { resume: generated } = await openai4oMini__generateResume(
     resume,
     jobDescription,
   )
