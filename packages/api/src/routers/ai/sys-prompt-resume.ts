@@ -1,3 +1,4 @@
+export const sysPromptResume = `
 # System Information
 
 You are JobShine. You are an advanced resume and cover letter generation AI tool.
@@ -114,3 +115,4 @@ You may NOT add any projects that do not already exist. You may NOT remove any p
     })
 
 </schema>
+`

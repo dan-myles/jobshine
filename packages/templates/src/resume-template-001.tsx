@@ -40,108 +40,108 @@ Font.register({
 
 const styles = StyleSheet.create({
   page: {
-    padding: "20pt 16pt",
+    padding: "18pt 16pt",
     fontFamily: "Garamond",
-    fontSize: 12,
-    lineHeight: 1.2,
+    fontSize: 11,
+    lineHeight: 1.15,
   },
   header: {
-    marginBottom: 15,
-  },
-  fullName: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
     marginBottom: 12,
   },
-  location: {
-    fontSize: 12,
-    textAlign: "center",
-    marginBottom: 2,
-  },
-  contactInfo: {
-    fontSize: 12,
+  fullName: {
+    fontSize: 29,
+    fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
   },
-  websiteLink: {
+  location: {
     fontSize: 11,
+    textAlign: "center",
+    marginBottom: 1,
+  },
+  contactInfo: {
+    fontSize: 11,
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  websiteLink: {
+    fontSize: 10,
     textAlign: "right",
     color: "blue",
     textDecoration: "none",
   },
   sectionHeader: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 4,
   },
   sectionDivider: {
     borderBottomWidth: 0.3,
     borderBottomColor: "#000000",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   sectionContent: {
-    marginBottom: 15,
+    marginBottom: 12,
   },
   experienceHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 2,
+    marginBottom: 1,
   },
   companyName: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
   },
   experienceDate: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "bold",
     textAlign: "right",
   },
   experienceBulletContainer: {
-    maxWidth: 425,
+    maxWidth: 430,
   },
   experienceSubHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
+    marginBottom: 3,
   },
   positionTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: "italic",
   },
   experienceLocation: {
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: "italic",
     textAlign: "right",
   },
   bulletPoint: {
-    marginBottom: 2,
+    marginBottom: 1,
   },
   educationHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 2,
+    marginBottom: 1,
   },
   schoolName: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
   },
   educationDate: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "bold",
     textAlign: "right",
   },
   educationSubHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
+    marginBottom: 3,
   },
   degree: {
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: "italic",
   },
   gpa: {
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: "italic",
     textAlign: "right",
   },
@@ -151,22 +151,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   projectName: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
-    marginBottom: 4,
+    marginBottom: 3,
   },
   projectDate: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "bold",
     textAlign: "right",
   },
   projectLink: {
-    fontSize: 11,
+    fontSize: 10,
     color: "blue",
     textDecoration: "none",
   },
   projectDot: {
-    fontSize: 10,
+    fontSize: 9,
     textDecoration: "none",
     marginLeft: 3,
     marginRight: 3,
@@ -200,7 +200,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                 <Text style={{ color: "black" }}>
                   {"  "}•{"  "}
                 </Text>
-                {website.url}
+                {website.url.replace("https://", "").replace("www.", "")}
               </Link>
             ))}
           </Text>
@@ -236,7 +236,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
             <View
               key={index}
               style={{
-                marginBottom: index < resume.experience.length - 1 ? 15 : 0,
+                marginBottom: index < resume.experience.length - 1 ? 12 : 0,
               }}
             >
               <View style={styles.experienceHeader}>
@@ -269,7 +269,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
             <View
               key={index}
               style={{
-                marginBottom: index < resume.projects.length - 1 ? 12 : 0,
+                marginBottom: index < resume.projects.length - 1 ? 10 : 0,
               }}
             >
               <View style={styles.projectHeader}>
@@ -278,7 +278,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
                   <>
                     <Text style={styles.projectDot}>{"  "}•</Text>
                     <Link src={project.link} style={styles.projectLink}>
-                      {project.link}
+                      {project.link.replace("https://", "").replace("www.", "")}
                     </Link>
                   </>
                 )}
@@ -303,7 +303,7 @@ export function ResumeTemplate_001({ resume }: { resume: Resume }) {
             <View
               key={index}
               style={{
-                marginBottom: index < resume.education.length - 1 ? 12 : 0,
+                marginBottom: index < resume.education.length - 1 ? 10 : 0,
               }}
             >
               <View style={styles.educationHeader}>

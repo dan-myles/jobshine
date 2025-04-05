@@ -59,6 +59,11 @@ export const ResumeSchema = z.object({
   projects: ProjectSchema.array(),
 })
 
+export const AIGenerationSchema = z.object({
+  resume: ResumeSchema,
+  changes: z.array(z.string()),
+})
+
 export const ResumeTemplateIdSchema = z.enum(["001"])
 
 export type Skill = z.infer<typeof SkillSchema>
@@ -69,3 +74,4 @@ export type Education = z.infer<typeof EducationSchema>
 export type Experience = z.infer<typeof ExperienceSchema>
 export type Resume = z.infer<typeof ResumeSchema>
 export type ResumeTemplateId = z.infer<typeof ResumeTemplateIdSchema>
+export type AIGeneration = z.infer<typeof AIGenerationSchema>

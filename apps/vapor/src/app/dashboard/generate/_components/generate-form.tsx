@@ -42,6 +42,7 @@ export function GenerateForm() {
         downloadFile(data.url, `${session?.user.name}.pdf`).catch(console.error)
       },
       onError: (error) => {
+        console.log(error)
         toast.error("Error generating PDF", {
           description: error.message,
         })
@@ -117,7 +118,7 @@ export function GenerateForm() {
                 <FormControl>
                   <Textarea
                     placeholder="Enter the job description that you would like to generate for..."
-                    className="max-h-[200px] min-h-[150px] resize-none"
+                    className="max-h-[200px] min-h-[200px] resize-none"
                     {...field}
                   />
                 </FormControl>

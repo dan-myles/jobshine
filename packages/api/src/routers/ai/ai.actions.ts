@@ -23,7 +23,7 @@ import { ResumeSchema } from "@acme/validators"
 
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"
-import { resumeAI } from "./deepseek-r1"
+import { deepseekr1__generateResume } from "./deepseek-r1"
 
 export async function generate(
   userId: string,
@@ -116,13 +116,16 @@ async function resume(
   jobDescription: string,
   db: DB,
 ) {
-  const res = await resumeAI(resume, jobDescription)
+  const { resume: generated } = await deepseekr1__generateResume(
+    resume,
+    jobDescription,
+  )
 
   let doc: React.JSX.Element | undefined = undefined
 
   switch (resumeTemplateId) {
     case "001":
-      doc = ResumeTemplate_001({ resume })
+      doc = ResumeTemplate_001({ resume: generated })
       break
     default:
       throw new TRPCError({

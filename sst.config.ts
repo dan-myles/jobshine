@@ -105,6 +105,7 @@ export default $config({
     api.route("GET /trpc/{proxy+}", {
       link: [db, resumeBucket],
       handler: "apps/argus/src/index.handler",
+      timeout: "1 minute",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
@@ -117,6 +118,7 @@ export default $config({
     api.route("POST /trpc/{proxy+}", {
       link: [db, resumeBucket],
       handler: "apps/argus/src/index.handler",
+      timeout: "1 minute",
       environment: {
         BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         AWS_BEDROCK_ACCESS_KEY_ID: AWS_BEDROCK_ACCESS_KEY_ID.value,
@@ -125,6 +127,7 @@ export default $config({
         ...COMMON_ENV,
       },
     });
+
 
     /**
      * Frontend
