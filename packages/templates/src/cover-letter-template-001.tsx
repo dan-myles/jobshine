@@ -2,7 +2,6 @@ import React from "react"
 import {
   Document,
   Font,
-  Link,
   Page,
   StyleSheet,
   Text,
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
   },
   closingText: {
     fontSize: 12,
-    marginTop: 20,
     marginBottom: 4,
   },
   typedSenderName: {
@@ -106,14 +104,6 @@ export function CoverLetterTemplate_001({
           ))}
           <Text style={styles.senderContact}>{coverLetter.senderPhone}</Text>
           <Text style={styles.senderContact}>{coverLetter.senderEmail}</Text>
-          {coverLetter.senderWebsite && (
-            <Link
-              src={coverLetter.senderWebsite}
-              style={styles.senderWebsiteLink}
-            >
-              {coverLetter.senderWebsite}
-            </Link>
-          )}
         </View>
 
         {/* Salutation */}

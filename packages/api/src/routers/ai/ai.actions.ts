@@ -24,7 +24,10 @@ import { ResumeSchema } from "@acme/validators"
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"
 import { deepseekR1__generateResume } from "./model.deepseek-r1"
-import { openai4oMini__generateResume } from "./model.openai-4o-mini"
+import {
+  openai4oMini__generateCoverLetter,
+  openai4oMini__generateResume,
+} from "./model.openai-4o-mini"
 
 export async function generate(
   userId: string,
@@ -82,20 +85,16 @@ async function coverLetter(
   jobDescription: string,
   db: DB,
 ) {
-  const cl: CoverLetter = {
-    senderName: resume.fullName,
-    senderAddress: resume.location,
-    senderPhone: resume.phone,
-    senderEmail: resume.email,
-    senderWebsite: resume.websites[0]?.url ?? "",
-    body: "not yet implemented!",
-  }
+  const { coverLetter: generated } = await openai4oMini__generateCoverLetter(
+    resume,
+    jobDescription,
+  )
 
   let doc: React.JSX.Element | undefined = undefined
 
   switch (coverLetterTemplateId) {
     case "001":
-      doc = CoverLetterTemplate_001({ coverLetter: cl })
+      doc = CoverLetterTemplate_001({ coverLetter: generated })
       break
     default:
       throw new TRPCError({

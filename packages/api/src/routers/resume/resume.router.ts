@@ -1,6 +1,7 @@
 import { z } from "zod"
 
-import { Resume, ResumeSchema } from "@acme/validators"
+import type { Resume } from "@acme/validators"
+import { ResumeSchema } from "@acme/validators"
 
 import type { TRPCRouterRecord } from "@trpc/server"
 import { privateProcedure } from "../../trpc"

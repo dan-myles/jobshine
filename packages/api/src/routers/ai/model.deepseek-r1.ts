@@ -2,8 +2,8 @@ import { createDeepSeek } from "@ai-sdk/deepseek"
 import { TRPCError } from "@trpc/server"
 import { generateText } from "ai"
 
-import type { AIGeneration, Resume } from "@acme/validators"
-import { AIGenerationSchema } from "@acme/validators"
+import type { ResumeAIGeneration, Resume } from "@acme/validators"
+import { ResumeAiGenerationSchema } from "@acme/validators"
 
 import { sysPromptResume } from "./sys-prompt-resume"
 
@@ -26,8 +26,8 @@ export async function deepseekR1__generateResume(
   const regex = /```json([\s\S]*?)```/g
   const match = regex.exec(text)
   const string = match?.[1]?.trim()
-  const json = JSON.parse(string ?? "{}") as AIGeneration
-  const { data, error } = AIGenerationSchema.safeParse(json)
+  const json = JSON.parse(string ?? "{}") as ResumeAIGeneration
+  const { data, error } = ResumeAiGenerationSchema.safeParse(json)
 
   if (error) {
     console.error("Error parsing an AI response >>> ", error)

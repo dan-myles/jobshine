@@ -2,9 +2,17 @@ import { createOpenAI } from "@ai-sdk/openai"
 import { TRPCError } from "@trpc/server"
 import { generateText } from "ai"
 
-import type { AIGeneration, Resume } from "@acme/validators"
-import { AIGenerationSchema } from "@acme/validators"
+import type {
+  CoverLetterAIGeneration,
+  Resume,
+  ResumeAIGeneration,
+} from "@acme/validators"
+import {
+  CoverLetterAIGenerationSchema,
+  ResumeAiGenerationSchema,
+} from "@acme/validators"
 
+import { sysPromptCoverLetter } from "./sys-prompt-cover-letter"
 import { sysPromptResume } from "./sys-prompt-resume"
 
 const openai = createOpenAI({
@@ -24,8 +32,35 @@ export async function openai4oMini__generateResume(
       `<resume>${JSON.stringify(resume)}</resume>`,
   })
 
-  const json = JSON.parse(text ?? "{}") as AIGeneration
-  const { data, error } = AIGenerationSchema.safeParse(json)
+  const json = JSON.parse(text ?? "{}") as ResumeAIGeneration
+  const { data, error } = ResumeAiGenerationSchema.safeParse(json)
+
+  if (error) {
+    console.error("Error parsing an AI response >>> ", error)
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "There was an error parsing the AI response.",
+      cause: error,
+    })
+  }
+
+  return data
+}
+
+export async function openai4oMini__generateCoverLetter(
+  resume: Resume,
+  jobDescription: string,
+) {
+  const { text } = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt:
+      sysPromptCoverLetter +
+      `<jobDescription>${jobDescription}</jobDescription>` +
+      `<resume>${JSON.stringify(resume)}</resume>`,
+  })
+
+  const json = JSON.parse(text ?? "{}") as CoverLetterAIGeneration
+  const { data, error } = CoverLetterAIGenerationSchema.safeParse(json)
 
   if (error) {
     console.error("Error parsing an AI response >>> ", error)
