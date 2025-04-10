@@ -141,7 +141,7 @@ export default $config({
     router.route("/api/v1/auth", auth.url);
 
     /** Dev Commands */
-    new sst.x.DevCommand("Drizzle Studio", {
+    new sst.x.DevCommand("DrizzleStudio", {
       link: [db],
       dev: {
         autostart: true,

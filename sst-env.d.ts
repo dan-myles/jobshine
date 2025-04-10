@@ -13,26 +13,6 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "AcmeDB": {
-      "database": string
-      "host": string
-      "password": string
-      "port": number
-      "type": "sst.aws.Postgres"
-      "username": string
-    }
-    "AcmeFrontend": {
-      "type": "sst.aws.Nextjs"
-      "url": string
-    }
-    "AcmeResumeBucket": {
-      "name": string
-      "type": "sst.aws.Bucket"
-    }
-    "AcmeVPC": {
-      "bastion": string
-      "type": "sst.aws.Vpc"
-    }
     "BETTER_AUTH_SECRET": {
       "type": "sst.sst.Secret"
       "value": string
@@ -51,9 +31,29 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "JobShineDB": {
+      "database": string
+      "host": string
+      "password": string
+      "port": number
+      "type": "sst.aws.Postgres"
+      "username": string
+    }
+    "JobShineFrontend": {
+      "type": "sst.aws.Nextjs"
+      "url": string
+    }
+    "JobShineResumeBucket": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
     "JobShineRouter": {
       "type": "sst.aws.Router"
       "url": string
+    }
+    "JobShineVPC": {
+      "bastion": string
+      "type": "sst.aws.Vpc"
     }
     "OPENAI_API_KEY": {
       "type": "sst.sst.Secret"

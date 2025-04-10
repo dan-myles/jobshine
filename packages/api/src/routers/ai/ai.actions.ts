@@ -154,7 +154,7 @@ async function s3(
     const key = `${documentType}s/${userId}/${fileName}`
 
     const command = new PutObjectCommand({
-      Bucket: Resource.AcmeResumeBucket.name,
+      Bucket: Resource.JobShineResumeBucket.name,
       Key: key,
       Body: file,
       ContentType: "application/pdf",
@@ -162,7 +162,7 @@ async function s3(
 
     await s3Client.send(command)
     const downloadCommand = new GetObjectCommand({
-      Bucket: Resource.AcmeResumeBucket.name,
+      Bucket: Resource.JobShineResumeBucket.name,
       Key: key,
     })
     const downloadUrl = await getSignedUrl(s3Client, downloadCommand, {
@@ -174,9 +174,9 @@ async function s3(
       userId,
       fileId,
       fileName,
-      Resource.AcmeResumeBucket.name,
+      Resource.JobShineResumeBucket.name,
       key,
-      `https://${Resource.AcmeResumeBucket.name}.s3.amazonaws.com/${key}`,
+      `https://${Resource.JobShineResumeBucket.name}.s3.amazonaws.com/${key}`,
       documentType,
       "application/pdf",
       file.length,
@@ -185,7 +185,7 @@ async function s3(
     )
 
     console.log(
-      `Saved ${documentType} for user=${userId} @ https://${Resource.AcmeResumeBucket.name}.s3.amazonaws.com/${key}`,
+      `Saved ${documentType} for user=${userId} @ https://${Resource.JobShineResumeBucket.name}.s3.amazonaws.com/${key}`,
     )
 
     return downloadUrl
