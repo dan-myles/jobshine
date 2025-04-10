@@ -46,16 +46,21 @@ export function ResumeForm() {
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [newSkill, setNewSkill] = useState("")
   const [activeTab, setActiveTab] = useState("personal")
+  const [toastId, setToastId] = useState<string | number | null>(null)
   const { resumeData, setResumeData } = use(ResumeContext)
 
   const submitResume = useMutation(
     api.resume.upsert.mutationOptions({
       onSuccess: () => {
-        toast.success("Resume saved successfully!")
+        toast.success("Resume saved successfully!", {
+          id: toastId!,
+        })
         invalidateResume().catch(console.error)
       },
       onError: () => {
-        toast.error("Failed to save resume.")
+        toast.error("Failed to save resume.", {
+          id: toastId!,
+        })
       },
     }),
   )
@@ -334,6 +339,8 @@ export function ResumeForm() {
   }
 
   function handleFormSubmit(data: Resume) {
+    const toastId = toast.loading("Saving resume...")
+    setToastId(toastId)
     submitResume.mutate({
       resume: data,
     })

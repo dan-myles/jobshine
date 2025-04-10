@@ -1,5 +1,7 @@
 "use client"
 
+import { toast } from "sonner"
+
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -27,7 +29,13 @@ export function ResumeOptions() {
             </p>
           </div>
 
-          <Button variant="outline" className="w-full cursor-not-allowed">
+          <Button
+            variant="outline"
+            className="w-full cursor-not-allowed"
+            onClick={() => {
+              toast.info("More models coming soon!")
+            }}
+          >
             <Icons.Bot className="h-4 w-4" />
             Change model
           </Button>

@@ -57,6 +57,8 @@ export function SignUpForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setPending(true)
+    const toastId = toast.loading("Signing up...")
+
     const { error } = await auth.signUp.email({
       name: values.name,
       email: values.email,
@@ -66,11 +68,15 @@ export function SignUpForm({
     if (error) {
       toast.error("There was an error signing up!", {
         description: error.message,
+        id: toastId,
       })
 
       return
     }
 
+    toast.success("Successfully signed up!", {
+      id: toastId,
+    })
     router.push("/dashboard")
     setPending(false)
   }

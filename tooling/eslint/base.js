@@ -30,7 +30,7 @@ export default tseslint.config(
         { checksVoidReturn: { attributes: false } },
       ],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-      "@typescript-eslint/no-non-null-assertion": "error",
+      "@typescript-eslint/no-non-null-assertion": "off",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     },
   },

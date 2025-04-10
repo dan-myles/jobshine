@@ -53,6 +53,8 @@ export function LoginForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setPending(true)
+    const toastId = toast.loading("Logging in...")
+
     const { error } = await auth.signIn.email({
       email: values.email,
       password: values.password,
@@ -61,11 +63,15 @@ export function LoginForm({
     if (error) {
       toast.error("There was an error logging in!", {
         description: error.message,
+        id: toastId,
       })
 
       return
     }
 
+    toast.success("Welcome back!", {
+      id: toastId,
+    })
     router.push("/dashboard")
     setPending(false)
   }
