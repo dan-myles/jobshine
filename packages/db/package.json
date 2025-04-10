@@ -1,5 +1,5 @@
 {
-  "name": "@acme/db",
+  "name": "@jobshine/db",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -36,7 +36,7 @@
     "non-tunnel-studio": "sst shell drizzle-kit studio"
   },
   "dependencies": {
-    "@acme/validators": "workspace:*",
+    "@jobshine/validators": "workspace:*",
     "@paralleldrive/cuid2": "^2.2.2",
     "drizzle-orm": "^0.38.4",
     "drizzle-zod": "^0.6.1",
@@ -44,14 +44,14 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@jobshine/eslint-config": "workspace:*",
+    "@jobshine/prettier-config": "workspace:*",
+    "@jobshine/tsconfig": "workspace:*",
     "@types/pg": "^8.11.11",
     "drizzle-kit": "^0.30.2",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@jobshine/prettier-config"
 }

@@ -13,8 +13,8 @@ import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
 
-import { auth } from "@acme/auth"
-import { db } from "@acme/db/client"
+import { auth } from "@jobshine/auth"
+import { db } from "@jobshine/db/client"
 
 /**
  * 1. CONTEXT

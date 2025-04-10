@@ -15,7 +15,7 @@ const garamond = EB_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: "Acme App",
+  title: "JobShine",
   description: "SST NEXT TS",
 }
 
@@ -40,8 +40,8 @@ export default function RootLayout({
             disableTransitionOnChange={true}
           >
             {children}
+            <Toaster />
           </ThemeProvider>
-          <Toaster />
         </APIProvider>
       </body>
     </html>

@@ -10,16 +10,16 @@ import ReactPDF from "@react-pdf/renderer"
 import { TRPCError } from "@trpc/server"
 import { Resource } from "sst"
 
-import type { DB } from "@acme/db/client"
-import type { DocumentType } from "@acme/db/schema"
+import type { DB } from "@jobshine/db/client"
+import type { DocumentType } from "@jobshine/db/schema"
 import type {
   CoverLetter,
   CoverLetterId,
   Resume,
   ResumeTemplateId,
-} from "@acme/validators"
-import { CoverLetterTemplate_001, ResumeTemplate_001 } from "@acme/templates"
-import { ResumeSchema } from "@acme/validators"
+} from "@jobshine/validators"
+import { CoverLetterTemplate_001, ResumeTemplate_001 } from "@jobshine/templates"
+import { ResumeSchema } from "@jobshine/validators"
 
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"

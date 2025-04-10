@@ -2,8 +2,8 @@ import type { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
 import { Resource } from "sst"
 
-import { appRouter, createTRPCContext } from "@acme/api"
-import { getBaseUrl } from "@acme/common"
+import { appRouter, createTRPCContext } from "@jobshine/api"
+import { getBaseUrl } from "@jobshine/common"
 
 /**
  * This is the primary function that trpc uses to start a tRPC API

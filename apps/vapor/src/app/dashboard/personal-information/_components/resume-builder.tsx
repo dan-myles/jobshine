@@ -3,7 +3,7 @@
 import { createContext, useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import type { Resume } from "@acme/validators"
+import type { Resume } from "@jobshine/validators"
 
 import { Icons } from "@/components/icons"
 import { useAPI } from "@/lib/api/client"

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/prettier-config",
+  "name": "@jobshine/prettier-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -22,8 +22,8 @@
     "prettier-plugin-merge": "catalog:"
   },
   "devDependencies": {
-    "@acme/tsconfig": "workspace:*",
+    "@jobshine/tsconfig": "workspace:*",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@jobshine/prettier-config"
 }

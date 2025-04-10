@@ -3,7 +3,7 @@ import { sql } from "drizzle-orm"
 import { integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core"
 import { singlestoreEnum } from "drizzle-orm/singlestore-core"
 
-import type { Resume as ResumeType } from "@acme/validators"
+import type { Resume as ResumeType } from "@jobshine/validators"
 
 import { user } from "./auth.schema"
 

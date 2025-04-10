@@ -6,11 +6,11 @@ import type {
   CoverLetterAIGeneration,
   Resume,
   ResumeAIGeneration,
-} from "@acme/validators"
+} from "@jobshine/validators"
 import {
   CoverLetterAIGenerationSchema,
   ResumeAiGenerationSchema,
-} from "@acme/validators"
+} from "@jobshine/validators"
 
 import { sysPromptCoverLetter } from "./sys-prompt-cover-letter"
 import { sysPromptResume } from "./sys-prompt-resume"

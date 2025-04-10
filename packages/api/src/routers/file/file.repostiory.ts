@@ -1,7 +1,7 @@
-import type { DB } from "@acme/db/client"
-import type { DocumentType } from "@acme/db/schema"
-import { and, desc, eq } from "@acme/db"
-import { file } from "@acme/db/schema"
+import type { DB } from "@jobshine/db/client"
+import type { DocumentType } from "@jobshine/db/schema"
+import { and, desc, eq } from "@jobshine/db"
+import { file } from "@jobshine/db/schema"
 
 export const FileRepository = {
   async create(

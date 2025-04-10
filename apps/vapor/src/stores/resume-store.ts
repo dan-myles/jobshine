@@ -3,7 +3,7 @@
 
 import { create } from "zustand"
 
-import type { Resume } from "@acme/validators"
+import type { Resume } from "@jobshine/validators"
 
 type ResumeActions = {
   updateResume: (newResumeData: Resume) => void

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/vanguard",
+  "name": "@jobshine/vanguard",
   "type": "module",
   "scripts": {
     "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
@@ -11,21 +11,21 @@
     "clean": "git clean -xdf dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@acme/db": "workspace:*",
-    "@acme/auth": "workspace:*",
-    "@acme/common": "workspace:*",
+    "@jobshine/db": "workspace:*",
+    "@jobshine/auth": "workspace:*",
+    "@jobshine/common": "workspace:*",
     "@aws-sdk/client-sns": "^3.750.0",
     "better-auth": "catalog:",
     "hono": "^4.7.2"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@jobshine/eslint-config": "workspace:*",
+    "@jobshine/prettier-config": "workspace:*",
+    "@jobshine/tsconfig": "workspace:*",
     "esbuild": "^0.21.4",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@jobshine/prettier-config"
 }

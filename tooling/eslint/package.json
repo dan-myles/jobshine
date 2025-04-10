@@ -1,5 +1,5 @@
 {
-  "name": "@acme/eslint-config",
+  "name": "@jobshine/eslint-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -26,8 +26,8 @@
     "typescript-eslint": "^8.24.1"
   },
   "devDependencies": {
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@jobshine/prettier-config": "workspace:*",
+    "@jobshine/tsconfig": "workspace:*",
     "@types/eslint__js": "8.42.3",
     "@types/node": "^22.13.4",
     "eslint": "catalog:",
@@ -36,5 +36,5 @@
     "prettier-plugin-tailwindcss": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@jobshine/prettier-config"
 }

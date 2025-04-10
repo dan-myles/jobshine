@@ -1,9 +1,9 @@
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 
-import { getBaseUrl } from "@acme/common"
-import { db } from "@acme/db/client"
-import * as schema from "@acme/db/schema"
+import { getBaseUrl } from "@jobshine/common"
+import { db } from "@jobshine/db/client"
+import * as schema from "@jobshine/db/schema"
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

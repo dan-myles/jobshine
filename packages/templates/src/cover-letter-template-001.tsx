@@ -8,8 +8,8 @@ import {
   View,
 } from "@react-pdf/renderer"
 
-import type { CoverLetter } from "@acme/validators"
-import { getBaseUrl } from "@acme/common"
+import type { CoverLetter } from "@jobshine/validators"
+import { getBaseUrl } from "@jobshine/common"
 
 Font.register({
   family: "Garamond",

@@ -3,7 +3,7 @@
 export default $config({
   app(input) {
     return {
-      name: "ProjectAcme",
+      name: "JobShine",
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
       home: "aws",
@@ -48,7 +48,7 @@ export default $config({
     /**
      * VPC
      */
-    const vpc = new sst.aws.Vpc("AcmeVPC", {
+    const vpc = new sst.aws.Vpc("JobShineVPC", {
       bastion: true,
       nat: "ec2",
     });
@@ -56,7 +56,7 @@ export default $config({
     /**
      * Database
      */
-    const db = new sst.aws.Postgres("AcmeDB", {
+    const db = new sst.aws.Postgres("JobShineDB", {
       vpc,
       proxy: true,
     });
@@ -65,7 +65,7 @@ export default $config({
      * Resume Bucket
      * This is a bucket that we'll use to store resumes.
      */
-    const resumeBucket = new sst.aws.Bucket("AcmeResumeBucket");
+    const resumeBucket = new sst.aws.Bucket("JobShineResumeBucket");
 
     /**
      * Router
@@ -118,7 +118,7 @@ export default $config({
      * Any frontends must be declared before our CF distribution, since it needs
      * to know the URL of the frontend.
      */
-    const frontend = new sst.aws.Nextjs("AcmeFrontend", {
+    const frontend = new sst.aws.Nextjs("JobShineFrontend", {
       vpc,
       link: [db],
       path: "apps/vapor",
@@ -141,11 +141,11 @@ export default $config({
     router.route("/api/v1/auth", auth.url);
 
     /** Dev Commands */
-    new sst.x.DevCommand("AcmeStudio", {
+    new sst.x.DevCommand("Drizzle Studio", {
       link: [db],
       dev: {
         autostart: true,
-        command: "pnpm -F @acme/db non-tunnel-studio",
+        command: "pnpm -F @jobshine/db non-tunnel-studio",
       },
     });
 

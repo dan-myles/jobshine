@@ -11,8 +11,8 @@ import { Plus, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import type { Resume } from "@acme/validators"
-import { ResumeSchema } from "@acme/validators"
+import type { Resume } from "@jobshine/validators"
+import { ResumeSchema } from "@jobshine/validators"
 
 import { Icons } from "@/components/icons"
 import { Badge } from "@/components/ui/badge"

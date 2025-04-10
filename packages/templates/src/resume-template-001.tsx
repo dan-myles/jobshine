@@ -9,8 +9,8 @@ import {
   View,
 } from "@react-pdf/renderer"
 
-import type { Resume } from "@acme/validators"
-import { getBaseUrl } from "@acme/common"
+import type { Resume } from "@jobshine/validators"
+import { getBaseUrl } from "@jobshine/common"
 
 Font.register({
   family: "Garamond",

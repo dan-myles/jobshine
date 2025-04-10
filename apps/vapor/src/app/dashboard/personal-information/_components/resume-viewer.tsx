@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 
-import { ResumeTemplate_001 } from "@acme/templates"
+import { ResumeTemplate_001 } from "@jobshine/templates"
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { ResumeContext } from "./resume-builder"

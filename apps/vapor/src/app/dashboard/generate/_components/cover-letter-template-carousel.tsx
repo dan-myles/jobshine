@@ -4,8 +4,8 @@ import type { z } from "zod"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-import type { generateSchema } from "@acme/validators"
-import { CoverLetterTemplateIdSchema } from "@acme/validators"
+import type { generateSchema } from "@jobshine/validators"
+import { CoverLetterTemplateIdSchema } from "@jobshine/validators"
 
 import type { CarouselApi } from "@/components/ui/carousel"
 import {

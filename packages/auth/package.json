@@ -1,5 +1,5 @@
 {
-  "name": "@acme/auth",
+  "name": "@jobshine/auth",
   "type": "module",
   "exports": {
     ".": {
@@ -18,18 +18,18 @@
     "generate": "export BETTER_AUTH_GEN=true && pnpx @better-auth/cli generate --config ./src/index.ts --output ../db/src/schema/auth.schema.ts"
   },
   "dependencies": {
-    "@acme/db": "workspace:*",
-    "@acme/common": "workspace:*",
+    "@jobshine/db": "workspace:*",
+    "@jobshine/common": "workspace:*",
     "better-auth": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
-    "@acme/tsconfig": "workspace:*",
+    "@jobshine/eslint-config": "workspace:*",
+    "@jobshine/prettier-config": "workspace:*",
+    "@jobshine/tsconfig": "workspace:*",
     "@ianvs/prettier-plugin-sort-imports": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@jobshine/prettier-config"
 }

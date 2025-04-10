@@ -1,8 +1,8 @@
 import { eq, sql } from "drizzle-orm"
 
-import type { DB } from "@acme/db/client"
-import type { Resume } from "@acme/validators"
-import { resume } from "@acme/db/schema"
+import type { DB } from "@jobshine/db/client"
+import type { Resume } from "@jobshine/validators"
+import { resume } from "@jobshine/db/schema"
 
 export const ResumeRepository = {
   async create(userId: string, data: Resume, db: DB) {

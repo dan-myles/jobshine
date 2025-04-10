@@ -2,8 +2,8 @@ import { createDeepSeek } from "@ai-sdk/deepseek"
 import { TRPCError } from "@trpc/server"
 import { generateText } from "ai"
 
-import type { ResumeAIGeneration, Resume } from "@acme/validators"
-import { ResumeAiGenerationSchema } from "@acme/validators"
+import type { ResumeAIGeneration, Resume } from "@jobshine/validators"
+import { ResumeAiGenerationSchema } from "@jobshine/validators"
 
 import { sysPromptResume } from "./sys-prompt-resume"
 

@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import { generateSchema } from "@acme/validators"
+import { generateSchema } from "@jobshine/validators"
 
 import { Icons } from "@/components/icons"
 import {

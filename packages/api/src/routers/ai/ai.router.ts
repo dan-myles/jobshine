@@ -1,4 +1,4 @@
-import { generateSchema } from "@acme/validators"
+import { generateSchema } from "@jobshine/validators"
 
 import type { TRPCRouterRecord } from "@trpc/server"
 import { privateProcedure } from "../../trpc"

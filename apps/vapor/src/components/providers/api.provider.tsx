@@ -11,8 +11,8 @@ import {
 } from "@trpc/client"
 import SuperJSON from "superjson"
 
-import type { AppRouter } from "@acme/api"
-import { getBaseUrl } from "@acme/common"
+import type { AppRouter } from "@jobshine/api"
+import { getBaseUrl } from "@jobshine/common"
 
 import type { QueryClient } from "@tanstack/react-query"
 import { APIProvider as APIReactProvider } from "@/lib/api/client"

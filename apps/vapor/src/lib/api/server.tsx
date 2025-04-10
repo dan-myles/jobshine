@@ -4,7 +4,7 @@ import { cache } from "react"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query"
 
-import { appRouter, createCaller, createTRPCContext } from "@acme/api"
+import { appRouter, createCaller, createTRPCContext } from "@jobshine/api"
 
 import type { TRPCQueryOptions } from "@trpc/tanstack-react-query"
 import { createQueryClient } from "@/lib/query-client"
