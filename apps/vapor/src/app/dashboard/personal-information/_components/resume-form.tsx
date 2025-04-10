@@ -1037,7 +1037,7 @@ export function ResumeForm() {
               </TabsContent>
 
               <div className="flex justify-end pt-6">
-                {/* TODO: button only shows error message the 2nd time you click */}
+                {/* TODO: fix button only shows error message the 2nd time you click */}
                 <Button
                   type="submit"
                   className="bg-primary"
