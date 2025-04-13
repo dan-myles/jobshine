@@ -4,8 +4,6 @@ import { useState } from "react"
 import { QueryClientProvider } from "@tanstack/react-query"
 import {
   createTRPCClient,
-  httpBatchLink,
-  httpLink,
   loggerLink,
   unstable_httpBatchStreamLink,
 } from "@trpc/client"

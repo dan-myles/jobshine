@@ -1,9 +1,7 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyHandlerV2 } from "aws-lambda"
 import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda"
-import { Resource } from "sst"
 
 import { appRouter, createTRPCContext } from "@jobshine/api"
-import { getBaseUrl } from "@jobshine/common"
 
 /**
  * This is the primary function that trpc uses to start a tRPC API
@@ -14,23 +12,7 @@ import { getBaseUrl } from "@jobshine/common"
 const lambda = awsLambdaRequestHandler({
   router: appRouter,
   createContext: createTRPCContext,
-  responseMeta() {
-    return {
-      headers: {
-        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(
-          Resource.App.stage,
-        ),
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Methods": "GET, POST",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    }
-  },
 })
-
-function getAccessControlAllowOrigin(stage: string) {
-  return getBaseUrl()
-}
 
 const handler: APIGatewayProxyEvent | APIGatewayProxyHandlerV2 = async (
   event,

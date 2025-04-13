@@ -29,3 +29,7 @@
 ## Notes
 
 - You do NOT need to link DB to any React SPA (or full client) apps. Next.js you have to because of RSC's.
+
+
+## Todo
+- [] Move from nextjs to just tanstack start

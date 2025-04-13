@@ -39,8 +39,13 @@ declare module "sst" {
       "type": "sst.aws.Postgres"
       "username": string
     }
-    "JobShineFrontend": {
-      "type": "sst.aws.Nextjs"
+    "JobShineFE": {
+      "type": "sst.aws.TanstackStart"
+      "url": string
+    }
+    "JobShinePolar": {
+      "name": string
+      "type": "sst.aws.Function"
       "url": string
     }
     "JobShineResumeBucket": {
@@ -56,6 +61,10 @@ declare module "sst" {
       "type": "sst.aws.Vpc"
     }
     "OPENAI_API_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "POLAR_ACCESS_TOKEN": {
       "type": "sst.sst.Secret"
       "value": string
     }

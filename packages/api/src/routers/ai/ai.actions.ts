@@ -13,17 +13,18 @@ import { Resource } from "sst"
 import type { DB } from "@jobshine/db/client"
 import type { DocumentType } from "@jobshine/db/schema"
 import type {
-  CoverLetter,
   CoverLetterId,
   Resume,
   ResumeTemplateId,
 } from "@jobshine/validators"
-import { CoverLetterTemplate_001, ResumeTemplate_001 } from "@jobshine/templates"
+import {
+  CoverLetterTemplate_001,
+  ResumeTemplate_001,
+} from "@jobshine/templates"
 import { ResumeSchema } from "@jobshine/validators"
 
 import { FileRepository } from "../file/file.repostiory"
 import { ResumeRepository } from "../resume/resume.repository"
-import { deepseekR1__generateResume } from "./model.deepseek-r1"
 import {
   openai4oMini__generateCoverLetter,
   openai4oMini__generateResume,

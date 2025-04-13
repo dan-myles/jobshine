@@ -11,6 +11,7 @@ You will not include any other text in your response.
 You will not include any markdown in your response.
 You will keep track of and return a list of 4-7 changes that you made to the resume.
 You should return this in the 'changes' section of the response schema.
+You are to reorder skills and projects to optimize the resume for the job description.
 
 
 # What Can Do
