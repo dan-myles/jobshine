@@ -39,7 +39,7 @@ function Root() {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="font-garamond antialiased">
         <APIProvider>
           <ThemeProvider defaultTheme="light">
             <Outlet />

@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@tanstack/react-router"
 
 import { Mark } from "@/components/mark"
 import {
@@ -23,13 +23,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Header */}
       <SidebarHeader>
         <SidebarMenu>
-          <Link href="/">
+          <Link to="/">
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
                 className="data-[slot=sidebar-menu-button]:!p-1.5"
               >
-                  <Mark className="text-2xl" />
+                <Mark className="text-2xl" />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Link>

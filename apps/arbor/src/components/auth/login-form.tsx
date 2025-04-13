@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Link, useRouter } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -72,7 +71,9 @@ export function LoginForm({
     toast.success("Welcome back!", {
       id: toastId,
     })
-    router.push("/dashboard")
+    router.navigate({
+      to: "/dashboard",
+    })
     setPending(false)
   }
 
@@ -165,7 +166,7 @@ export function LoginForm({
             {/* Sign Up Redirect */}
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/signup" className="underline underline-offset-4">
+              <Link to="/signup" className="underline underline-offset-4">
                 Sign up
               </Link>
             </div>
@@ -179,8 +180,8 @@ export function LoginForm({
           *:[a]:underline *:[a]:underline-offset-4"
       >
         By clicking continue, you agree to our{" "}
-        <Link href="#">Terms of Service</Link> and{" "}
-        <Link href="#">Privacy Policy</Link>.
+        <Link to="/">Terms of Service</Link> and{" "}
+        <Link to="/">Privacy Policy</Link>.
       </div>
     </div>
   )

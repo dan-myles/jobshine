@@ -14,7 +14,7 @@ export function Mark(props: MarkProps) {
       )}
     >
       <Icons.Logo className="mt-1 mr-1 h-7 w-7" />
-      <p className="text-primary">Jobshine</p>
+      <p className="text-primary font-bold">Jobshine</p>
     </div>
   )
 }
