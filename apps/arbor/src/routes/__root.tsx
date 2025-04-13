@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router"
 
 import { APIProvider } from "@/components/providers/api.provider"
+import { ThemeProvider } from "@/components/providers/theme.provider"
 import globals from "@/styles/globals.css?url"
 
 export const Route = createRootRoute({
@@ -40,7 +41,9 @@ function Root() {
       </head>
       <body>
         <APIProvider>
-          <Outlet />
+          <ThemeProvider defaultTheme="light">
+            <Outlet />
+          </ThemeProvider>
         </APIProvider>
         <Scripts />
       </body>

@@ -12,13 +12,13 @@ export const auth = betterAuth({
       ...schema,
     },
   }),
-  baseURL: `${getBaseUrl()}/auth`,
+  baseURL: `${getBaseUrl()}/api/v1/auth`,
   emailAndPassword: {
     enabled: true,
   },
   trustedOrigins: [
     ...(process.env.NODE_ENV === "production"
-      ? [getBaseUrl()]
+      ? [getBaseUrl()!]
       : [`http://localhost:${process.env.PORT ?? 3000}`]),
   ],
   advanced: {

@@ -17,7 +17,7 @@ export default defineConfig({
     routeRules: {
       "/api/v1/**": {
         proxy: {
-          to: `${import.meta.env.PUBLIC_BASE_URL}/api/v1/**`,
+          to: `${process.env.PUBLIC_BASE_URL}/api/v1/**`,
         },
       },
     },
