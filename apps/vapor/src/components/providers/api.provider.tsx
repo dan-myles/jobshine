@@ -1,20 +1,14 @@
 "use client"
 
-import { useState } from "react"
 import { QueryClientProvider } from "@tanstack/react-query"
-import {
-  createTRPCClient,
-  loggerLink,
-  unstable_httpBatchStreamLink,
-} from "@trpc/client"
-import SuperJSON from "superjson"
 
 import type { AppRouter } from "@jobshine/api"
-import { getBaseUrl } from "@jobshine/common"
 
 import type { QueryClient } from "@tanstack/react-query"
+import type { TRPCClient } from "@trpc/client"
 import { APIProvider as APIReactProvider } from "@/lib/api/client"
 import { createQueryClient } from "@/lib/query-client"
+import { createTRPCClient } from "@/lib/trpc-client"
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {
@@ -26,29 +20,17 @@ const getQueryClient = () => {
   return (clientQueryClientSingleton ??= createQueryClient())
 }
 
+let trpcClientSingleton: TRPCClient<AppRouter> | undefined = undefined
+const getTRPCClient = () => {
+  if (typeof window === "undefined") {
+    return createTRPCClient()
+  }
+  return (trpcClientSingleton ??= createTRPCClient())
+}
+
 export function APIProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
-
-  const [trpcClient] = useState(() =>
-    createTRPCClient<AppRouter>({
-      links: [
-        loggerLink({
-          enabled: (op) =>
-            process.env.NODE_ENV === "development" ||
-            (op.direction === "down" && op.result instanceof Error),
-        }),
-        unstable_httpBatchStreamLink({
-          transformer: SuperJSON,
-          url: getBaseUrl() + "/api/v1/trpc",
-          headers: () => {
-            const headers = new Headers()
-            headers.set("x-trpc-source", "nextjs-react")
-            return headers
-          },
-        }),
-      ],
-    }),
-  )
+  const trpcClient = getTRPCClient()
 
   return (
     <QueryClientProvider client={queryClient}>

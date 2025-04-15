@@ -1,15 +1,13 @@
-"use client"
-
-import { auth } from "@/lib/auth-client"
+import { useAuth } from "@/hooks/use-auth"
 
 type SignedOutProps = {
   children?: React.ReactNode
 }
 
 export function SignedOut({ children }: SignedOutProps) {
-  const { data } = auth.useSession()
+  const { auth } = useAuth()
 
-  if (!!data?.session) {
+  if (!!auth) {
     return null
   }
 

@@ -1,6 +1,3 @@
-"use client"
-
-import { useRouter } from "next/navigation"
 import {
   IconCreditCard,
   IconDotsVertical,
@@ -8,6 +5,7 @@ import {
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react"
+import { useRouter } from "@tanstack/react-router"
 import { toast } from "sonner"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -27,18 +25,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { auth } from "@/lib/auth-client"
+import { useAuth } from "@/hooks/use-auth"
 
 export function NavUser() {
   const router = useRouter()
+  const { auth, signOut } = useAuth()
   const { isMobile } = useSidebar()
-  const { data, error, isPending } = auth.useSession()
-
-  if (error) {
-    toast.error("There was an error loading your user profile!", {
-      description: error.message,
-    })
-  }
 
   return (
     <SidebarMenu>
@@ -54,18 +46,27 @@ export function NavUser() {
                 {/* TODO: Add user avatar in better auth schema / implement with google login */}
                 {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
                 <AvatarFallback className="rounded-lg">
-                  {isPending && <Skeleton className="h-3 w-full" />}
-                  {!isPending && data?.user.name?.slice(0, 3)}
+                  {!auth ? (
+                    <Skeleton className="h-3 w-full" />
+                  ) : (
+                    auth.user.name.slice(0, 3)
+                  )}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {!isPending && data?.user.name}
-                  {isPending && <Skeleton className="mb-2 h-3 w-full" />}
+                  {!auth ? (
+                    <Skeleton className="mb-2 h-3 w-full" />
+                  ) : (
+                    auth.user.name
+                  )}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {!isPending && data?.user.email}
-                  {isPending && <Skeleton className="h-3 w-full" />}
+                  {!auth ? (
+                    <Skeleton className="h-3 w-full" />
+                  ) : (
+                    auth.user.email
+                  )}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -82,17 +83,28 @@ export function NavUser() {
                 <Avatar className="h-8 w-8 rounded-lg">
                   {/* TODO: Add user avatar in better auth schema / implement with google login */}
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                  {isPending && <Skeleton className="h-3 w-full" />}
-                  {!isPending && data?.user.name?.slice(0, 3)}
+                  <AvatarFallback className="rounded-lg">
+                    {!auth ? (
+                      <Skeleton className="h-3 w-full" />
+                    ) : (
+                      auth.user.name.slice(0, 3)
+                    )}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {!isPending && data?.user.name}
-                    {isPending && <Skeleton className="mb-2 h-3 w-full" />}
+                    {!auth ? (
+                      <Skeleton className="mb-2 h-3 w-full" />
+                    ) : (
+                      auth.user.name
+                    )}
                   </span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {!isPending && data?.user.email}
-                    {isPending && <Skeleton className="h-3 w-full" />}
+                    {!auth ? (
+                      <Skeleton className="h-3 w-full" />
+                    ) : (
+                      auth.user.email
+                    )}
                   </span>
                 </div>
               </div>
@@ -116,12 +128,10 @@ export function NavUser() {
             <DropdownMenuItem
               onClick={() => {
                 toast.success("You have been logged out!")
-                auth.signOut().catch(console.error)
-                router.prefetch("/")
-
-                setTimeout(() => {
-                  router.push("/")
-                }, 1000)
+                signOut().catch(console.error)
+                router.navigate({
+                  to: "/",
+                })
               }}
             >
               <IconLogout />

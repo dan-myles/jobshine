@@ -1,5 +1,3 @@
-"use client"
-
 import { Link } from "@tanstack/react-router"
 
 import { Mark } from "@/components/mark"
@@ -12,14 +10,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { authClient as authClient } from "@/lib/auth-client"
 import { NavMain } from "./nav-main"
 import { NavSecondary } from "./nav-secondary"
 import { NavSubFooter } from "./nav-sub-footer"
 import { NavUser } from "./nav-user"
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps {
+  auth: typeof authClient.$Infer.Session | null
+}
+
+export function AppSidebar(props: AppSidebarProps) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="offcanvas" variant="floating">
       {/* Header */}
       <SidebarHeader>
         <SidebarMenu>
@@ -45,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       {/* Footer */}
       <SidebarFooter>
-        <NavUser />
+        <NavUser user={props.auth?.user!} />
       </SidebarFooter>
     </Sidebar>
   )

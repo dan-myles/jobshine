@@ -1,21 +1,18 @@
-import { Navbar } from "@/components/navbar"
 import { createFileRoute } from "@tanstack/react-router"
 
+import { Navbar } from "@/components/navbar"
 
 export const Route = createFileRoute("/")({
   component: Page,
 })
 
 export default function Page() {
-
   return (
     <>
       <Navbar />
       <main className="container mx-auto pt-32 pb-20">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div className="order-2 lg:order-1">
-            LOL
-          </div>
+          <div className="order-2 lg:order-1">LOL</div>
           <div className="order-1 lg:order-2">
             {/* <FeatureCarousel */}
             {/*   title="Powerful Features" */}
@@ -40,9 +37,7 @@ export default function Page() {
       </main>
       <main className="container mx-auto pt-32 pb-20">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div className="order-2 lg:order-1">
-            LOL
-          </div>
+          <div className="order-2 lg:order-1">LOL</div>
           <div className="order-1 lg:order-2">
             {/* <FeatureCarousel */}
             {/*   title="Powerful Features" */}

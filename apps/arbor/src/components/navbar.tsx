@@ -1,14 +1,14 @@
-"use client"
-
 import Link from "next/link"
 import { toast } from "sonner"
 
 import { SignedIn, SignedOut } from "@/components/auth"
 import { Mark } from "@/components/mark"
 import { Button } from "@/components/ui/button"
-import { auth } from "@/lib/auth-client"
+import { useAuth } from "@/hooks/use-auth"
 
 export function Navbar() {
+  const { signOut } = useAuth()
+
   return (
     <nav className="sticky top-0 z-50 flex w-full bg-transparent shadow-md backdrop-blur-xl">
       <div className="flex flex-grow items-center justify-between p-4 px-6">
@@ -53,7 +53,7 @@ export function Navbar() {
               variant="ghost"
               onClick={() => {
                 toast.success("Logging out...")
-                auth.signOut().catch(console.error)
+                signOut().catch(console.error)
               }}
             >
               Logout

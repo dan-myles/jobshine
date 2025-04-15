@@ -1,8 +1,8 @@
 import { defaultShouldDehydrateQuery, QueryClient } from "@tanstack/react-query"
 import SuperJSON from "superjson"
 
-export const createQueryClient = () =>
-  new QueryClient({
+export function createQueryClient () {
+  return new QueryClient({
     defaultOptions: {
       queries: {
         // With SSR, we usually want to set some default staleTime
@@ -20,3 +20,4 @@ export const createQueryClient = () =>
       },
     },
   })
+}

@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
 import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
-import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard/route'
+import { Route as AuthedDashboardIndexImport } from './routes/_authed/dashboard/index'
 
 // Create/Update Routes
+
+const AuthedRoute = AuthedImport.update({
+  id: '/_authed',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -36,10 +43,16 @@ const LoginIndexRoute = LoginIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardIndexRoute = DashboardIndexImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRoute,
+const AuthedDashboardRouteRoute = AuthedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthedRoute,
+} as any)
+
+const AuthedDashboardIndexRoute = AuthedDashboardIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedDashboardRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -53,12 +66,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthedImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authed/dashboard': {
+      id: '/_authed/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthedDashboardRouteImport
+      parentRoute: typeof AuthedImport
     }
     '/login/': {
       id: '/login/'
@@ -74,52 +94,93 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupIndexImport
       parentRoute: typeof rootRoute
     }
+    '/_authed/dashboard/': {
+      id: '/_authed/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthedDashboardIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthedDashboardRouteRouteChildren {
+  AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+}
+
+const AuthedDashboardRouteRouteChildren: AuthedDashboardRouteRouteChildren = {
+  AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+}
+
+const AuthedDashboardRouteRouteWithChildren =
+  AuthedDashboardRouteRoute._addFileChildren(AuthedDashboardRouteRouteChildren)
+
+interface AuthedRouteChildren {
+  AuthedDashboardRouteRoute: typeof AuthedDashboardRouteRouteWithChildren
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardRouteRoute: AuthedDashboardRouteRouteWithChildren,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardIndexRoute
+  '': typeof AuthedRouteWithChildren
+  '/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
+  '/dashboard/': typeof AuthedDashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardIndexRoute
+  '': typeof AuthedRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
+  '/dashboard': typeof AuthedDashboardIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
+  '/_authed': typeof AuthedRouteWithChildren
+  '/_authed/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/signup/': typeof SignupIndexRoute
+  '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/signup'
+  fullPaths: '/' | '' | '/dashboard' | '/login' | '/signup' | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/signup'
-  id: '__root__' | '/' | '/dashboard/' | '/login/' | '/signup/'
+  to: '/' | '' | '/login' | '/signup' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/_authed/dashboard'
+    | '/login/'
+    | '/signup/'
+    | '/_authed/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
   LoginIndexRoute: typeof LoginIndexRoute
   SignupIndexRoute: typeof SignupIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
+  AuthedRoute: AuthedRouteWithChildren,
   LoginIndexRoute: LoginIndexRoute,
   SignupIndexRoute: SignupIndexRoute,
 }
@@ -135,7 +196,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard/",
+        "/_authed",
         "/login/",
         "/signup/"
       ]
@@ -143,14 +204,28 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
-    "/dashboard/": {
-      "filePath": "dashboard/index.tsx"
+    "/_authed": {
+      "filePath": "_authed.tsx",
+      "children": [
+        "/_authed/dashboard"
+      ]
+    },
+    "/_authed/dashboard": {
+      "filePath": "_authed/dashboard/route.tsx",
+      "parent": "/_authed",
+      "children": [
+        "/_authed/dashboard/"
+      ]
     },
     "/login/": {
       "filePath": "login/index.tsx"
     },
     "/signup/": {
       "filePath": "signup/index.tsx"
+    },
+    "/_authed/dashboard/": {
+      "filePath": "_authed/dashboard/index.tsx",
+      "parent": "/_authed/dashboard"
     }
   }
 }

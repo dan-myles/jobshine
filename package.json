@@ -22,7 +22,7 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "sst": "3.13.7"
+    "sst": "3.13.10"
   },
   "packageManager": "pnpm@10.4.1",
   "engines": {

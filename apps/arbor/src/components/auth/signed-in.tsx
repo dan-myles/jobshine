@@ -1,15 +1,13 @@
-"use client"
-
-import { auth } from "@/lib/auth-client"
+import { useAuth } from "@/hooks/use-auth"
 
 type SignedInProps = {
   children?: React.ReactNode
 }
 
 export function SignedIn({ children }: SignedInProps) {
-  const { data } = auth.useSession()
+  const { auth } = useAuth()
 
-  if (!data?.session) {
+  if (!auth) {
     return null
   }
 

@@ -23,7 +23,7 @@ export const ThemeProviderContext =
 
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme = "light",
   storageKey = "ui-theme",
   ...props
 }: ThemeProviderProps) {
