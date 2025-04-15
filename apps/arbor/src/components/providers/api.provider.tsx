@@ -24,6 +24,7 @@ if (typeof window !== "undefined") {
   })
 
   persistQueryClient({
+    // @ts-ignore not sure why :()
     queryClient: getQueryClient(),
     persister: localStoragePersister,
     maxAgeMs: 1000 * 60 * 60 * 24, // 1 day
