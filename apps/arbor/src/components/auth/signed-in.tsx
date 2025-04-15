@@ -7,6 +7,5 @@ type SignedInProps = {
 export function SignedIn({ children }: SignedInProps) {
   const { auth } = useAuth()
 
-
-  return <>{!auth ? children : null}</>
+  return <>{!!auth ? children : null}</>
 }

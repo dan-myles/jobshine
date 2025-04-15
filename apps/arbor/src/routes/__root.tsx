@@ -46,6 +46,13 @@ export const Route = createRootRouteWithContext<RouterCtx>()({
     ],
   }),
   component: Root,
+  beforeLoad: async ({ context: { queryClient, api } }) => {
+    const session = await queryClient.fetchQuery(
+      api.auth.session.queryOptions(),
+    )
+
+    return { auth: session }
+  }
 })
 
 function Root() {

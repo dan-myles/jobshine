@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/use-auth"
 
 export function Navbar() {
-  const { signOut } = useAuth()
+  const {  signOut } = useAuth()
 
   return (
     <nav className="sticky top-0 z-50 flex w-full bg-transparent shadow-md backdrop-blur-xl">
