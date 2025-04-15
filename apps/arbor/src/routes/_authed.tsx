@@ -1,23 +1,18 @@
 import { createFileRoute, redirect } from "@tanstack/react-router"
 
-import { authClient as authClient } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 
 export const Route = createFileRoute("/_authed")({
-  beforeLoad: async ({ context }) => {
-    console.log("FETCHING SESSION")
+  beforeLoad: async ({ context: { queryClient, api } }) => {
+    const session = await queryClient.fetchQuery(
+      api.auth.session.queryOptions(),
+    )
+    console.log("GOT ME A SESH >>>", session)
 
-    const query = await context.queryClient.fetchQuery({
-      queryKey: ["session"],
-      queryFn: () => authClient.getSession(),
-      staleTime: Infinity,
-    })
-
-    console.log(query.data)
-
-    // if (session.data === null) {
+    // if (session === null) {
     //   throw redirect({ to: "/login" })
     // }
 
-    return { auth: query.data }
+    return { auth: session }
   },
 })

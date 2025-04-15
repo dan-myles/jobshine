@@ -1,6 +1,7 @@
 import { createContext } from "react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { useAPI } from "@/lib/api-client"
 import { authClient } from "@/lib/auth-client"
 
 interface AuthContext {
@@ -22,12 +23,9 @@ interface AuthContext {
 export const AuthProviderContext = createContext<AuthContext | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const api = useAPI()
   const queryClient = useQueryClient()
-  const { data: query } = useQuery({
-    queryKey: ["session"],
-    queryFn: () => authClient.getSession(),
-    staleTime: Infinity,
-  })
+  const { data } = useQuery(api.auth.session.queryOptions())
 
   function signUpEmail(args: {
     email: string
@@ -35,9 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     name: string
     callbackUrl?: string
   }) {
-    queryClient.invalidateQueries({
-      queryKey: ["session"],
-    })
+    queryClient.invalidateQueries(api.auth.session.queryFilter())
     return authClient.signUp.email({
       ...args,
     })
@@ -48,24 +44,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     password: string
     callbackUrl?: string
   }) {
-    queryClient.invalidateQueries({
-      queryKey: ["session"],
-    })
+    queryClient.invalidateQueries(api.auth.session.queryFilter())
     return authClient.signIn.email({
       ...args,
     })
   }
 
   function signOut() {
-    queryClient.invalidateQueries({
-      queryKey: ["session"],
-    })
+    queryClient.invalidateQueries(api.auth.session.queryFilter())
     return authClient.signOut()
   }
 
   return (
     <AuthProviderContext.Provider
-      value={{ auth: query?.data ?? null, signUpEmail, signInEmail, signOut }}
+      value={{ auth: data ?? null, signUpEmail, signInEmail, signOut }}
     >
       {children}
     </AuthProviderContext.Provider>

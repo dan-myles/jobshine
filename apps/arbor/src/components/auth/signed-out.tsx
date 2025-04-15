@@ -7,9 +7,5 @@ type SignedOutProps = {
 export function SignedOut({ children }: SignedOutProps) {
   const { auth } = useAuth()
 
-  if (!!auth) {
-    return null
-  }
-
-  return <>{children}</>
+  return <>{!!auth ? children : null}</>
 }
