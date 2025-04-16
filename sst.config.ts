@@ -168,9 +168,11 @@ export default $config({
      */
     const frontend = new sst.aws.TanStackStart("JobShineFE", {
       vpc,
+      link: [db, resumeBucket],
       path: "apps/arbor",
       environment: {
         PUBLIC_BASE_URL: `https://${APP.url}`,
+        BETTER_AUTH_SECRET: BETTER_AUTH_SECRET.value,
         ...COMMON_ENV,
       },
       route: {

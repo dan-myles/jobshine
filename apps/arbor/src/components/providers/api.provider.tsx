@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister"
-import { QueryClientProvider } from "@tanstack/react-query"
+import { isServer, QueryClientProvider } from "@tanstack/react-query"
 import { persistQueryClient } from "@tanstack/react-query-persist-client"
 
 import type { QueryClient } from "@tanstack/react-query"
@@ -9,16 +9,21 @@ import { createQueryClient } from "@/lib/query-client"
 import { createTRPCClient } from "@/lib/trpc-client"
 
 let queryClientSingleton: QueryClient | undefined = undefined
-export const getQueryClient = () => {
-  if (typeof window === "undefined") {
+export function getQueryClient() {
+  if (isServer) {
     // Server: always make a new query client
     return createQueryClient()
+  } else {
+    // Browser: make a new query client if we don't already have one
+    // This is very important, so we don't re-make a new client if React
+    // suspends during the initial render. This may not be needed if we
+    // have a suspense boundary BELOW the creation of the query client
+    if (!queryClientSingleton) queryClientSingleton = createQueryClient()
+    return queryClientSingleton
   }
-  // Browser: use singleton pattern to keep the same query client
-  return (queryClientSingleton ??= createQueryClient())
 }
 
-if (typeof window !== "undefined") {
+if (!isServer) {
   const localStoragePersister = createSyncStoragePersister({
     storage: window.localStorage,
   })

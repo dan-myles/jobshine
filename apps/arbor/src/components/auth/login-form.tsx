@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQueryClient } from "@tanstack/react-query"
 import { Link, useRouter } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -25,8 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useAuth } from "@/hooks/use-auth"
-import { authClient } from "@/lib/auth-client"
+import { useAuth } from "@/hooks/auth-hooks"
 import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
@@ -40,9 +38,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const auth = useAuth()
   const router = useRouter()
-  const queryClient = useQueryClient()
+  const { signInEmail } = useAuth()
   const [isPending, setPending] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,7 +53,7 @@ export function LoginForm({
     setPending(true)
     const toastId = toast.loading("Logging in...")
 
-    const { error } = await auth.signInEmail({
+    const { error } = await signInEmail({
       email: values.email,
       password: values.password,
     })
@@ -70,7 +67,6 @@ export function LoginForm({
       return
     }
 
-    queryClient.invalidateQueries({ queryKey: ["session"] })
     toast.success("Welcome back!", {
       id: toastId,
     })

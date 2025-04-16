@@ -10,17 +10,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { authClient as authClient } from "@/lib/auth-client"
 import { NavMain } from "./nav-main"
 import { NavSecondary } from "./nav-secondary"
 import { NavSubFooter } from "./nav-sub-footer"
 import { NavUser } from "./nav-user"
 
-interface AppSidebarProps {
-  auth: typeof authClient.$Infer.Session | null
-}
 
-export function AppSidebar(props: AppSidebarProps) {
+export function AppSidebar() {
   return (
     <Sidebar collapsible="offcanvas" variant="floating">
       {/* Header */}
@@ -48,7 +44,7 @@ export function AppSidebar(props: AppSidebarProps) {
 
       {/* Footer */}
       <SidebarFooter>
-        <NavUser user={props.auth?.user!} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )

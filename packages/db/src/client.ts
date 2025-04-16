@@ -1,18 +1,18 @@
 import { drizzle } from "drizzle-orm/node-postgres"
-import { Pool } from "pg"
+import pg from "pg"
 import { Resource } from "sst"
 
 import * as schema from "./schema"
 
-const pool: Pool = process.env.BETTER_AUTH_GEN
-  ? new Pool({
+const pool: pg.Pool = process.env.BETTER_AUTH_GEN
+  ? new pg.Pool({
       host: "",
       port: 0,
       user: "",
       password: "",
       database: "",
     })
-  : new Pool({
+  : new pg.Pool({
       host: Resource.JobShineDB.host,
       port: Resource.JobShineDB.port,
       user: Resource.JobShineDB.username,
@@ -26,4 +26,3 @@ export const db = drizzle(pool, {
 })
 
 export type DB = typeof db
-

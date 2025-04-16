@@ -8,8 +8,10 @@
     "start": "vinxi start"
   },
   "dependencies": {
+    "@daveyplate/better-auth-tanstack": "^1.3.4",
     "@hookform/resolvers": "^4.1.3",
     "@jobshine/api": "workspace:*",
+    "@jobshine/auth": "workspace:*",
     "@jobshine/common": "workspace:*",
     "@jobshine/templates": "workspace:*",
     "@jobshine/validators": "workspace:*",

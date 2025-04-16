@@ -1,14 +1,9 @@
-import Link from "next/link"
-import { toast } from "sonner"
 
-import { SignedIn, SignedOut } from "@/components/auth"
 import { Mark } from "@/components/mark"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks/use-auth"
+import { Link } from "@tanstack/react-router"
 
 export function Navbar() {
-  const {  signOut } = useAuth()
-
   return (
     <nav className="sticky top-0 z-50 flex w-full bg-transparent shadow-md backdrop-blur-xl">
       <div className="flex flex-grow items-center justify-between p-4 px-6">
@@ -18,53 +13,29 @@ export function Navbar() {
 
         <div className="text-md hidden w-full items-center justify-center gap-6 font-medium md:flex">
           <Link
-            href="/#product"
+            to="/"
             className="hover:text-primary transition-colors"
           >
             Product
           </Link>
-          <Link href="/#about" className="hover:text-primary transition-colors">
+          <Link to="/" className="hover:text-primary transition-colors">
             About
           </Link>
           <Link
-            href="/#pricing"
+            to="/"
             className="hover:text-primary transition-colors"
           >
             Pricing
           </Link>
         </div>
 
-        <SignedOut>
-          <div className="text-md flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm">Sign Up</Button>
-            </Link>
-          </div>
-        </SignedOut>
-
-        <SignedIn>
-          <div className="text-md flex items-center gap-4">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                toast.success("Logging out...")
-                signOut().catch(console.error)
-              }}
-            >
-              Logout
+        <div className="hidden md:flex">
+          <Link to="/dashboard">
+            <Button variant="outline" size="sm" className="rounded-full">
+              Get Started
             </Button>
-            <Link href="/dashboard">
-              <Button variant="default" size="sm">
-                Dashboard
-              </Button>
-            </Link>
-          </div>
-        </SignedIn>
+          </Link>
+        </div>
       </div>
     </nav>
   )

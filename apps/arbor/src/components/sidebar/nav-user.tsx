@@ -25,12 +25,22 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useAuth } from "@/hooks/use-auth"
+import { useAuth, useUser } from "@/hooks/auth-hooks"
 
 export function NavUser() {
+  const user = useUser()
   const router = useRouter()
-  const { auth, signOut } = useAuth()
+  const { signOut } = useAuth()
   const { isMobile } = useSidebar()
+
+  async function handleSignOut() {
+    const toastId = toast.loading("Signing out...")
+    await signOut()
+    toast.success("Signed out successfully", {
+      id: toastId,
+    })
+    router.navigate({ to: "/" })
+  }
 
   return (
     <SidebarMenu>
@@ -46,27 +56,19 @@ export function NavUser() {
                 {/* TODO: Add user avatar in better auth schema / implement with google login */}
                 {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
                 <AvatarFallback className="rounded-lg">
-                  {!auth ? (
+                  {!user ? (
                     <Skeleton className="h-3 w-full" />
                   ) : (
-                    auth.user.name.slice(0, 3)
+                    user.name.slice(0, 3)
                   )}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {!auth ? (
-                    <Skeleton className="mb-2 h-3 w-full" />
-                  ) : (
-                    auth.user.name
-                  )}
+                  {!user ? <Skeleton className="mb-2 h-3 w-full" /> : user.name}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {!auth ? (
-                    <Skeleton className="h-3 w-full" />
-                  ) : (
-                    auth.user.email
-                  )}
+                  {!user ? <Skeleton className="h-3 w-full" /> : user.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -84,55 +86,55 @@ export function NavUser() {
                   {/* TODO: Add user avatar in better auth schema / implement with google login */}
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
                   <AvatarFallback className="rounded-lg">
-                    {!auth ? (
+                    {!user ? (
                       <Skeleton className="h-3 w-full" />
                     ) : (
-                      auth.user.name.slice(0, 3)
+                      user.name.slice(0, 3)
                     )}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {!auth ? (
+                    {!user ? (
                       <Skeleton className="mb-2 h-3 w-full" />
                     ) : (
-                      auth.user.name
+                      user.name
                     )}
                   </span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {!auth ? (
-                      <Skeleton className="h-3 w-full" />
-                    ) : (
-                      auth.user.email
-                    )}
+                    {!user ? <Skeleton className="h-3 w-full" /> : user.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => toast("Coming soon!")}
+              >
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => toast("Coming soon!")}
+              >
                 <IconCreditCard />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => toast("Coming soon!")}
+              >
                 <IconNotification />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {
-                toast.success("You have been logged out!")
-                signOut().catch(console.error)
-                router.navigate({
-                  to: "/",
-                })
-              }}
+              className="cursor-pointer"
+              onClick={() => handleSignOut()}
             >
               <IconLogout />
               Log out

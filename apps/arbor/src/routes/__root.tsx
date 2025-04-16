@@ -1,7 +1,9 @@
+import { AuthQueryProvider as AuthProvider } from "@daveyplate/better-auth-tanstack"
 import { QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import {
   createRootRouteWithContext,
+  ErrorComponent,
   HeadContent,
   Outlet,
   Scripts,
@@ -13,13 +15,12 @@ import { Toaster } from "sonner"
 import { AppRouter } from "@jobshine/api"
 
 import { APIProvider } from "@/components/providers/api.provider"
-import { AuthProvider } from "@/components/providers/auth.provider"
 import { ThemeProvider } from "@/components/providers/theme.provider"
 import { authClient } from "@/lib/auth-client"
 import globals from "@/styles/globals.css?url"
 
 export interface RouterCtx {
-  auth: typeof authClient.$Infer.Session | null | undefined
+  auth: typeof authClient.$Infer.Session.user | null | undefined
   api: TRPCOptionsProxy<AppRouter>
   queryClient: QueryClient
 }
@@ -46,13 +47,7 @@ export const Route = createRootRouteWithContext<RouterCtx>()({
     ],
   }),
   component: Root,
-  beforeLoad: async ({ context: { queryClient, api } }) => {
-    const session = await queryClient.fetchQuery(
-      api.auth.session.queryOptions(),
-    )
-
-    return { auth: session }
-  }
+  errorComponent: (error) => <ErrorComponent error={error} />,
 })
 
 function Root() {
@@ -71,14 +66,14 @@ function Document({ children }: { children: React.ReactNode }) {
       </head>
       <body className="font-garamond antialiased">
         <APIProvider>
-          <ThemeProvider>
-            <AuthProvider>
+          <AuthProvider>
+            <ThemeProvider>
               {children}
               <Toaster />
               <ReactQueryDevtools buttonPosition="top-right" />
               <TanStackRouterDevtools position="bottom-right" />
-            </AuthProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </AuthProvider>
         </APIProvider>
         <Scripts />
       </body>

@@ -1,15 +1,18 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 
 import { AppSidebar, NavHeader } from "@/components/sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export const Route = createFileRoute("/_authed/dashboard")({
   component: Layout,
+  beforeLoad: async ({ context: { auth } }) => {
+    if (!auth) {
+      return redirect({ to: "/login" })
+    }
+  },
 })
 
 function Layout() {
-  const { auth } = Route.useRouteContext()
-
   return (
     <SidebarProvider
       style={
@@ -19,7 +22,7 @@ function Layout() {
         } as React.CSSProperties
       }
     >
-      <AppSidebar auth={auth} />
+      <AppSidebar />
       <SidebarInset>
         <NavHeader />
         <Outlet />

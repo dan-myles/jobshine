@@ -1,5 +1,6 @@
 import { createContext } from "react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useRouter } from "@tanstack/react-router"
 
 import { useAPI } from "@/lib/api-client"
 import { authClient } from "@/lib/auth-client"
@@ -24,8 +25,9 @@ export const AuthProviderContext = createContext<AuthContext | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const api = useAPI()
+  const router = useRouter()
   const queryClient = useQueryClient()
-  const { data } = useQuery(api.auth.session.queryOptions())
+  const { data: session } = useQuery(api.auth.session.queryOptions())
 
   function signUpEmail(args: {
     email: string
@@ -33,10 +35,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     name: string
     callbackUrl?: string
   }) {
-    queryClient.invalidateQueries(api.auth.session.queryFilter())
-    return authClient.signUp.email({
+    const res = authClient.signUp.email({
       ...args,
     })
+    router.invalidate()
+    queryClient.invalidateQueries(api.auth.session.queryFilter())
+    return res
   }
 
   function signInEmail(args: {
@@ -44,20 +48,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     password: string
     callbackUrl?: string
   }) {
-    queryClient.invalidateQueries(api.auth.session.queryFilter())
-    return authClient.signIn.email({
+    const res = authClient.signIn.email({
       ...args,
     })
+    router.invalidate()
+    queryClient.invalidateQueries(api.auth.session.queryFilter())
+    return res
   }
 
   function signOut() {
+    const res = authClient.signOut()
+    router.invalidate()
     queryClient.invalidateQueries(api.auth.session.queryFilter())
-    return authClient.signOut()
+    return res
   }
 
   return (
     <AuthProviderContext.Provider
-      value={{ auth: data ?? null, signUpEmail, signInEmail, signOut }}
+      value={{ auth: session ?? null, signUpEmail, signInEmail, signOut }}
     >
       {children}
     </AuthProviderContext.Provider>
