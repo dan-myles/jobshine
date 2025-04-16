@@ -13,9 +13,6 @@ export const auth = betterAuth({
     },
   }),
   baseURL: `${getBaseUrl()}/api/v1/auth`,
-  emailAndPassword: {
-    enabled: true,
-  },
   trustedOrigins: [
     ...(process.env.NODE_ENV === "production"
       ? [getBaseUrl()!]
@@ -23,5 +20,14 @@ export const auth = betterAuth({
   ],
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production" ? true : false,
+  },
+  session:{
+    cookieCache: {
+      enabled: true,
+      maxAge: 600,
+    }
+  },
+  emailAndPassword: {
+    enabled: true,
   },
 })

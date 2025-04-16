@@ -19,7 +19,8 @@ export function createRouter() {
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
     context: {
-      auth: undefined,
+      user: undefined,
+      session: undefined,
       api: trpc,
       queryClient: getQueryClient(),
     },

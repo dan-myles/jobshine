@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { useRouteContext, useRouter } from "@tanstack/react-router"
+import { useParentMatches, useRouter } from "@tanstack/react-router"
 
 import { useAPI } from "@/lib/api-client"
 import { authClient } from "@/lib/auth-client"
@@ -39,10 +39,12 @@ export function useAuth() {
   }
 }
 
-export function useUser() {
-  const { auth } = useRouteContext({
-    from: "/_authed",
-  })
+export function useSession() {
+  const [rootRoute] = useParentMatches()
+  return rootRoute?.context?.session
+}
 
-  return auth?.user
+export function useUser() {
+  const [rootRoute] = useParentMatches()
+  return rootRoute?.context?.user
 }

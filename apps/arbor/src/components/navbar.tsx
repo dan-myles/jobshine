@@ -1,9 +1,30 @@
+import Link from "next/link"
+import { toast } from "sonner"
 
 import { Mark } from "@/components/mark"
 import { Button } from "@/components/ui/button"
-import { Link } from "@tanstack/react-router"
+import { useAuth, useSession } from "@/hooks/auth-hooks"
 
 export function Navbar() {
+  const session = useSession()
+  const { signOut } = useAuth()
+
+  async function handleSignOut() {
+    const toastId = toast.loading("Signing out...")
+    const { error } = await signOut()
+
+    if (error) {
+      toast.error("Failed to sign out!", {
+        id: toastId,
+      })
+      return
+    }
+
+    toast.success("Signed out successfully!", {
+      id: toastId,
+    })
+  }
+
   return (
     <nav className="sticky top-0 z-50 flex w-full bg-transparent shadow-md backdrop-blur-xl">
       <div className="flex flex-grow items-center justify-between p-4 px-6">
@@ -13,29 +34,45 @@ export function Navbar() {
 
         <div className="text-md hidden w-full items-center justify-center gap-6 font-medium md:flex">
           <Link
-            to="/"
+            href="/#product"
             className="hover:text-primary transition-colors"
           >
             Product
           </Link>
-          <Link to="/" className="hover:text-primary transition-colors">
+          <Link href="/#about" className="hover:text-primary transition-colors">
             About
           </Link>
           <Link
-            to="/"
+            href="/#pricing"
             className="hover:text-primary transition-colors"
           >
             Pricing
           </Link>
         </div>
 
-        <div className="hidden md:flex">
-          <Link to="/dashboard">
-            <Button variant="outline" size="sm" className="rounded-full">
-              Get Started
+        {!session ? (
+          <div className="text-md flex items-center gap-4">
+            <Link href="/login">
+              <Button variant="ghost" size="sm">
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button size="sm">Sign Up</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="text-md flex items-center gap-4">
+            <Button variant="ghost" onClick={() => handleSignOut()}>
+              Logout
             </Button>
-          </Link>
-        </div>
+            <Link href="/dashboard">
+              <Button variant="default" size="sm">
+                Dashboard
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   )

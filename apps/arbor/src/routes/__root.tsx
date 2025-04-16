@@ -20,7 +20,8 @@ import { authClient } from "@/lib/auth-client"
 import globals from "@/styles/globals.css?url"
 
 export interface RouterCtx {
-  auth: typeof authClient.$Infer.Session.user | null | undefined
+  user: typeof authClient.$Infer.Session.user | null | undefined
+  session: typeof authClient.$Infer.Session.session | null | undefined
   api: TRPCOptionsProxy<AppRouter>
   queryClient: QueryClient
 }
@@ -46,8 +47,17 @@ export const Route = createRootRouteWithContext<RouterCtx>()({
       },
     ],
   }),
-  component: Root,
   errorComponent: (error) => <ErrorComponent error={error} />,
+  component: Root,
+  beforeLoad: async ({ context: { queryClient, api } }) => {
+    const auth = await queryClient.fetchQuery({
+      ...api.auth.session.queryOptions(),
+      staleTime: Infinity,
+      gcTime: Infinity,
+    })
+
+    return { user: auth?.user, session: auth?.session }
+  },
 })
 
 function Root() {
