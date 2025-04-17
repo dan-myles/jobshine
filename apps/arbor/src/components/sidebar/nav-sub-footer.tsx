@@ -1,5 +1,4 @@
 import * as React from "react"
-import Link from "next/link"
 import { useTheme } from "next-themes"
 
 import { Icons } from "@/components/icons"
@@ -34,11 +33,11 @@ export function NavSubFooter({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton asChild>
-                  <Link href="#">
+                  <div>
                     <Icons.Sun className="mt-0.5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
                     <Icons.Moon className="absolute mt-0.5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
                     <span>Theme</span>
-                  </Link>
+                  </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent

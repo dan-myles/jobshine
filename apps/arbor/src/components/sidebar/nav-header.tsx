@@ -1,4 +1,4 @@
-import {  useLocation } from "@tanstack/react-router"
+import { useLocation } from "@tanstack/react-router"
 
 import { Icons } from "@/components/icons"
 import { Separator } from "@/components/ui/separator"
