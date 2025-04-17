@@ -45,7 +45,7 @@ export function ResumeTemplateCarousel() {
   }, [api])
 
   return (
-    <Carousel className="h-full w-full" setApi={setApi}>
+    <Carousel setApi={setApi}>
       <CarouselContent>
         {templates.map((template) => (
           <CarouselItem key={template.id} className="pl-1 md:pl-1">

@@ -156,11 +156,16 @@ export function GenerateForm() {
                         Cover Letter
                       </TabsTrigger>
                     </TabsList>
-                    {/* TODO: fix layout shift here */}
-                    <TabsContent value="resume">
+                    <TabsContent
+                      value="resume"
+                      className="max-h-[38vh] min-h-[38vh]"
+                    >
                       <ResumeTemplateCarousel />
                     </TabsContent>
-                    <TabsContent value="cover-letter">
+                    <TabsContent
+                      value="cover-letter"
+                      className="max-h-[38vh] min-h-[38vh]"
+                    >
                       <CoverLetterTemplateCarousel />
                     </TabsContent>
                   </Tabs>
