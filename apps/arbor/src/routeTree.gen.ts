@@ -16,7 +16,10 @@ import { Route as IndexImport } from './routes/index'
 import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard/route'
-import { Route as AuthedDashboardIndexImport } from './routes/_authed/dashboard/index'
+import { Route as AuthedDashboardResumesIndexImport } from './routes/_authed/dashboard/resumes/index'
+import { Route as AuthedDashboardPersonalInformationIndexImport } from './routes/_authed/dashboard/personal-information/index'
+import { Route as AuthedDashboardGenerateIndexImport } from './routes/_authed/dashboard/generate/index'
+import { Route as AuthedDashboardCoverLettersIndexImport } from './routes/_authed/dashboard/cover-letters/index'
 
 // Create/Update Routes
 
@@ -49,11 +52,33 @@ const AuthedDashboardRouteRoute = AuthedDashboardRouteImport.update({
   getParentRoute: () => AuthedRoute,
 } as any)
 
-const AuthedDashboardIndexRoute = AuthedDashboardIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedDashboardRouteRoute,
-} as any)
+const AuthedDashboardResumesIndexRoute =
+  AuthedDashboardResumesIndexImport.update({
+    id: '/resumes/',
+    path: '/resumes/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
+
+const AuthedDashboardPersonalInformationIndexRoute =
+  AuthedDashboardPersonalInformationIndexImport.update({
+    id: '/personal-information/',
+    path: '/personal-information/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
+
+const AuthedDashboardGenerateIndexRoute =
+  AuthedDashboardGenerateIndexImport.update({
+    id: '/generate/',
+    path: '/generate/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
+
+const AuthedDashboardCoverLettersIndexRoute =
+  AuthedDashboardCoverLettersIndexImport.update({
+    id: '/cover-letters/',
+    path: '/cover-letters/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -94,11 +119,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupIndexImport
       parentRoute: typeof rootRoute
     }
-    '/_authed/dashboard/': {
-      id: '/_authed/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof AuthedDashboardIndexImport
+    '/_authed/dashboard/cover-letters/': {
+      id: '/_authed/dashboard/cover-letters/'
+      path: '/cover-letters'
+      fullPath: '/dashboard/cover-letters'
+      preLoaderRoute: typeof AuthedDashboardCoverLettersIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
+    '/_authed/dashboard/generate/': {
+      id: '/_authed/dashboard/generate/'
+      path: '/generate'
+      fullPath: '/dashboard/generate'
+      preLoaderRoute: typeof AuthedDashboardGenerateIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
+    '/_authed/dashboard/personal-information/': {
+      id: '/_authed/dashboard/personal-information/'
+      path: '/personal-information'
+      fullPath: '/dashboard/personal-information'
+      preLoaderRoute: typeof AuthedDashboardPersonalInformationIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
+    '/_authed/dashboard/resumes/': {
+      id: '/_authed/dashboard/resumes/'
+      path: '/resumes'
+      fullPath: '/dashboard/resumes'
+      preLoaderRoute: typeof AuthedDashboardResumesIndexImport
       parentRoute: typeof AuthedDashboardRouteImport
     }
   }
@@ -107,11 +153,18 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthedDashboardRouteRouteChildren {
-  AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+  AuthedDashboardCoverLettersIndexRoute: typeof AuthedDashboardCoverLettersIndexRoute
+  AuthedDashboardGenerateIndexRoute: typeof AuthedDashboardGenerateIndexRoute
+  AuthedDashboardPersonalInformationIndexRoute: typeof AuthedDashboardPersonalInformationIndexRoute
+  AuthedDashboardResumesIndexRoute: typeof AuthedDashboardResumesIndexRoute
 }
 
 const AuthedDashboardRouteRouteChildren: AuthedDashboardRouteRouteChildren = {
-  AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+  AuthedDashboardCoverLettersIndexRoute: AuthedDashboardCoverLettersIndexRoute,
+  AuthedDashboardGenerateIndexRoute: AuthedDashboardGenerateIndexRoute,
+  AuthedDashboardPersonalInformationIndexRoute:
+    AuthedDashboardPersonalInformationIndexRoute,
+  AuthedDashboardResumesIndexRoute: AuthedDashboardResumesIndexRoute,
 }
 
 const AuthedDashboardRouteRouteWithChildren =
@@ -134,15 +187,22 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
-  '/dashboard/': typeof AuthedDashboardIndexRoute
+  '/dashboard/cover-letters': typeof AuthedDashboardCoverLettersIndexRoute
+  '/dashboard/generate': typeof AuthedDashboardGenerateIndexRoute
+  '/dashboard/personal-information': typeof AuthedDashboardPersonalInformationIndexRoute
+  '/dashboard/resumes': typeof AuthedDashboardResumesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
+  '/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
-  '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/cover-letters': typeof AuthedDashboardCoverLettersIndexRoute
+  '/dashboard/generate': typeof AuthedDashboardGenerateIndexRoute
+  '/dashboard/personal-information': typeof AuthedDashboardPersonalInformationIndexRoute
+  '/dashboard/resumes': typeof AuthedDashboardResumesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -152,14 +212,35 @@ export interface FileRoutesById {
   '/_authed/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/signup/': typeof SignupIndexRoute
-  '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/dashboard/cover-letters/': typeof AuthedDashboardCoverLettersIndexRoute
+  '/_authed/dashboard/generate/': typeof AuthedDashboardGenerateIndexRoute
+  '/_authed/dashboard/personal-information/': typeof AuthedDashboardPersonalInformationIndexRoute
+  '/_authed/dashboard/resumes/': typeof AuthedDashboardResumesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/dashboard' | '/login' | '/signup' | '/dashboard/'
+  fullPaths:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/login'
+    | '/signup'
+    | '/dashboard/cover-letters'
+    | '/dashboard/generate'
+    | '/dashboard/personal-information'
+    | '/dashboard/resumes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/signup' | '/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/login'
+    | '/signup'
+    | '/dashboard/cover-letters'
+    | '/dashboard/generate'
+    | '/dashboard/personal-information'
+    | '/dashboard/resumes'
   id:
     | '__root__'
     | '/'
@@ -167,7 +248,10 @@ export interface FileRouteTypes {
     | '/_authed/dashboard'
     | '/login/'
     | '/signup/'
-    | '/_authed/dashboard/'
+    | '/_authed/dashboard/cover-letters/'
+    | '/_authed/dashboard/generate/'
+    | '/_authed/dashboard/personal-information/'
+    | '/_authed/dashboard/resumes/'
   fileRoutesById: FileRoutesById
 }
 
@@ -214,7 +298,10 @@ export const routeTree = rootRoute
       "filePath": "_authed/dashboard/route.tsx",
       "parent": "/_authed",
       "children": [
-        "/_authed/dashboard/"
+        "/_authed/dashboard/cover-letters/",
+        "/_authed/dashboard/generate/",
+        "/_authed/dashboard/personal-information/",
+        "/_authed/dashboard/resumes/"
       ]
     },
     "/login/": {
@@ -223,8 +310,20 @@ export const routeTree = rootRoute
     "/signup/": {
       "filePath": "signup/index.tsx"
     },
-    "/_authed/dashboard/": {
-      "filePath": "_authed/dashboard/index.tsx",
+    "/_authed/dashboard/cover-letters/": {
+      "filePath": "_authed/dashboard/cover-letters/index.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/generate/": {
+      "filePath": "_authed/dashboard/generate/index.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/personal-information/": {
+      "filePath": "_authed/dashboard/personal-information/index.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/resumes/": {
+      "filePath": "_authed/dashboard/resumes/index.tsx",
       "parent": "/_authed/dashboard"
     }
   }

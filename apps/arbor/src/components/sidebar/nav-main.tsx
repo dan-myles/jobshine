@@ -1,9 +1,8 @@
-"use client"
-
 import Link from "next/link"
 import { IconCirclePlusFilled } from "@tabler/icons-react"
 
 import { Icons } from "@/components/icons"
+import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarGroup,
@@ -12,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Label } from "@/components/ui/label"
 
 export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -39,15 +37,6 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
 
         <SidebarMenu>
           <Label className="text-muted-foreground mb-2">Platform</Label>
-          {/* Dashboard Link */}
-          <Link href="/dashboard">
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Dashboard">
-                <Icons.CircleGauge className="mt-0.5" />
-                <span>Dashboard</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Link>
 
           {/* Resumes Link */}
           <Link href="/dashboard/resumes">

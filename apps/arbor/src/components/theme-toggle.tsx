@@ -1,5 +1,3 @@
-"use client"
-
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -11,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+// TODO: This theme toggle does not work :(
 export function ThemeToggle() {
   const { setTheme } = useTheme()
 
