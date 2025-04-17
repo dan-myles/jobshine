@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useSuspenseQuery } from "@tanstack/react-query"
 
 import type { Resume } from "@jobshine/validators"
 
@@ -18,7 +18,9 @@ export const ResumeContext = createContext<ResumeContext>({} as ResumeContext)
 
 export function ResumeBuilder() {
   const api = useAPI()
-  const { data, isPending } = useQuery(api.resume.readLatest.queryOptions())
+  const { data, isPending } = useSuspenseQuery(
+    api.resume.readLatest.queryOptions(),
+  )
   const [resumeData, setResumeData] = useState<Resume | undefined>(undefined)
   const [isLoading, setisLoading] = useState(true)
 
