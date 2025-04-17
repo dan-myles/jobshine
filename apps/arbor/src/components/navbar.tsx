@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "@tanstack/react-router"
 import { toast } from "sonner"
 
 import { Mark } from "@/components/mark"
@@ -33,31 +33,25 @@ export function Navbar() {
         </div>
 
         <div className="text-md hidden w-full items-center justify-center gap-6 font-medium md:flex">
-          <Link
-            href="/#product"
-            className="hover:text-primary transition-colors"
-          >
+          <Link to="/" className="hover:text-primary transition-colors">
             Product
           </Link>
-          <Link href="/#about" className="hover:text-primary transition-colors">
+          <Link to="/" className="hover:text-primary transition-colors">
             About
           </Link>
-          <Link
-            href="/#pricing"
-            className="hover:text-primary transition-colors"
-          >
+          <Link to="/" className="hover:text-primary transition-colors">
             Pricing
           </Link>
         </div>
 
         {!session ? (
           <div className="text-md flex items-center gap-4">
-            <Link href="/login">
+            <Link to="/login">
               <Button variant="ghost" size="sm">
                 Login
               </Button>
             </Link>
-            <Link href="/signup">
+            <Link to="/signup">
               <Button size="sm">Sign Up</Button>
             </Link>
           </div>
@@ -66,7 +60,7 @@ export function Navbar() {
             <Button variant="ghost" onClick={() => handleSignOut()}>
               Logout
             </Button>
-            <Link href="/dashboard">
+            <Link to="/dashboard/resumes">
               <Button variant="default" size="sm">
                 Dashboard
               </Button>

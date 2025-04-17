@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { IconCirclePlusFilled } from "@tabler/icons-react"
+import { Link } from "@tanstack/react-router"
 
 import { Icons } from "@/components/icons"
 import { Label } from "@/components/ui/label"
@@ -18,7 +18,7 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {/* Generation Link */}
-          <Link href="/dashboard/generate">
+          <Link to="/dashboard/generate">
             <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
                 tooltip="Generate New"
@@ -39,7 +39,7 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
           <Label className="text-muted-foreground mb-2">Platform</Label>
 
           {/* Resumes Link */}
-          <Link href="/dashboard/resumes">
+          <Link to="/dashboard/resumes">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Dashboard">
                 <Icons.File className="mt-0.5" />
@@ -49,7 +49,7 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
           </Link>
 
           {/* Cover Letters Link */}
-          <Link href="/dashboard/cover-letters">
+          <Link to="/dashboard/cover-letters">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Dashboard">
                 <Icons.Mail className="mt-0.5" />
