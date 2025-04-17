@@ -16,7 +16,7 @@ export function NavSecondary() {
       <SidebarGroupContent>
         <SidebarMenu>
           <Label className="text-muted-foreground mb-2">Settings</Label>
-          <Link to="/dashboard/personal-information">
+          <Link to="/dashboard/account">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Personal Information">
                 <Icons.User className="mt-0.5" />
@@ -25,7 +25,7 @@ export function NavSecondary() {
             </SidebarMenuItem>
           </Link>
 
-          <Link to="/dashboard/resumes">
+          <Link to="/dashboard/billing">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Personal Information">
                 <Icons.CreditCard className="mt-0.5" />

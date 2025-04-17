@@ -1,7 +1,34 @@
+import {  useLocation } from "@tanstack/react-router"
+
+import { Icons } from "@/components/icons"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export function NavHeader() {
+  const location = useLocation()
+  const parts = location.pathname.split("/").filter(Boolean)
+
+  const paths = parts?.filter((part) => {
+    return (
+      !part.includes("http") &&
+      !part.includes("/") &&
+      !part.includes("localhost") &&
+      !part.includes(".com") &&
+      part.length > 1
+    )
+  })
+
+  const crumbs = paths?.map((path, index) => {
+    const href = `/${paths.slice(0, index + 1).join("/")}`
+    const name = path
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase())
+
+    return { name, href }
+  })
+
+  console.log("crumbs", crumbs)
+
   return (
     <header
       className="h-[] flex shrink-0 items-center gap-2 border-b p-2 transition-[width,height]
@@ -15,7 +42,14 @@ export function NavHeader() {
         />
         <nav className="p-3">
           <ul className="flex flex-wrap gap-2">
-            Dashboard
+            {crumbs?.map(({ name, href }, index) => (
+              <li key={href} className="flex items-center gap-1 pr-5">
+                {name}
+                {index < crumbs.length - 1 && (
+                  <Icons.ChevronRight className="mt-0.5 -mr-4 ml-3 h-4 w-4" />
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
