@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { Link } from "@tanstack/react-router"
 
 import { Icons } from "@/components/icons"
 import { Label } from "@/components/ui/label"
@@ -15,30 +15,21 @@ export function NavSecondary() {
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
-          <Label className="text-muted-foreground mb-2">Calibrate</Label>
-          <Link href="/dashboard/personal-information">
+          <Label className="text-muted-foreground mb-2">Settings</Label>
+          <Link to="/dashboard/personal-information">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Personal Information">
                 <Icons.User className="mt-0.5" />
-                <span>Personal Information</span>
+                <span>Account</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Link>
 
-          <Link href="#">
+          <Link to="/dashboard/resumes">
             <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Cover Letter Settings">
-                <Icons.Settings2 className="mt-0.5" />
-                <span>Cover Letter Settings</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Link>
-
-          <Link href="#">
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Resume Settings">
-                <Icons.Settings className="mt-0.5" />
-                <span>Resume Settings</span>
+              <SidebarMenuButton tooltip="Personal Information">
+                <Icons.CreditCard className="mt-0.5" />
+                <span>Billing</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Link>

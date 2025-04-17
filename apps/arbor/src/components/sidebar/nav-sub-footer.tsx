@@ -1,10 +1,14 @@
-"use client"
-
 import * as React from "react"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 
 import { Icons } from "@/components/icons"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -13,12 +17,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 export function NavSubFooter({
   className,
@@ -26,6 +24,7 @@ export function NavSubFooter({
 }: React.ComponentProps<"div">) {
   const { setTheme } = useTheme()
   const { isMobile } = useSidebar()
+
   return (
     <SidebarGroup {...props} className={className}>
       <SidebarGroupContent>
@@ -62,16 +61,6 @@ export function NavSubFooter({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </SidebarMenuItem>
-
-          {/* Help */}
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href="#">
-                <Icons.HelpCircle className="mt-0.5" />
-                <span>Help</span>
-              </Link>
-            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>

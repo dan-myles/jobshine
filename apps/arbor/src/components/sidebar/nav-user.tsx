@@ -1,10 +1,3 @@
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react"
 import { useRouter } from "@tanstack/react-router"
 import { toast } from "sonner"
 
@@ -26,6 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuth, useUser } from "@/hooks/auth-hooks"
+import { Icons } from "../icons"
 
 export function NavUser() {
   const user = useUser()
@@ -71,7 +65,7 @@ export function NavUser() {
                   {!user ? <Skeleton className="h-3 w-full" /> : user.email}
                 </span>
               </div>
-              <IconDotsVertical className="ml-auto size-4" />
+              <Icons.EllipsisVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -113,22 +107,15 @@ export function NavUser() {
                 className="cursor-pointer"
                 onClick={() => toast("Coming soon!")}
               >
-                <IconUserCircle />
+                <Icons.UserCircle />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() => toast("Coming soon!")}
               >
-                <IconCreditCard />
+                <Icons.CreditCard />
                 Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => toast("Coming soon!")}
-              >
-                <IconNotification />
-                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -136,7 +123,7 @@ export function NavUser() {
               className="cursor-pointer"
               onClick={() => handleSignOut()}
             >
-              <IconLogout />
+              <Icons.LogOut />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

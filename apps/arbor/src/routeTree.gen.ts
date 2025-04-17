@@ -20,6 +20,8 @@ import { Route as AuthedDashboardResumesIndexImport } from './routes/_authed/das
 import { Route as AuthedDashboardPersonalInformationIndexImport } from './routes/_authed/dashboard/personal-information/index'
 import { Route as AuthedDashboardGenerateIndexImport } from './routes/_authed/dashboard/generate/index'
 import { Route as AuthedDashboardCoverLettersIndexImport } from './routes/_authed/dashboard/cover-letters/index'
+import { Route as AuthedDashboardBillingIndexImport } from './routes/_authed/dashboard/billing/index'
+import { Route as AuthedDashboardAccountIndexImport } from './routes/_authed/dashboard/account/index'
 
 // Create/Update Routes
 
@@ -80,6 +82,20 @@ const AuthedDashboardCoverLettersIndexRoute =
     getParentRoute: () => AuthedDashboardRouteRoute,
   } as any)
 
+const AuthedDashboardBillingIndexRoute =
+  AuthedDashboardBillingIndexImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
+
+const AuthedDashboardAccountIndexRoute =
+  AuthedDashboardAccountIndexImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => AuthedDashboardRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -119,6 +135,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupIndexImport
       parentRoute: typeof rootRoute
     }
+    '/_authed/dashboard/account/': {
+      id: '/_authed/dashboard/account/'
+      path: '/account'
+      fullPath: '/dashboard/account'
+      preLoaderRoute: typeof AuthedDashboardAccountIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
+    '/_authed/dashboard/billing/': {
+      id: '/_authed/dashboard/billing/'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof AuthedDashboardBillingIndexImport
+      parentRoute: typeof AuthedDashboardRouteImport
+    }
     '/_authed/dashboard/cover-letters/': {
       id: '/_authed/dashboard/cover-letters/'
       path: '/cover-letters'
@@ -153,6 +183,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthedDashboardRouteRouteChildren {
+  AuthedDashboardAccountIndexRoute: typeof AuthedDashboardAccountIndexRoute
+  AuthedDashboardBillingIndexRoute: typeof AuthedDashboardBillingIndexRoute
   AuthedDashboardCoverLettersIndexRoute: typeof AuthedDashboardCoverLettersIndexRoute
   AuthedDashboardGenerateIndexRoute: typeof AuthedDashboardGenerateIndexRoute
   AuthedDashboardPersonalInformationIndexRoute: typeof AuthedDashboardPersonalInformationIndexRoute
@@ -160,6 +192,8 @@ interface AuthedDashboardRouteRouteChildren {
 }
 
 const AuthedDashboardRouteRouteChildren: AuthedDashboardRouteRouteChildren = {
+  AuthedDashboardAccountIndexRoute: AuthedDashboardAccountIndexRoute,
+  AuthedDashboardBillingIndexRoute: AuthedDashboardBillingIndexRoute,
   AuthedDashboardCoverLettersIndexRoute: AuthedDashboardCoverLettersIndexRoute,
   AuthedDashboardGenerateIndexRoute: AuthedDashboardGenerateIndexRoute,
   AuthedDashboardPersonalInformationIndexRoute:
@@ -187,6 +221,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
+  '/dashboard/account': typeof AuthedDashboardAccountIndexRoute
+  '/dashboard/billing': typeof AuthedDashboardBillingIndexRoute
   '/dashboard/cover-letters': typeof AuthedDashboardCoverLettersIndexRoute
   '/dashboard/generate': typeof AuthedDashboardGenerateIndexRoute
   '/dashboard/personal-information': typeof AuthedDashboardPersonalInformationIndexRoute
@@ -199,6 +235,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login': typeof LoginIndexRoute
   '/signup': typeof SignupIndexRoute
+  '/dashboard/account': typeof AuthedDashboardAccountIndexRoute
+  '/dashboard/billing': typeof AuthedDashboardBillingIndexRoute
   '/dashboard/cover-letters': typeof AuthedDashboardCoverLettersIndexRoute
   '/dashboard/generate': typeof AuthedDashboardGenerateIndexRoute
   '/dashboard/personal-information': typeof AuthedDashboardPersonalInformationIndexRoute
@@ -212,6 +250,8 @@ export interface FileRoutesById {
   '/_authed/dashboard': typeof AuthedDashboardRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/signup/': typeof SignupIndexRoute
+  '/_authed/dashboard/account/': typeof AuthedDashboardAccountIndexRoute
+  '/_authed/dashboard/billing/': typeof AuthedDashboardBillingIndexRoute
   '/_authed/dashboard/cover-letters/': typeof AuthedDashboardCoverLettersIndexRoute
   '/_authed/dashboard/generate/': typeof AuthedDashboardGenerateIndexRoute
   '/_authed/dashboard/personal-information/': typeof AuthedDashboardPersonalInformationIndexRoute
@@ -226,6 +266,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/signup'
+    | '/dashboard/account'
+    | '/dashboard/billing'
     | '/dashboard/cover-letters'
     | '/dashboard/generate'
     | '/dashboard/personal-information'
@@ -237,6 +279,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/signup'
+    | '/dashboard/account'
+    | '/dashboard/billing'
     | '/dashboard/cover-letters'
     | '/dashboard/generate'
     | '/dashboard/personal-information'
@@ -248,6 +292,8 @@ export interface FileRouteTypes {
     | '/_authed/dashboard'
     | '/login/'
     | '/signup/'
+    | '/_authed/dashboard/account/'
+    | '/_authed/dashboard/billing/'
     | '/_authed/dashboard/cover-letters/'
     | '/_authed/dashboard/generate/'
     | '/_authed/dashboard/personal-information/'
@@ -298,6 +344,8 @@ export const routeTree = rootRoute
       "filePath": "_authed/dashboard/route.tsx",
       "parent": "/_authed",
       "children": [
+        "/_authed/dashboard/account/",
+        "/_authed/dashboard/billing/",
         "/_authed/dashboard/cover-letters/",
         "/_authed/dashboard/generate/",
         "/_authed/dashboard/personal-information/",
@@ -309,6 +357,14 @@ export const routeTree = rootRoute
     },
     "/signup/": {
       "filePath": "signup/index.tsx"
+    },
+    "/_authed/dashboard/account/": {
+      "filePath": "_authed/dashboard/account/index.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/billing/": {
+      "filePath": "_authed/dashboard/billing/index.tsx",
+      "parent": "/_authed/dashboard"
     },
     "/_authed/dashboard/cover-letters/": {
       "filePath": "_authed/dashboard/cover-letters/index.tsx",

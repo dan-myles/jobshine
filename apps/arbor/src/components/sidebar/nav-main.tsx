@@ -57,6 +57,16 @@ export function NavMain({ className, ...props }: React.ComponentProps<"div">) {
               </SidebarMenuButton>
             </SidebarMenuItem>
           </Link>
+
+          {/* Personal Information Link */}
+          <Link to="/dashboard/personal-information">
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Personal Information">
+                <Icons.Info className="mt-0.5" />
+                <span>Personal Information</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
