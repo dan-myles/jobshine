@@ -1,4 +1,4 @@
-import { useRouter } from "@tanstack/react-router"
+import { Link, useRouter } from "@tanstack/react-router"
 import { toast } from "sonner"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -103,13 +103,19 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              <Link
+              to="/dashboard/account"
+              >
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => toast("Coming soon!")}
               >
                 <Icons.UserCircle />
                 Account
               </DropdownMenuItem>
+              </Link>
+              <Link
+              to="/dashboard/billing"
+              >
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() => toast("Coming soon!")}
@@ -117,6 +123,7 @@ export function NavUser() {
                 <Icons.CreditCard />
                 Billing
               </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem

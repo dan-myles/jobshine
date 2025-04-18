@@ -75,16 +75,16 @@ function Document({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-garamond antialiased">
-        <APIProvider>
-          <AuthProvider>
-            <ThemeProvider>
+        <ThemeProvider>
+          <APIProvider>
+            <AuthProvider>
               {children}
               <Toaster />
               <ReactQueryDevtools buttonPosition="top-right" />
               <TanStackRouterDevtools position="bottom-right" />
-            </ThemeProvider>
-          </AuthProvider>
-        </APIProvider>
+            </AuthProvider>
+          </APIProvider>
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>
